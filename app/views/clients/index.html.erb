@@ -1,0 +1,16 @@
+<% if current_user.clients.count > 0 %>
+
+
+
+      <ul class="users">
+        <%= render @clients %>
+      </ul>
+ 
+
+<% else %>
+
+<p>no clients here</p>
+
+<% end %>
+
+<%= link_to "New Client", new_client_path %>

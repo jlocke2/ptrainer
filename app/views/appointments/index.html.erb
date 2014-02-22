@@ -1,0 +1,61 @@
+<h1>Listing appointments</h1>
+
+
+
+<table>
+
+  <tr>
+
+    <th>name</th>
+
+    <th>Starts at</th>
+
+    <th>Ends at</th>
+
+    <th>All day</th>
+
+    <th>Description</th>
+
+    <th></th>
+
+    <th></th>
+
+    <th></th>
+
+  </tr>
+
+
+
+<% @appointments.each do |appointment| %>
+
+  <tr>
+
+    <td><%= appointment.name %></td>
+
+    <td><%= appointment.start_at %></td>
+
+    <td><%= appointment.end_at %></td>
+
+
+    <td><%= appointment.description %></td>
+
+    <td><%= link_to 'Show', appointment %></td>
+
+    <td><%= link_to 'Edit', edit_appointment_path(appointment) %></td>
+
+    <td><%= link_to 'Destroy', appointment, :confirm => 'Are you sure?', :method => :delete %></td>
+
+  </tr>
+
+<% end %>
+
+</table>
+
+
+
+<br />
+
+<div id="calendar"></div>
+
+
+<%= link_to 'New appointment', new_appointment_path %>

@@ -1,0 +1,52 @@
+<p id="notice"><%= notice %></p>
+
+
+
+<p>
+
+  <b>Client's name:</b>
+
+  <%= @client.name %>
+
+</p>
+
+
+
+<p>
+
+  <b>Starts at:</b>
+
+  <%= @appointment.start_at.strftime("%D   %I:%M%P") %>
+
+</p>
+
+
+
+<p>
+
+  <b>Ends at:</b>
+
+  <%= @appointment.end_at.strftime("%D   %I:%M%P") %>
+
+</p>
+
+
+
+
+
+
+<p>
+
+  <b>Description:</b>
+
+  <%= @appointment.description %>
+
+</p>
+
+
+
+
+
+<%= link_to 'Edit', edit_appointment_path(@appointment) %> |
+
+<%= link_to 'Back', calendar_path %>

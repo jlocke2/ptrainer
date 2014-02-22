@@ -1,0 +1,74 @@
+<p id="notice"><%= notice %></p>
+
+
+
+<p>
+
+  <b>Client's Name:</b>
+
+  <%= @client.name %>
+
+</p>
+
+<h1>Testing</h1>
+<% if 1 > 0 %>
+
+
+
+     <h1>Listing workouts</h1>
+
+
+
+<table>
+
+  <tr>
+
+    <th>name</th>
+
+    
+
+    <th>set</th>
+
+    <th>rep</th>
+
+    <th></th>
+
+  </tr>
+
+
+
+<% @exercises.each do |exercise| %>
+
+  <tr>
+
+    <td><%= exercise.exercise_id %></td>
+    <td><%= exercise.set %></td>
+    <td><%= exercise.rep %></td>
+
+    
+
+    
+  </tr>
+
+<% end %>
+
+</table>
+ 
+
+<% else %>
+
+<p>no workouts here</p>
+
+<% end %>
+
+
+<%= render 'addworkout_form' if signed_in? %>
+
+
+
+
+
+
+
+
+<%= link_to 'Edit', edit_workout_path(@workout) %>

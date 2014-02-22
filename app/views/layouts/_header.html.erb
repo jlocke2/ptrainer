@@ -8,7 +8,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">Personal Trainer Labs</a>
+      <a class="navbar-brand" href="<%= root_path %>">Personal Trainer Labs</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -21,3 +21,7 @@
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
+
+<% if user_signed_in? %>
+<h3><%= current_user.email %></h3>
+<% end %>
