@@ -1,5 +1,9 @@
 class WorkoutsController < ApplicationController
     before_action :set_workout, only: [:show, :edit, :update, :destroy]
+    skip_before_filter :verify_authenticity_token
+
+
+ 
 
   def index
     @workouts = current_user.workouts
@@ -11,21 +15,54 @@ class WorkoutsController < ApplicationController
     @client = Client.find(@id)
   end
 
+  def trans
+    if params[:id]
+      if Workout.exists?(:appointment_id => params[:id])
+        @workout = Workout.find_by(appointment_id: params[:id])
+        redirect_to @workout
+        return
+      end
+      flash[:danger] = "This appointment doesn't have a workout yet.  You can create one here."
+      redirect_to :action => "new", :id => params[:id]
+      return
+      
+    end
+      redirect_to appointments_path
+  end
+
   def new
     @workout = Workout.new
+    if params[:id]
+      
+      if Workout.exists?(:appointment_id => params[:id])
+        @workout = Workout.find_by(appointment_id: params[:id])
+        flash[:danger] = "A workout for this appointment already exists.  Here is is for you to view and edit."
+        redirect_to @workout
+      end
+      @workout.appointment_id = params[:id]
+      @workout.client_id = Appointment.find(@workout.appointment_id).client_id
+    end
+    
     @times = current_user.appointments
   end
 
   def create
+    if params[:id]
+      @workout = Workout.new
+      @workout.appointment_id = params[:id]
+      @workout.client_id = Appointment.find(@workout.appointment_id).client_id
+    end
     @workout = current_user.workouts.build(workout_params)
 
     respond_to do |format|
       if @workout.save
         format.html { redirect_to @workout, notice: 'workout was successfully created.' }
         format.json { render action: 'show', status: :created, location: @workout }
+        format.js
       else
         format.html { render action: 'new' }
         format.json { render json: @workout.errors, status: :unprocessable_entity }
+        format.js
       end
     end
   end

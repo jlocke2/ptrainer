@@ -1,4 +1,4 @@
-<%= form_for(@workout.agendas.build(workout_id: @workout.id)) do |f| %>
+<%= form_for(@workout.agendas.build(workout_id: @workout.id), remote: true) do |f| %>
   <div><%= f.hidden_field :workout_id %></div>
    <div class="field">
     <%= f.label :exercise %><br />

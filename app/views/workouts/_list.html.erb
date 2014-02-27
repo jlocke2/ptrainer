@@ -1,0 +1,23 @@
+<ul class="users">
+  <% @exercises.each do |exercise| %>
+    <li style="float:left" class="thumbnail">
+    	<% if exercise.exercise_id != nil %>
+    		      <%= Exercise.find(exercise.exercise_id).name.capitalize %>
+
+    	<% end %>
+     <p> Sets = <%= exercise.set %> </p>
+     Reps = <%= exercise.rep %>
+          <% if  exercise.id %><br>
+
+          <%= form_for(Agenda.find(exercise.id),
+             html: { method: :delete },
+             remote: true) do |f| %>
+  <%= f.submit "Remove Exercise From Workout", class: "btn mybtn btn-lg btn-success" %>
+<% end %>
+<% end %>
+
+
+
+    </li>
+  <% end %>
+</ul>

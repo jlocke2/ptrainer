@@ -18,12 +18,15 @@
  
  <div class="field">
     <%= f.label :client %><br />
-    <%= f.collection_select :client_id, current_user.clients, :id, :name, prompt: true %>
+    <%= f.collection_select :client_id, current_user.clients, :id, :name, {:include_blank => 'Which client is this workout for? (optional)'} %>
   </div>
+
+  <% if false %>
+  <% end %>
 
   <div class="field">
     <%= f.label :appointment %><br />
-    <%= f.collection_select :appointment_id, @times , :id, :start_at, prompt: true %>
+    <%= f.collection_select :appointment_id, @times , :id, :config_date, {:include_blank => 'Which appointment is this workout for? (optional)'} %>
   </div>
 
   <div class="actions">

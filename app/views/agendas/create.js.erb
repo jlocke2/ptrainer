@@ -1,0 +1,3 @@
+$("#new_agenda").html("<%= escape_javascript(render('workouts/addworkout_form')) %>");
+$("#listing").html("<%= escape_javascript(render('workouts/list')) %>");
+$('#listing li:last').remove();

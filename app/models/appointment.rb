@@ -3,6 +3,10 @@ class Appointment < ActiveRecord::Base
         belongs_to :client
         has_one :workout
 
+    def config_date
+      "#{start_at.strftime("%D   %I:%M%P")} - #{client_id}"
+    end
+
     
 
   scope :between, lambda {|start_time, end_time|

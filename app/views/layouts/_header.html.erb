@@ -13,9 +13,12 @@
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li class="active"><%= link_to "Home",    '#' %></li>
-        <li><%= link_to "Help",    '#' %></li>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="active"><%= link_to "Schedule", root_path %></li>
+        <li><%= link_to "Clients", clients_path %></li>
+        <li><%= link_to "Payments", '#' %></li>
+        <li><%= link_to "Exercise Library", exercises_path %></li>
+        <li><%= link_to("Sign Out", destroy_user_session_path, :method => :delete)  %></li>
         
       </ul>
     </div><!-- /.navbar-collapse -->

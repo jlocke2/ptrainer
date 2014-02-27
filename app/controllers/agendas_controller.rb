@@ -4,13 +4,29 @@ class AgendasController < ApplicationController
     @workout = Workout.find(params[:agenda][:workout_id])
     @id = @workout.id
     @exercise = Exercise.find(params[:agenda][:exercise_id])
-     
+    @exercises = @workout.agendas
+    respond_to do |format|
      if @workout.agendas.create(agenda_params)
-       redirect_to workout_path(@id)
+      format.html  { redirect_to workout_path(@id) }
+      format.js 
+    end
+
      end
+   end
+
+  def destroy
+    @agenda = Agenda.find(params[:id])
+    @agenda.destroy
+    @id = @agenda.workout_id
+    @exercises = Workout.find(@id).agendas
+    respond_to do |format|
+      format.html { redirect_to workout_path(@id) }
+      format.js
+    end
+  end
 
     
-  end
+  
 private
     # Use callbacks to share common setup or constraints between actions.
    

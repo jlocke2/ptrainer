@@ -7,7 +7,19 @@ class AppointmentsController < ApplicationController
   # GET /appointments
   # GET /appointments.json
   def index
-    @appointments = current_user.appointments
+      @appointment = Appointment.new
+      @appointments = current_user.appointments
+      appointments = []
+      @appointments.each do |appointment|
+        appointments << {:id => appointment.id, :title => Client.find(appointment.client_id).name, :description => appointment.description || "Some cool description here...", :start => appointment.start_at, :end => appointment.end_at}
+      end
+
+      respond_to do |format|
+      format.html
+      format.json {render :json => appointments.to_json}
+
+    end
+
   end
 
   # GET /appointments/1
@@ -24,6 +36,7 @@ class AppointmentsController < ApplicationController
 
   # GET /appointments/1/edit
   def edit
+    render :json => { :form => render_to_string(:partial => 'form') }
   end
 
   # POST /appointments
@@ -47,7 +60,7 @@ class AppointmentsController < ApplicationController
   def update
     respond_to do |format|
       if @appointment.update_attributes(appointment_params)
-        format.html { redirect_to @appointment, notice: 'appointment was successfully updated.' }
+        format.html { render :nothing => true }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
@@ -83,14 +96,19 @@ class AppointmentsController < ApplicationController
   def destroy
     @appointment.destroy
     respond_to do |format|
-      format.html { redirect_to appointments_url }
+      format.html { render :nothing => true }
       format.json { head :no_content }
     end
+      
+
+
   end
 
   def workouts
       @workouts = Workout.where(appointment_id: params[:id])
    end
+
+
 
   private
     # Use callbacks to share common setup or constraints between actions.

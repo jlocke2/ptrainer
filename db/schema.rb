@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140221200403) do
+ActiveRecord::Schema.define(version: 20140227154020) do
 
   create_table "agendas", force: true do |t|
     t.integer  "workout_id"
@@ -38,6 +38,11 @@ ActiveRecord::Schema.define(version: 20140221200403) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
+    t.integer  "age"
+    t.string   "gender"
+    t.string   "email"
+    t.string   "phone"
+    t.text     "notes"
   end
 
   create_table "exercises", force: true do |t|

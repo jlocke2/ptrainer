@@ -49,6 +49,10 @@ class ClientsController < ApplicationController
       @appointments = Appointment.where(client_id: params[:id])
    end
 
+   def workouts
+      @workouts = Workout.where(client_id: params[:id])
+   end
+
 
 	
   private
