@@ -19,6 +19,7 @@ root :to => redirect('/users/sign_in')
       post :move
       post :resize
       get :workouts
+      get :editordata
     end
   end
   resources :agendas, only: [:create, :destroy]

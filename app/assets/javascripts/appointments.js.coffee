@@ -27,7 +27,6 @@ $(document).ready ->
 
     editable: true
     selectable: true
-    allDaySlot: false
     allDayDefault: false
     events: "/appointments.json"
 
@@ -135,7 +134,7 @@ $(document).ready ->
 
     @editIt = (event_id) ->
         $.ajax
-          url: "/appointments/" + event_id + "/edit"
+          url: "/appointments/" + event_id + "/editordata"
 
           success: (data) ->
             $("#edit_appointment_description").html data["form"]
@@ -239,12 +238,18 @@ $(document).ready ->
         url: '/appointments/' + event.id + '/resize'
 
 
+    
+
+
   
 
 
     
     
   return
+
+
+
 
   
 

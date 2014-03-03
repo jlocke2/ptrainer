@@ -1,8 +1,12 @@
 class ExercisesController < ApplicationController
 	  before_action :set_exercise, only: [:show, :edit, :update, :destroy]
+    before_filter :authenticate_user!
+
+
 
   def index
   	@exercises = current_user.exercises
+    @exercise = Exercise.new
   end
 
   def show
@@ -19,6 +23,7 @@ class ExercisesController < ApplicationController
       if @exercise.save
         format.html { redirect_to @exercise, notice: 'exercise was successfully created.' }
         format.json { render action: 'show', status: :created, location: @exercise }
+        format.js
       else
         format.html { render action: 'new' }
         format.json { render json: @exercise.errors, status: :unprocessable_entity }

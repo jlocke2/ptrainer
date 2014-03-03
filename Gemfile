@@ -10,6 +10,8 @@ gem 'will_paginate', '3.0.4'
 gem 'bootstrap-will_paginate', '0.0.9'
 gem 'devise', '3.2.2'
 gem 'fullcalendar-rails', '1.6.4.0'
+gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
+gem 'html5_validators'
 
 
 group :development, :test do

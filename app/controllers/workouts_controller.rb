@@ -1,6 +1,6 @@
 class WorkoutsController < ApplicationController
     before_action :set_workout, only: [:show, :edit, :update, :destroy]
-    skip_before_filter :verify_authenticity_token
+    before_filter :authenticate_user!
 
 
  
@@ -13,6 +13,7 @@ class WorkoutsController < ApplicationController
     @id = @workout.client_id
     @exercises = @workout.agendas
     @client = Client.find(@id)
+    @appointment = @workout.appointment
   end
 
   def trans

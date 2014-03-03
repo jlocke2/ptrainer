@@ -1,4 +1,6 @@
 class ClientsController < ApplicationController
+    before_filter :authenticate_user!
+
 
    def index
    	@clients = current_user.clients
@@ -9,6 +11,12 @@ class ClientsController < ApplicationController
    def new
    	@client  = Client.new
    	
+   end
+
+   def show
+    @client = Client.find(params[:id])
+
+     
    end
 
 
@@ -58,7 +66,7 @@ class ClientsController < ApplicationController
   private
 
     def client_params
-  	  params.require(:client).permit(:name)
+  	  params.require(:client).permit(:name, :age, :gender, :email, :phone, :notes)
     end
 
 end

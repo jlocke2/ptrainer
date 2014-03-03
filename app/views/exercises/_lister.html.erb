@@ -1,0 +1,13 @@
+<ul class="users">
+  <% @exercises = current_user.exercises %>
+  <% @exercises.each do |exercise| %>
+    <li class="thumbnail col-xs-12">
+    	<p>  Exercise =    <%= exercise.name.capitalize %></p>
+
+     <p> Description = <%= exercise.description %> </p>
+
+
+
+    </li>
+  <% end %>
+</ul>

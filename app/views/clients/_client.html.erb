@@ -1,5 +1,6 @@
 <li>
   <%= client.name %>
+  <%= link_to "View Client Profile", client_path(client.id) %>
   <%= link_to "Edit client info", edit_client_path(client.id) %>
 <%= link_to "delete", client, method: :delete,
                                   data: { confirm: "You sure?" } %>

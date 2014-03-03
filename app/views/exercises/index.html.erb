@@ -1,44 +1,22 @@
-<h1>Listing exercises</h1>
+
+<%= render 'form' if signed_in? %>
 
 
+<% if 1 > 0 %>
 
-<table>
+<div id="lister">
 
-  <tr>
-
-    <th>name</th>
-
-
-    <th>Description</th>
-
-    <th></th>
-
-    <th></th>
-
-    <th></th>
-
-  </tr>
+<%= render 'lister' %>
 
 
+</div>
+ 
 
-<% @exercises.each do |exercise| %>
+<% else %>
 
-  <tr>
-
-    <td><%= exercise.name %></td>
-
-
-
-    <td><%= exercise.description %></td>
-
-    <td><%= link_to 'Show', exercise %></td>
-
-    <td><%= link_to 'Edit', edit_exercise_path(exercise) %></td>
-
-    <td><%= link_to 'Destroy', exercise, :confirm => 'Are you sure?', :method => :delete %></td>
-
-  </tr>
+<p>no exercises here</p>
 
 <% end %>
 
-</table>
+<div style="clear:both"></div>
+

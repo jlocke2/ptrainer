@@ -4,7 +4,7 @@ class Appointment < ActiveRecord::Base
         has_one :workout
 
     def config_date
-      "#{start_at.strftime("%D   %I:%M%P")} - #{client_id}"
+      "#{start_at.strftime("%D   %I:%M%P")} - #{Client.find(client_id).name}"
     end
 
     

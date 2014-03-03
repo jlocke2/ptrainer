@@ -1,4 +1,6 @@
 class AgendasController < ApplicationController
+    before_filter :authenticate_user!
+
  
   def create
     @workout = Workout.find(params[:agenda][:workout_id])

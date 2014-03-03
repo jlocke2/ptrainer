@@ -1,5 +1,5 @@
 class AppointmentsController < ApplicationController
-  before_action :set_appointment, only: [:show, :edit, :update, :destroy, :move, :resize, :workouts]
+  before_action :set_appointment, only: [:show, :edit, :update, :destroy, :move, :resize, :workouts, :editordata]
   before_filter :authenticate_user!
   before_filter :require_permission, except: [:new, :create, :index]
 
@@ -34,8 +34,12 @@ class AppointmentsController < ApplicationController
     @appointment = Appointment.new
   end
 
-  # GET /appointments/1/edit
   def edit
+    
+  end
+
+  # GET /appointments/1/edit
+  def editordata
     render :json => { :form => render_to_string(:partial => 'form') }
   end
 
@@ -122,11 +126,11 @@ class AppointmentsController < ApplicationController
     end
 
     def require_permission
-	  if current_user.id != @appointment.user_id
-	    redirect_to root_path
-	    #Or do something else here
-	  end
-end
+  	  if current_user.id != @appointment.user_id
+  	    redirect_to root_path
+  	    #Or do something else here
+  	  end
+    end
 
 
 end

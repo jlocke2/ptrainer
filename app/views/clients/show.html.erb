@@ -1,0 +1,65 @@
+
+
+<p>
+
+  <b>Client's name:</b>
+
+  <%= @client.name %>
+
+</p>
+
+
+
+<p>
+
+  <b>Age:</b>
+
+  <%= @client.age %>
+
+</p>
+
+
+
+<p>
+
+  <b>Email:</b>
+
+  <%= @client.email %>
+
+</p>
+
+
+
+
+
+
+<p>
+
+  <b>Gender:</b>
+
+  <%= @client.gender %>
+
+</p>
+
+<p>
+
+  <b>Phone:</b>
+
+  <%= @client.phone %>
+
+</p>
+
+<p>
+
+  <b>Notes:</b>
+
+  <%= @client.notes %>
+
+</p>
+
+
+
+<%= link_to 'View Appointments', appointments_client_path(@client) %>
+
+<%= link_to 'Edit', edit_client_path(@client) %>
+
