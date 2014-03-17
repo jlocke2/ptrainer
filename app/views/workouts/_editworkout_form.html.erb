@@ -1,0 +1,28 @@
+<%= form_for(Agenda.find(exercise.id)) do |f| %>
+  <div><%= f.hidden_field :workout_id %></div>
+   <div class="field">
+    <%= f.label :exercise %><br />
+    <%= f.collection_select :exercise_id, current_user.exercises, :id, :name, prompt: true %>
+  </div>
+
+  <p>Fill out only necessary fields below</p>
+
+   <div class="field">
+	    <%= f.label :sets %><br />
+	    <%= f.number_field :set %>
+	  </div>
+
+
+
+	   <div class="field">
+	    <%= f.label :reps %><br />
+	    <%= f.number_field :rep %>
+	  </div>
+
+
+	   <div class="field">
+	    <%= f.label :weight %><br />
+	    <%= f.number_field :weight %>
+	  </div>
+  <%= f.submit "Edit Exercise", class: "btn mybtn btn-lg btn-primary" %>
+<% end %>

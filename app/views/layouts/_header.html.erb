@@ -8,15 +8,15 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="<%= root_path %>">Personal Trainer Labs</a>
+      <a class="navbar-brand" href="<%= root_path %>"><%= image_tag "logo.png" %></a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
-        <li class="active"><%= link_to "Schedule", root_path %></li>
+        <li><%= link_to "Schedule", root_path %></li>
         <li><%= link_to "Clients", clients_path %></li>
-        <li><%= link_to "Payments", '#' %></li>
+        <li><%= link_to "Payments", payments_path %></li>
         <li><%= link_to "Exercise Library", exercises_path %></li>
         <li><%= link_to "My Profile", edit_user_registration_path %></li>
         <li><%= link_to("Sign Out", destroy_user_session_path, :method => :delete)  %></li>
@@ -26,6 +26,3 @@
   </div><!-- /.container-fluid -->
 </nav>
 
-<% if user_signed_in? %>
-<h3><%= current_user.email %></h3>
-<% end %>

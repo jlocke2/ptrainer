@@ -12,10 +12,14 @@ gem 'devise', '3.2.2'
 gem 'fullcalendar-rails', '1.6.4.0'
 gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
 gem 'html5_validators'
+gem 'jquery-turbolinks'
+gem 'chart-js-rails'
+gem "ransack", github: "activerecord-hackery/ransack", branch: "rails-4"
+gem 'ranked-model'
 
 
 group :development, :test do
-  gem 'sqlite3', '1.3.8'
+  gem 'pg', '0.15.1'
   gem 'rspec-rails', '2.13.1'
   # The following optional lines are part of the advanced setup.
   # gem 'guard-rspec', '2.5.0'
@@ -48,7 +52,7 @@ gem 'uglifier', '2.1.1'
 gem 'coffee-rails', '4.0.1'
 gem 'jquery-rails', '3.0.4'
 gem 'jquery-ui-rails', '4.2.0'
-gem 'turbolinks', '1.1.1'
+gem 'turbolinks', '2.2.1'
 gem 'jbuilder', '1.0.2'
 
 group :doc do

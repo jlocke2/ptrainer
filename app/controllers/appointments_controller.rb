@@ -10,9 +10,13 @@ class AppointmentsController < ApplicationController
       @appointment = Appointment.new
       @appointments = current_user.appointments
       appointments = []
+      if @appointments.any?
+        
+      
       @appointments.each do |appointment|
         appointments << {:id => appointment.id, :title => Client.find(appointment.client_id).name, :description => appointment.description || "Some cool description here...", :start => appointment.start_at, :end => appointment.end_at}
       end
+    end
 
       respond_to do |format|
       format.html

@@ -7,12 +7,26 @@ root :to => redirect('/users/sign_in')
   match '/about',   to: 'static_pages#about',   via: 'get'
   match '/contact', to: 'static_pages#contact', via: 'get'
 
-  devise_for :users
+match 'card', to: 'cards#edit', via: :post
+match 'payments', to: 'payments#index', via: :get
+
+  devise_for :users, :controllers => {:registrations => "registrations", :sessions => "sessions"}
+
+  devise_scope :user do
+    get '/users/sign_out' => 'devise/sessions#destroy'
+  end
   resources :clients do
+  collection { post :search, to: 'clients#index' }
+  collection { get :search, to: 'clients#index' }
     member do
       get :appointments
       get :workouts
+      get :progress
+      patch :progress
+      patch :progcharter
+      get :progcharter
     end
+    post :sort, on: :collection
   end
   resources :appointments do
     member do
@@ -22,14 +36,18 @@ root :to => redirect('/users/sign_in')
       get :editordata
     end
   end
-  resources :agendas, only: [:create, :destroy]
-  resources :exercises
+  resources :agendas, only: [:create, :destroy, :update]
+  resources :exercises do
+    collection { post :search, to: 'exercises#index' }
+    collection { get :search, to: 'exercises#index' }
+  end
   resources :workouts do
     collection do
       get :trans
     end
   end
   resource :calendar, :only => [:show]
+  resources :stats
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

@@ -1,4 +1,14 @@
-<div id="calendar"></div>
+<div id="pad-wrapper">
+                <div class="row calendar-wrapper">
+                    <div class="col-md-12">
+<h1><%= params[:controller] %></h1>
+                        <!-- div that fullcalendar plugin uses  -->
+                        <div id='calendar'></div>
+
+                       
+                    </div>
+                </div>
+        </div>
 
 
 <%= link_to 'New appointment', new_appointment_path, class: "btn btn-primary", style: "margin-top: 25px;"  %>

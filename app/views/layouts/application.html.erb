@@ -2,9 +2,25 @@
 <html>
   <head>
     <title><%= full_title(yield(:title)) %></title>
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+    <% if params[:controller] == "payments" %>
+    <script type="text/javascript">
+      // This identifies your website in the createToken call below
+      Stripe.setPublishableKey(<%= current_user.stripe_publishable_key %>);
+      // ...
+    </script>
+    <% else %>
+    <script type="text/javascript">
+      // This identifies your website in the createToken call below
+      Stripe.setPublishableKey('pk_erOkAuzgg6lH5TQuaBkmwMiTvlXZ9');
+      // ...
+    </script>
+    <% end %>
+    
     <%= stylesheet_link_tag "application", media: "all",
                                            "data-turbolinks-track" => true %>
     <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+    
     <%= csrf_meta_tags %>
     
     <%= render 'layouts/shim' %>
@@ -17,16 +33,17 @@
 
     <%= render 'layouts/header' %>
 
+    <%= render 'layouts/sidebar' %>
 
-    <div class="container">
-      <p class="notice"><%= notice %></p>
-       <p class="alert"><%= alert %></p>
+    <div class="content">
+     
        <% flash.each do |key, value| %>
         <%= content_tag(:div, value, class: "alert alert-#{key}") %>
       <% end %>
       <%= yield %>
-      <%= render 'layouts/footer' %>
+      
     </div>
+    <%= render 'layouts/footer' %>
   </body>
 
 </html>

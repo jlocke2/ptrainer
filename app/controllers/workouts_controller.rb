@@ -16,6 +16,8 @@ class WorkoutsController < ApplicationController
     @appointment = @workout.appointment
   end
 
+  
+
   def trans
     if params[:id]
       if Workout.exists?(:appointment_id => params[:id])

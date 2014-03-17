@@ -11,7 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140227154020) do
+ActiveRecord::Schema.define(version: 20140314201855) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "agendas", force: true do |t|
     t.integer  "workout_id"
@@ -20,6 +23,10 @@ ActiveRecord::Schema.define(version: 20140227154020) do
     t.datetime "updated_at"
     t.integer  "set"
     t.integer  "rep"
+    t.string   "weight"
+    t.string   "repdone"
+    t.string   "setdone"
+    t.string   "weightdone"
   end
 
   create_table "appointments", force: true do |t|
@@ -43,6 +50,7 @@ ActiveRecord::Schema.define(version: 20140227154020) do
     t.string   "email"
     t.string   "phone"
     t.text     "notes"
+    t.integer  "row_order"
   end
 
   create_table "exercises", force: true do |t|
@@ -52,19 +60,6 @@ ActiveRecord::Schema.define(version: 20140227154020) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  create_table "fullcalendar_engine_events", force: true do |t|
-    t.string   "title"
-    t.datetime "starttime"
-    t.datetime "endtime"
-    t.boolean  "all_day",         default: false
-    t.text     "description"
-    t.integer  "event_series_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "fullcalendar_engine_events", ["event_series_id"], name: "index_fullcalendar_engine_events_on_event_series_id"
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
@@ -79,10 +74,13 @@ ActiveRecord::Schema.define(version: 20140227154020) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "stripe_card_token"
+    t.string   "plan"
+    t.string   "stripe_customer_token"
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "workouts", force: true do |t|
     t.string   "name"

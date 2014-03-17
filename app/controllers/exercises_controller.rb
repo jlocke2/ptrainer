@@ -5,8 +5,9 @@ class ExercisesController < ApplicationController
 
 
   def index
-  	@exercises = current_user.exercises
     @exercise = Exercise.new
+    @search = current_user.exercises.search(params[:q])
+    @exercises = @search.result
   end
 
   def show
@@ -18,6 +19,7 @@ class ExercisesController < ApplicationController
 
   def create
   	@exercise = current_user.exercises.build(exercise_params)
+    @exercises = current_user.exercises
 
     respond_to do |format|
       if @exercise.save

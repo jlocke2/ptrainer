@@ -1,0 +1,15 @@
+<ul>
+
+<% @press.each do |press|%>
+
+<li>
+	<p><%= Workout.find(press.workout_id).appointment.start_at.strftime("%D   ") %></p>
+ <p> Number of reps done  <%= press.rep %> </p>
+  <p> Number of sets done <%= press.set %> </p>
+
+
+</li>
+
+<% end %>
+
+</ul>

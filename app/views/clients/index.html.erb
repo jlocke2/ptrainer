@@ -1,10 +1,119 @@
+
+        <div id="pad-wrapper" class="users-list">
+            <div class="row header">
+                <h3>My Clients</h3>
+                <div class="col-md-10 col-sm-12 col-xs-12 pull-right">                    
+                    <!-- custom popup filter -->
+                    <!-- styles are located in css/elements.css -->
+                    <!-- script that enables this dropdown is located in js/theme.js -->
+                    <div class="ui-dropdown">
+                        <div class="head" data-toggle="tooltip" title="Click me!">
+                            Find a client
+                            <i class="arrow-down"></i>
+                        </div>  
+                        <div class="dialog">
+                            <div class="pointer">
+                                <div class="arrow"></div>
+                                <div class="arrow_border"></div>
+                            </div>
+                            <div class="body" id="search">
+                                <%= search_form_for @search, html: { :class => "form-inline" }, url: search_clients_path, method: :post do |f| %>
+                                     <div class="form-group">
+                                          <%= f.text_field :name_cont, :class => "form-control", :id => "searcher", :placeholder => "Name Contains"%>
+                                     </div>
+                                     <div class="form-group">
+                                        <div class="col-md-offset-2 col-md-8">
+                                          <%= f.submit "Search", class: "btn mybtn btn-large btn-primary", :id => "sizebtn" %>
+                                        </div>
+                                    </div>
+                                    <% end %>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="ui-dropdown">
+                        <div class="head" id="nopp">
+                            <%= link_to "Show All Clients", clients_path %>
+                            </div>
+                        </div>
+
+
+
+
+                    
+
+                    <a href="clients/new" class="btn-flat success pull-right" id="spacer">
+                        <span>&#43;</span>
+                        NEW CLIENT
+                    </a>
+                </div>
+            </div>
+
+
 <% if current_user.clients.count > 0 %>
 
 
 
-      <ul class="users">
-        <%= render @clients %>
-      </ul>
+ <!-- Users table -->
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-hover" id="sortable" data-update_url="<%= sort_clients_path %>">
+            <thead>
+                <tr>
+
+    <th>Name</th>
+	<th class="col-md-3 sortable">
+		<span class="line"></span>Next Appointment
+	</th>
+	<th class="col-md-2 sortable">
+		<span class="line"></span>Progress
+	</th>
+	<th class="col-md-3 sortable align-right">
+		<span class="line"></span>Phone
+	</th>
+</tr>
+</thead>
+<% @clients.each do |client| %>
+
+<tbody class="item"  data-item_id="<%= client.id %>">
+
+
+
+
+  <tr>
+
+    <td>
+    	<%= link_to client.name, client, :class => "name" %>
+    	<span class="subtext"><%= client.row_order %></span>
+        <span class="subtext"><%= client.id %></span>
+    </td>
+
+
+    <td> 
+        <% if client.appointments.where(["start_at > ?", Time.now]).any? %>
+        <p><%= client.appointments.where(["start_at > ?", Time.now]).order(start_at: :asc).first.start_at.strftime("%D  -   %I:%M%P") %></p>
+    	<span class="subtext"><%= link_to 'View All Appointments', appointments_client_path(client), :class => "link" %></span>
+        <% else %>
+
+        <p>no appointments</p>
+        <span class="subtext"><%= link_to "Create One Now", root_url %></span>
+
+        <% end %>
+    </td>
+
+    <td><%= link_to 'View Progress', progress_client_path(client), :class => "link" %></td>
+
+    <td class="align-right">
+    	<%= client.phone %>
+    </td>
+
+  </tr>
+</tbody>
+<% end %>
+
+</table>
  
 
 <% else %>
@@ -13,4 +122,43 @@
 
 <% end %>
 
-<%= link_to "New Client", new_client_path %>
+<script type="text/javascript">
+
+jQuery(function() {
+  var cells, desired_width;
+  cells = $('.table').find('tr')[0].cells.length;
+  desired_width = 940 / cells + 'px';
+  $('.table td').css('width', desired_width);
+  return $('#sortable').sortable({
+    axis: 'y',
+    items: '.item',
+    forcePlaceholderSize: true,
+    start: function(event, ui){
+      $(".ui-sortable-placeholder").css("width", "979px");
+      $(".ui-sortable-placeholder").css("height", "71px");
+      $(".ui-sortable-placeholder").css("visibility", "visible");
+      $(".ui-sortable-placeholder").css("color", "red");
+    },
+    stop: function(e, ui) {
+      return ui.item.children('td').effect('highlight', {}, 1000);
+    },
+    update: function(e, ui) {
+      var item_id, position;
+      item_id = ui.item.data('item_id');
+      position = ui.item.index()-1;
+      return $.ajax({
+        type: 'POST',
+        url: $(this).data('update_url'),
+        dataType: 'json',
+        data: {
+          id: item_id,
+          thing: {
+            row_order_position: position
+          }
+        }
+      });
+    }
+  });
+});
+</script>
+

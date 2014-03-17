@@ -1,14 +1,18 @@
 <ul class="users">
   <% if @exercises.any? %>
     <% @exercises.each do |exercise| %>
-    <li style="float:left" class="thumbnail">
+      <%= div_for exercise, :class => "exerciseBox" do %>
+    <li style="float:left" class="thumbnail col-xs-12">
       <% if exercise.exercise_id != nil %>
               <%= Exercise.find(exercise.exercise_id).name.capitalize %>
 
       <% end %>
       <h2>Goal</h2>
      <p> Sets = <%= exercise.set %> </p>
-     Reps = <%= exercise.rep %>
+     Reps = <%= exercise.rep %><br>
+     <% if exercise.weight.present? %>
+     Weight = <%= exercise.weight %>
+     <% end %>
           <% if  exercise.id %><br>
 
           <%= form_for(Agenda.find(exercise.id),
@@ -16,13 +20,99 @@
              remote: true) do |f| %>
   <%= f.submit "Remove Exercise From Workout", class: "btn mybtn btn-xs btn-success" %>
 <% end %>
-<% end %>
+
 <h2>Achieved</h2>
 
+  <a class='showme' id="<%= exercise.id %>">Edit this Exercise</a>
+  <a class='showmen' id="<%= exercise.id %>">Enter Results</a>
+
+
+
+<div class="nosee" id="nosee<%= exercise.id %>">
+
+
+<h2>Edit</h2>
+  
+  <%= form_for(Agenda.find(exercise.id), remote: true) do |f| %>
+  <div><%= f.hidden_field :workout_id %></div>
+   <div class="field">
+    <%= f.label :exercise %><br />
+    <%= f.collection_select :exercise_id, current_user.exercises, :id, :name, prompt: true %>
+  </div>
+
+  <p>Fill out only necessary fields below</p>
+
+   <div class="field">
+      <%= f.label :sets %><br />
+      <%= f.number_field :set %>
+    </div>
+
+
+
+     <div class="field">
+      <%= f.label :reps %><br />
+      <%= f.number_field :rep %>
+    </div>
+
+
+     <div class="field">
+      <%= f.label :weight %><br />
+      <%= f.number_field :weight %>
+    </div>
+  <%= f.submit "Edit Exercise", class: "btn mybtn btn-lg btn-primary" %>
+<% end %>
+</div>
+
+
+<div class="nosee" id="noseen<%= exercise.id %>">
+<h2>Enter Results</h2>
+  
+  <%= form_for(Agenda.find(exercise.id), remote: true) do |f| %>
+  <div><%= f.hidden_field :workout_id %></div>
+  
+
+  <p>Fill out only necessary fields below</p>
+
+  <% if exercise.set.present? %>
+
+   <div class="field">
+      <%= f.label :sets, 'Sets Done' %><br />
+      <%= f.number_field :setdone %>
+    </div>
+
+    <% end %>
+
+
+      <% if exercise.rep.present? %>
+
+     <div class="field">
+      <%= f.label :reps, 'Reps Done' %><br />
+      <%= f.number_field :repdone %>
+    </div>
+
+    <% end %>
+    
+    <% if exercise.weight.present? %>
+
+
+     <div class="field">
+      <%= f.label :weight, 'Weight Done' %><br />
+      <%= f.number_field :weightdone %>
+    </div>
+    <% end %>
+
+
+  <%= f.submit "Edit Exercise", class: "btn mybtn btn-lg btn-primary" %>
+<% end %>
+</div>
+
+
+<% end %>
 
 
 
     </li>
+    <% end %>
   <% end %>
   <% else %>
   <p>no exercises for this workout</p>

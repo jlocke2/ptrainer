@@ -1,26 +1,84 @@
-<div class="row">
-  <div class="col-md-6 col-md-offset-3">
+<div class="headerers">
+        <a href="<%= root_url %>">
+            <%= image_tag "logo.png" %>
+        </a>
+    </div>
 
-<h2>Sign up</h2>
+<div class="login-wrapper">
+        
+
+        <div class="box">
+            <div class="content-wrap">
+                <h6>Sign up</h6>
+                <div id='stripe_error' class="alert alert-info" style='display:none'>
+                </div>
+                <%= form_for(resource, :as => resource_name, :html => {:id => "new_person"}, :url => registration_path(resource_name)) do |f| %>
+                <%= devise_error_messages! %>
+
+                <% flash.each do |name, msg| %>
+
+                    <% if msg.class == Array %>
+                      <% msg.each do |message| %>
+                        <%= content_tag :div, message, class: "alert alert-#{name}" %>
+                      <% end %>
+                    <% else %>
+
+                      
+                      <%= content_tag :div, msg, :class => " alert alert-#{name}" %>
+
+                    <% end %>
+                  <% end %>
+
+                <%= f.hidden_field :stripe_card_token %>
+
+
+                <div><%= f.email_field :email, :autofocus => true, :class => "form-control", :placeholder => "E-mail address" %></div>
+
+				<div><%= f.password_field :password, :class => "form-control", :placeholder => "Your password" %></div>
+
+				<div><%= f.password_field :password_confirmation, :class => "form-control", :placeholder => "Your password" %></div>
+
+
+                  <% if @user.stripe_card_token.present? %>
+                    Credit Card is on File
+                  <% else %>
+
+                     <div class='form-group'>
+                     <%= label_tag :plan, "Which plan are you signing up for?" %><br >
+                     <%= f.select(:plan,[['solo - $19', "solo"], ['plus - $49', "plus"]], :class => "form-control") %>
+                     </div>
+
+                      <div class='form-group'>
+                        <%= label_tag :card_number, "Credit Card Number" %>
+                        <%= text_field_tag :card_number, nil, name: nil, :class => 'form-control', data: { stripe: "number" } %>
+                      </div>
+         
+                      <div class='form-group'>
+                        <%= label_tag :card_code, "Security Code on Card (CVV)" %>
+                        <%= text_field_tag :card_code, nil, data: { stripe: "cvc" }, name: nil, :class => "form-control" %>
+                        <%= label_tag :card_month, "Card Expiration" %>
+                        <input type="text" class="form-control" placeholder="MM  " data-stripe="exp-month"/>
+                        <input type="text" class="form-control" placeholder="YYYY" data-stripe="exp-year"/>
+                      </div>
+                      
+                  <% end %>
+				  
+				<div><%= f.submit "Sign up" , :class => 'btn-glow primary login'%></div>
+				<% end %>
+
+            </div>
+        </div>
+
+        <div class="no-account">
+            <p>Already have an account?</p>
+            <a href="<%= new_user_session_path %>">Sign in</a>
+        </div>
+    </div>
 
 
 
-<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
-  <%= devise_error_messages! %>
 
-  <div><%= f.label :email %><br />
-  <%= f.email_field :email, :autofocus => true %></div>
 
-  <div><%= f.label :password %><br />
-  <%= f.password_field :password %></div>
 
-  <div><%= f.label :password_confirmation %><br />
-  <%= f.password_field :password_confirmation %></div>
 
-  <div><%= f.submit "Sign up", :class => 'btn btn-primary' %></div>
-<% end %>
 
-<%= render "devise/shared/links" %>
-
-</div>
-</div>

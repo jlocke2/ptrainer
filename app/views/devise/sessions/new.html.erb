@@ -1,23 +1,49 @@
-<div class="row">
-  <div class="col-md-6 col-md-offset-3">
+<div class="headerers">
+        <a href="<%= root_url %>">
+            <%= image_tag "logo.png" %>
+        </a>
+    </div>
 
-<h1>Sign in</h1>
+<div class="login-wrapper">
+        
 
-<%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
-  <div><%= f.label :email %><br />
-  <%= f.email_field :email, :autofocus => true %></div>
+        <div class="box">
+            <div class="content-wrap">
+                <h6>Sign in</h6>
+                <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
 
-  <div><%= f.label :password %><br />
-  <%= f.password_field :password %></div>
+                <%= devise_error_messages! %>
 
-  <% if devise_mapping.rememberable? -%>
-    <div> <%= f.label :remember_me , :class => '.checkbox-inline'%><%= f.check_box :remember_me, :class => '.checkbox-inline', :style => 'width: 20%;' %></div>
-  <% end -%>
+                <% flash.each do |name, msg| %>
 
-  <div><%= f.submit "Sign in" , :class => 'btn btn-primary'%></div>
-<% end %>
+                    <% if msg.class == Array %>
+                      <% msg.each do |message| %>
+                        <%= content_tag :div, message, class: "alert alert-#{name}" %>
+                      <% end %>
+                    <% else %>
 
-<%= render "devise/shared/links" %>
+                    <%= content_tag :div, msg, :id => "alert-#{name}" %>
 
-</div>
-</div>
+                    <% end %>
+                  <% end %>
+
+
+                <div><%= f.email_field :email, :autofocus => true, :class => "form-control", :placeholder => "E-mail address" %></div>
+
+				<div><%= f.password_field :password, :class => "form-control", :placeholder => "Your password" %></div>
+
+				  <% if devise_mapping.rememberable? -%>
+				    <div> <%= f.label :remember_me , :class => '.checkbox-inline'%><%= f.check_box :remember_me, :class => '.checkbox-inline', :style => 'width: 20%;' %></div>
+				  <% end -%>
+
+				<div><%= f.submit "Sign in" , :class => 'btn-glow primary login'%></div>
+				<% end %>
+
+            </div>
+        </div>
+
+        <div class="no-account">
+            <p>Don't have an account?</p>
+            <a href="<%= new_user_registration_path %>">Sign up</a>
+        </div>
+    </div>

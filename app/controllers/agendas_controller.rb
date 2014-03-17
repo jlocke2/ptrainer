@@ -16,6 +16,22 @@ class AgendasController < ApplicationController
      end
    end
 
+   def update
+    @agenda = Agenda.find(params[:id])
+    @id = @agenda.workout_id
+    @exercises = Workout.find(@id).agendas
+    respond_to do |format|
+     if @agenda.update_attributes(agenda_params)
+      format.html  { redirect_to workout_path(@id) }
+      format.js 
+    end
+
+     end
+     
+   end
+
+  
+
   def destroy
     @agenda = Agenda.find(params[:id])
     @agenda.destroy
@@ -35,7 +51,7 @@ private
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def agenda_params
-      params.require(:agenda).permit(:exercise_id, :set, :rep)
+      params.require(:agenda).permit(:exercise_id, :set, :rep, :weight, :setdone, :repdone, :weightdone)
     end
   
 
