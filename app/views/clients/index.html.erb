@@ -58,7 +58,7 @@
 
  <!-- Users table -->
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-9 with-sidebar">
         <table class="table table-hover" id="sortable" data-update_url="<%= sort_clients_path %>">
             <thead>
                 <tr>
@@ -121,6 +121,28 @@
 <p>no clients here</p>
 
 <% end %>
+</div>
+ <div class="col-md-3 form-sidebar">
+                    <div class="alert alert-info">
+                        <i class="icon-lightbulb pull-left"></i>
+                        Enter Multiple Clients At Once (upload excel or csv file)
+                    </div>                        
+                    <h6><b>First row must be the column name.</b></h6>
+                    <p>The following columns are allowed</p>
+                    <ul>
+                      <li>name</li>
+                      <li>age - must be a number</li>
+                      <li>gender - either m or f</li>
+                      <li>email</li>
+                      <li>phone</li>
+                    </ul>
+                    <%= form_tag import_clients_path, multipart: true do %>
+                      <%= file_field_tag :file %>
+                      <%= submit_tag "Import" %>
+                    <% end %>
+                
+            </div>
+        </div>
 
 <script type="text/javascript">
 

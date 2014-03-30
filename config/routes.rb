@@ -9,6 +9,11 @@ root :to => redirect('/users/sign_in')
 
 match 'card', to: 'cards#edit', via: :post
 match 'payments', to: 'payments#index', via: :get
+match 'payments/verify', to: 'payments#verify', via: :post
+match 'payments/verify', to: 'payments#verify', via: :get
+match 'payments/charge', to: 'payments#charge', via: :post
+
+
 
   devise_for :users, :controllers => {:registrations => "registrations", :sessions => "sessions"}
 
@@ -18,6 +23,7 @@ match 'payments', to: 'payments#index', via: :get
   resources :clients do
   collection { post :search, to: 'clients#index' }
   collection { get :search, to: 'clients#index' }
+  collection { post :import, to: 'clients#import'}
     member do
       get :appointments
       get :workouts

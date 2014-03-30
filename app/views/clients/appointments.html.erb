@@ -1,57 +1,81 @@
-<h1>Testing</h1>
-<% if 1 > 0 %>
+
+        <div id="pad-wrapper" class="users-list">
+            <div class="row header">
+                <h3>Appointments for <%= @client.name %></h3>
+              </div>
+            </div>
+                
+
+
+<% if current_user.clients.count > 0 %>
 
 
 
-     <h1>Listing appointments</h1>
+ <!-- Users table -->
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-hover">
+            <thead>
+                <tr>
 
-
-
-<table>
-
-  <tr>
-
-    <th>name</th>
-
-    <th>Starts at</th>
-
-    <th>Ends at</th>
-
-    <th>Description</th>
-
-    <th></th>
-
-    <th></th>
-
-    <th></th>
-
-  </tr>
-
-
-
+  <th class="col-md-2">
+    <span class="line"></span>Starts At
+  </th>
+  <th class="col-md-2">
+    <span class="line"></span>Ends At
+  </th>
+  
+  <th class="col-md-3">
+    <span class="line"></span>Workout
+  </th>
+  <th class="col-md-3">
+    <span class="line"></span>Remove
+  </th>
+</tr>
+</thead>
 <% @appointments.each do |appointment| %>
 
+
+
+
   <tr>
 
-    <td><%= appointment.name %></td>
-
-    <td><%= appointment.start_at.strftime("%D   %I:%M%P") %></td>
-
-    <td><%= appointment.end_at.strftime("%D   %I:%M%P") %></td>
+    <td>
+      <%= appointment.start_at.strftime("%D   %I:%M%P") %>
+    </td>
 
 
-    <td><%= appointment.description %></td>
+    <td> 
+        <%= appointment.end_at.strftime("%D   %I:%M%P") %>
+    </td>
 
-    <td><%= link_to 'Show', appointment %></td>
 
-    <td><%= link_to 'Edit', edit_appointment_path(appointment) %></td>
+    <td>
+      <% if appointment.start_at > Time.now %>
 
-    <td><%= link_to 'Add Workout To This Appointment', new_workout_path(:id => appointment.id ) %></td>
+        <% if appointment.workout.present? %>
 
-    <td><%= link_to 'Destroy', appointment, :confirm => 'Are you sure?', :method => :delete %></td>
+
+        <%= link_to 'View Upcoming Workout', workout_path(appointment.workout.id) %>
+
+        <% else %>
+
+        <%= link_to 'Add Workout To This Appointment', new_workout_path(:id => appointment.id ) %></td>
+
+        <% end %>
+
+      <% else %>
+
+      <%= link_to 'View Results From This Workout', '#' %>
+
+      <% end %>
+
+    <td>
+      <%= link_to 'Delete This Appointment', appointment, :confirm => 'Are you sure?', :method => :delete %>
+    </td>
 
   </tr>
-
+</tbody>
 <% end %>
 
 </table>
@@ -59,7 +83,15 @@
 
 <% else %>
 
-<p>no workouts here</p>
+<p>no clients here</p>
 
 <% end %>
+</div>
+ 
+
+
+
+
+
+
 

@@ -1,3 +1,8 @@
-$("#new_agenda").html("<%= escape_javascript(render('workouts/addworkout_form')) %>");
+(function() {
+$("nested_agenda_rotations").remove();
+$("#new_agendar").html("<%= escape_javascript(render('workouts/addworkout_form')) %>");
 $("#listing").html("<%= escape_javascript(render('workouts/list')) %>");
 $('#listing li:last').remove();
+$('ul.wizard-steps li:not(:first').remove();
+$('.agenda #new_agenda').remove();
+})();

@@ -16,6 +16,9 @@ gem 'jquery-turbolinks'
 gem 'chart-js-rails'
 gem "ransack", github: "activerecord-hackery/ransack", branch: "rails-4"
 gem 'ranked-model'
+gem 'roo'
+gem 'nested_form_fields'
+
 
 
 group :development, :test do

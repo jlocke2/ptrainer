@@ -5,6 +5,9 @@
     <li style="float:left" class="thumbnail col-xs-12">
       <% if exercise.exercise_id != nil %>
               <%= Exercise.find(exercise.exercise_id).name.capitalize %>
+              <% if exercise.rotations.exists? %>
+              <%= exercise.rotations.to_a.count %>
+              <% end %>
 
       <% end %>
       <h2>Goal</h2>

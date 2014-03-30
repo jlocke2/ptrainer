@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140314201855) do
+ActiveRecord::Schema.define(version: 20140325130554) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,11 @@ ActiveRecord::Schema.define(version: 20140314201855) do
     t.integer  "client_id"
   end
 
+  create_table "cats", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "clients", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -61,6 +66,13 @@ ActiveRecord::Schema.define(version: 20140314201855) do
     t.datetime "updated_at"
   end
 
+  create_table "rotations", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "amount"
+    t.integer  "agenda_id"
+  end
+
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -77,6 +89,8 @@ ActiveRecord::Schema.define(version: 20140314201855) do
     t.string   "stripe_card_token"
     t.string   "plan"
     t.string   "stripe_customer_token"
+    t.string   "stripe_publishable_key"
+    t.string   "access_token"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

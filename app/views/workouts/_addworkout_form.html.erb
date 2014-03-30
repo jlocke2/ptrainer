@@ -1,28 +1,218 @@
-<%= form_for(@workout.agendas.build(workout_id: @workout.id), remote: true) do |f| %>
-  <div><%= f.hidden_field :workout_id %></div>
-   <div class="field">
-    <%= f.label :exercise %><br />
-    <%= f.collection_select :exercise_id, current_user.exercises, :id, :name, prompt: true %>
-  </div>
 
-  <p>Fill out only necessary fields below</p>
+        
+        <div id="pad-wrapper">
+            <div class="row">
+                <div class="col-md-12 col-xs-12 refreshing">
+                    <div id="fuelux-wizard" class="wizard row">
+                        <ul class="wizard-steps">
+                            <li data-target="#step1" class="active">
+                                <span class="step">0</span>
+                                <span class="title">General <br> information</span>
+                            </li>
+                            
+                             
+                            
+                        </ul>                            
+                    </div>
+                    <%= form_for(@workout.agendas.build(workout_id: @workout.id), remote: true) do |f| %>
 
-   <div class="field">
-	    <%= f.label :sets %><br />
-	    <%= f.number_field :set %>
-	  </div>
+                    <div class="step-content">
+                        <div class="step-pane active" id="step1">
+                            <div class="row form-wrapper">
+                                <div class="col-md-8">
 
 
 
-	   <div class="field">
-	    <%= f.label :reps %><br />
-	    <%= f.number_field :rep %>
-	  </div>
+									  <div><%= f.hidden_field :workout_id %></div>
+									   <div class="field">
+									    <%= f.label :exercise %><br />
+									    <%= f.collection_select :exercise_id, current_user.exercises, :id, :name, prompt: true %>
+									  </div>
+
+									   <div class="field">
+									   	<% the_array = [1,2,3,4,5,6] %>
+									    <%= label_tag :exercise, "Number of Sets/Rotations for this exercise" %><br />
+									    <%= select_tag :exercise_id, options_for_select(the_array.each_with_index.map {|name, index| [name,index+1]}), :name => nil, :prompt => "Choose One" %>
+									  </div>
+
+									  <div style=""><%= f.add_nested_fields_link :rotations, 'Add another set for this exercise' %></div>
 
 
-	   <div class="field">
-	    <%= f.label :weight %><br />
-	    <%= f.number_field :weight %>
-	  </div>
-  <%= f.submit "Add Exercise To Workout", class: "btn mybtn btn-lg btn-primary" %>
-<% end %>
+
+									  
+									  
+
+
+
+
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <%= f.nested_fields_for :rotations, wrapper_tag: :div do |ff| %>
+                        <div id="subfield">
+                        <div class="step-pane" id="step0">
+                            <div class="row form-wrapper">
+                                <div class="col-md-8">
+                                	 <div class="form-group">
+			                              <%= ff.label :amount, :class => "col-md-2 control-label" %>
+			                              <div class="col-md-8">
+			                              <%= ff.text_field :amount, :class => "form-control", :placeholder => "Amount" %>
+			                            </div>
+			                        </div>
+                                    
+									  <%= ff.remove_nested_fields_link %>
+									  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        <% end %>
+                    <div class="wizard-actions">
+                        <button type="button" disabled class="btn-glow primary btn-prev"> 
+                            <i class="icon-chevron-left"></i> Prev
+                        </button>
+                        <button type="button" disabled class="btn-glow primary btn-next" data-last="Finish">
+                            Next <i class="icon-chevron-right"></i>
+                        </button>
+                            <%= f.submit "Add Exercise To Workout", class: "btn-glow success btn-finish" %>
+									
+                        <% end %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+ <script type="text/javascript">
+
+
+     var match_up  = function(){
+        
+            var $wizard = $('#fuelux-wizard'),
+                $btnPrev = $('.wizard-actions .btn-prev'),
+                $btnNext = $('.wizard-actions .btn-next'),
+                $btnFinish = $(".wizard-actions .btn-finish"),
+                $total = $(".wizard-steps li").length;
+
+            $wizard.wizard().on('finished', function(e) {
+                // wizard complete code
+            }).on("changed", function(e) {
+                var step = $wizard.wizard("selectedItem");
+                // reset states
+                $btnNext.removeAttr("disabled");
+                $btnPrev.removeAttr("disabled");
+                $btnNext.show();
+                $btnFinish.hide();
+
+                if (step.step === 1) {
+                    $btnPrev.attr("disabled", "disabled");
+                } else if (step.step === $total) {
+                    $btnNext.hide();
+                    $btnFinish.show();
+                }
+            });
+
+            $btnPrev.on('click', function() {
+                $wizard.wizard('previous');
+            });
+            $btnNext.on('click', function() {
+                $wizard.wizard('next');
+            });
+            $wizard.data('wizard', '');
+        }
+    
+
+$(document).ready(function(){
+    tibs();
+    match_up();
+    
+var myStuff = null;
+$( "body" ).off("change","#exercise_id");
+$( "body" ).on("change","#exercise_id",function() {
+    $(".nested_fields").remove();
+  $('ul.wizard-steps li:not(:first)').remove();
+    $('#fuelux-wizard').data('wizard', '');
+    $('#fuelux-wizard').data('a', '');
+
+  var val = this.value;
+  
+  $(".nested_fields").remove();
+  $('ul.wizard-steps li:not(:first)').remove();
+  i=-1;
+  while (i<val)
+  {
+ $("a.add_nested_fields_link").click();
+   i++;
+  }
+  $('ul.wizard-steps li:last').remove();
+  
+  $('.nested_fields:last').remove();
+ 
+
+  
+  var stepNum = $('#fuelux-wizard').wizard('selectedItem');
+  
+  $('.wizard-actions .btn-next').removeAttr("disabled");
+
+  
+  
+ 
+
+   
+
+    
+
+
+});
+
+});
+
+$(document).ready(function(){
+    $("body").off("click", ".wizard-actions button");
+    $("body").on("click", ".wizard-actions button", function(){
+        var currentOne = $('ul.wizard-steps li').index($('ul.wizard-steps li.active'));
+        var tots = $('ul.wizard-steps li').length;
+        if ( currentOne == tots-1 ) {
+            $('.wizard-actions .btn-next').hide();
+            $(".wizard-actions .btn-finish").show();
+        }
+        });
+});
+
+</script>
+
+<script type="text/javascript">
+$(function () {
+$(document).ready(function(){
+$("body").off("click", "a.add_nested_fields_link");
+$("body").on("click", "a.add_nested_fields_link", function(){
+	var n = $(".wizard-steps li").length+1;
+	var m = $(".wizard-steps li").length;
+    var j = $(".nested_fields").length+1;
+
+	$('ul.wizard-steps').append('<li data-target="#step'+n+'"><span class="step">'+m+'</span><span class="title">Set '+m+' <br> information</span></li>');
+	
+	
+$( ".nested_fields" ).find("#step0").last()
+  .attr( "id", function(  ) {
+
+    return "step" + j;
+
+  });
+
+  var n = 0;
+  var m = 0;
+
+  
+  
+});
+
+});
+});
+
+
+
+</script>
+

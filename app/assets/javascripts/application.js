@@ -19,4 +19,5 @@
 //= require fullcalendar
 //= require redirect
 //= require bootstrap
+//= require nested_form_fields
 //= require turbolinks

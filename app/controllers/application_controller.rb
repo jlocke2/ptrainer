@@ -20,6 +20,8 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:sign_up) << :stripe_card_token
     devise_parameter_sanitizer.for(:sign_up) << :plan
     devise_parameter_sanitizer.for(:sign_up) << :stripe_customer_token
+    devise_parameter_sanitizer.for(:sign_up) << :stripe_publishable_key
+    devise_parameter_sanitizer.for(:sign_up) << :access_token
     devise_parameter_sanitizer.for(:account_update) { |u| u.permit(:name, :stripe_card_token) }
   end
   

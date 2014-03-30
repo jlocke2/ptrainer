@@ -1,6 +1,7 @@
 class WorkoutsController < ApplicationController
     before_action :set_workout, only: [:show, :edit, :update, :destroy]
     before_filter :authenticate_user!
+    before_filter :require_permission, only: [:show, :edit, :update, :destroy]
 
 
  
@@ -39,7 +40,7 @@ class WorkoutsController < ApplicationController
       
       if Workout.exists?(:appointment_id => params[:id])
         @workout = Workout.find_by(appointment_id: params[:id])
-        flash[:danger] = "A workout for this appointment already exists.  Here is is for you to view and edit."
+        flash[:danger] = "A workout for this appointment already exists.  Here it is for you to view and edit."
         redirect_to @workout
       end
       @workout.appointment_id = params[:id]
@@ -94,6 +95,13 @@ private
     # Never trust parameters from the scary internet, only allow the white list through.
     def workout_params
       params.require(:workout).permit(:name, :client_id, :appointment_id)
+    end
+
+    def require_permission
+      if current_user.id != @workout.user_id
+        redirect_to root_path
+        #Or do something else here
+      end
     end
 
 

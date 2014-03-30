@@ -9,6 +9,11 @@ class ClientsController < ApplicationController
    	
    end
 
+   def import
+     Client.import(params[:file], current_user.id)
+     redirect_to clients_path, notice: "Clients imported."
+   end
+
    def sort
     @client = Client.find(params[:id])
 
@@ -32,6 +37,7 @@ class ClientsController < ApplicationController
    def show
     @client = Client.find(params[:id])
     @appointments = @client.appointments.where(["start_at < ?", Time.now]).order(start_at: :desc).limit(4)
+    @notes = @client.notes
 
      
    end
@@ -71,7 +77,8 @@ class ClientsController < ApplicationController
    end
 
    def appointments
-      @appointments = Appointment.where(client_id: params[:id])
+      @appointments = Appointment.where(client_id: params[:id]).order(start_at: :asc)
+      @client = Client.find(params[:id])
    end
 
    def workouts

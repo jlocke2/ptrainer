@@ -4,11 +4,21 @@
     <title><%= full_title(yield(:title)) %></title>
     <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
     <% if params[:controller] == "payments" %>
+
+      <% if current_user.stripe_publishable_key.present? %>
     <script type="text/javascript">
       // This identifies your website in the createToken call below
       Stripe.setPublishableKey(<%= current_user.stripe_publishable_key %>);
       // ...
     </script>
+      <% else %>
+      <script type="text/javascript">
+      // This identifies your website in the createToken call below
+      Stripe.setPublishableKey('pk_erOkAuzgg6lH5TQuaBkmwMiTvlXZ9');
+      // ...
+    </script>
+      <% end %>
+
     <% else %>
     <script type="text/javascript">
       // This identifies your website in the createToken call below

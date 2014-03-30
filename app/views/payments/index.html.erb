@@ -1,1 +1,82 @@
+<% if current_user.access_token.present? %>
+
+
+
+<div class="login-wrapper">
+        
+
+        <div class="box">
+            <div class="content-wrap">
+                <h6>Make Payment</h6>
+                <div id='stripe_error' class="alert alert-info" style='display:none'>
+                </div>
+                <%= form_tag(payments_charge_path, :id => "new_person") do %>
+
+                <% flash.each do |name, msg| %>
+
+                    <% if msg.class == Array %>
+                      <% msg.each do |message| %>
+                        <%= content_tag :div, message, class: "alert alert-#{name}" %>
+                      <% end %>
+                    <% else %>
+
+                      
+                      <%= content_tag :div, msg, :class => " alert alert-#{name}" %>
+
+                    <% end %>
+                  <% end %>
+
+                
+
+
+               <%= hidden_field_tag( :stripe_card_token, :stripe_card_token , id: "user_stripe_card_token") %>
+
+                  	 <div class='form-group'>
+                        <%= label_tag :amount, "Amount To Charge (in cents)" %>
+                        <%= text_field_tag :amount, nil, :class => 'form-control' %>
+                      </div>
+
+                      <div class='form-group'>
+                        <%= label_tag :card_number, "Credit Card Number" %>
+                        <%= text_field_tag :card_number, nil, name: nil, :class => 'form-control', data: { stripe: "number" } %>
+                      </div>
+
+         
+                      <div class='form-group'>
+                        <%= label_tag :card_code, "Security Code on Card (CVV)" %><br>
+                        <%= text_field_tag :card_code, nil, data: { stripe: "cvc" }, name: nil, :class => "form-control" %>
+                      </div>
+
+                      <div class='form-group'>
+                        <%= label_tag :card_month, "Card Expiration (Month)" %>
+                        <input type="text" class="form-control" placeholder="MM  " data-stripe="exp-month"/>
+                      </div>
+
+                      <div class='form-group'>
+                        <%= label_tag :card_month, "Card Expiration (Year)" %>
+                        <input type="text" class="form-control" placeholder="YYYY" data-stripe="exp-year"/>
+                    </div>
+                      
+          
+        <div><%= submit_tag "Make Payment" , :class => 'btn-glow primary login'%></div>
+        <% end %>
+
+        </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+<% else %>
+
 <a href="https://connect.stripe.com/oauth/authorize?response_type=code&client_id=ca_3gVAyEvQV65OvJ7W97ycCfpezMA0QncR" class="stripe-connect"><span>Connect with Stripe</span></a>
+
+<% end %>
