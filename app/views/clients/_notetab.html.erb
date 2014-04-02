@@ -1,0 +1,33 @@
+
+                        <br>
+                        <!-- recent orders table -->
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="col-md-5">
+                                        Date
+                                    </th>
+                                    <th class="col-md-3">
+                                        <span class="line"></span>
+                                        Note
+                                    </th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% @notes.each do |note| %>
+                                <!-- row -->
+                                <tr class="first">
+                                    <td>
+                                        <%= note.created_at.strftime("%D") %>
+                                    </td>
+                                    <td>
+                                        <%= note.description %>
+                                    </td>
+                                    
+                                   
+                                </tr>
+                               
+                            </tbody>
+                            <% end %>
+                        </table>

@@ -141,7 +141,7 @@ input[type="file"] {
 	display: inline-block;
 }
 
-input[disabled], textarea[disabled], input[readonly], textarea[readonly] {
+input[disabled], textarea[disabled], input[readonly], textarea[readonly], select[disabled] {
 	color: rgb(177, 177, 177);
 }
 /* native placeholders */

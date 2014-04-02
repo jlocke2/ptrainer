@@ -1,0 +1,3 @@
+$("#new_appointment").html("<%= escape_javascript(render('appointments/form')) %>");
+$("#calendar").fullCalendar("refetchEvents");
+$('#hapit').removeClass('open');

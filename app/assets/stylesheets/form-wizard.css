@@ -82,7 +82,6 @@
 }
 .step-content .step-pane {
   display: none;
-  min-height: 267px;
 }
 .step-content .active {
   display: block;
@@ -165,7 +164,6 @@
 
 /* actions */
 .wizard-actions {
-  float: right;
   margin-top: 30px;
   margin-right: 130px;
 }

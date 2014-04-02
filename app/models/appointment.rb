@@ -3,6 +3,8 @@ class Appointment < ActiveRecord::Base
         belongs_to :client
         has_one :workout
 
+        validates :client_id, presence: true
+
     def config_date
       "#{start_at.strftime("%D   %I:%M%P")} - #{Client.find(client_id).name}"
     end

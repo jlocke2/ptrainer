@@ -3,42 +3,7 @@
 
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
-    <%= form_for(@client) do |f| %>
-
-      <div class="field">
-      <%= f.label :name %>
-      <%= f.text_field :name %>
-</div>
-
-<div class="field">
-      <%= f.label :age %>
-      <%= f.number_field :age %>
-</div>
-
-<div class="field">
-      <%= f.label :gender %>
-      <%= f.text_field :gender %>
-</div>
-
-<div class="field">
-      <%= f.label :email %>
-      <%= f.email_field :email %>
-</div>
-
-<div class="field">
-      <%= f.label :phone %>
-      <%= f.phone_field :phone %>
-</div>
-
-<div class="field">
-      <%= f.label :notes %>
-      <%= f.text_area :notes %>
-</div>
-
-      
-
-      <%= f.submit "Save changes", class: "btn mybtn btn-large btn-primary" %>
-    <% end %>
+    <%= render 'formedit' if signed_in? %>
 
     
   </div>

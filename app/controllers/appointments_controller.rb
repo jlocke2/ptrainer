@@ -56,6 +56,7 @@ class AppointmentsController < ApplicationController
       if @appointment.save
         format.html { redirect_to @appointment, notice: 'appointment was successfully created.' }
         format.json { render action: 'show', status: :created, location: @appointment }
+        format.js
       else
         format.html { render action: 'new' }
         format.json { render json: @appointment.errors, status: :unprocessable_entity }

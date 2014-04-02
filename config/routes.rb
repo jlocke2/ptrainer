@@ -20,12 +20,14 @@ match 'payments/charge', to: 'payments#charge', via: :post
   devise_scope :user do
     get '/users/sign_out' => 'devise/sessions#destroy'
   end
+  resources :notes , :only => [:create]
   resources :clients do
   collection { post :search, to: 'clients#index' }
   collection { get :search, to: 'clients#index' }
   collection { post :import, to: 'clients#import'}
     member do
       get :appointments
+      get :notes
       get :workouts
       get :progress
       patch :progress

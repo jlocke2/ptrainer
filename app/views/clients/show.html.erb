@@ -5,12 +5,22 @@
                     <h3 class="name"><%= @client.name %></h3>
                     <span class="area"><%= @client.email %></span>
                 </div>
-                <a class="btn-flat icon pull-right delete-user" data-toggle="tooltip" title="Delete user" data-placement="top">
+                <a class="btn-flat icon pull-right delete-user" data-toggle="tooltip" title="Delete user" data-placement="top" data-confirm="You sure?" data-method="delete" rel="nofollow" href="<%= client_path %>">
                     <i class="icon-trash"></i>
                 </a>
-                 <a href="<%= edit_client_path(@client) %>"class="btn-flat icon large pull-right edit">
-                    Edit this client
+
+                <div class="dropdown pull-right" id="hapit">
+                 <a href="#"class="btn-flat icon large pull-right edit dropdown-toggle" data-toggle="dropdown">
+                    Edit This Client
                 </a>
+                    <div class="dropdown-menu" style = "padding: 15px; padding-bottom: 0px; min-width: 350px;">
+                     <div id="editcl">
+                        <%= render 'formedit' if signed_in? %>
+                        </div>
+                      </div>
+                  </div>
+
+
             </div>
 
             <div class="row profile">
@@ -18,25 +28,10 @@
                 <div class="col-md-9 bio">
                     <div class="profile-box">
                         <!-- biography -->
-                        <div class="col-md-12 sections">
-                            <h6>Additional Details</h6>
-                            <p>
-
-                        <b>Age:</b>
-                        <%= @client.age %>
-                      </p>
-
-
-                      <p>
-                        <b>Gender:</b>
-                        <%= @client.gender %>
-                      </p>
-
-                      <p>
-                        <b>Phone:</b>
-                        <%= @client.phone %>
-                      </p>
+                        <div id="cldets">
+                            <%= render "cldet" %>
                         </div>
+                        
 
                         <h6>Recent Appointments</h6><p><%= link_to "view all appointments for this client", appointments_client_path %></p>
                         <br>
@@ -44,20 +39,17 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th class="col-md-2">
+                                    <th class="col-md-5">
                                         Date
                                     </th>
                                     <th class="col-md-3">
                                         <span class="line"></span>
-                                        Date
+                                        Workout
                                     </th>
-                                    <th class="col-md-3">
+                                    
+                                    <th class="col-md-3 pull-right">
                                         <span class="line"></span>
-                                        Items
-                                    </th>
-                                    <th class="col-md-3">
-                                        <span class="line"></span>
-                                        Total amount
+                                        Results
                                     </th>
                                 </tr>
                             </thead>
@@ -69,12 +61,6 @@
                                         <%= appointment.start_at.strftime("%D") %>
                                     </td>
                                     <td>
-                                        Jan 03, 2013
-                                    </td>
-                                    <td>
-                                        3
-                                    </td>
-                                    <td>
                                         <% if Workout.find_by(appointment_id: appointment.id) %>
                                         <% @id = Workout.find_by(appointment_id: appointment.id) %>
                                         <%= link_to "See workout results", workout_path(@id) %>
@@ -82,45 +68,46 @@
                                         no workout
                                         <% end %>
                                     </td>
+                                    <td class="pull-right">
+                                        View Results
+                                    </td>
+                                   
                                 </tr>
                                
                             </tbody>
                             <% end %>
                         </table>
 
+<br><br>
+
+<h6>Recent Notes</h6><p><%= link_to "view all notes for this client", notes_client_path %></p>
+                        <div id="notetable">
+                            <%= render 'notetab' %>
+                        </div>
+
+                        
+
+
+
+
+
+
+
                         <!-- new comment form -->
-                        <div class="col-md-12 section comment">
+                        <div class="col-md-12 section comment" style="margin-top:0px;">
                             <h6>Add a quick note</h6>
-                            <p>Add a note about this user to keep a history of your interactions.</p>
-                            <textarea></textarea>
-                            <a href="#">Attach files</a>
-                            <div class="col-md-12 submit-box pull-right">
-                                <input type="submit" class="btn-glow primary" value="Add Note">
-                                <span>OR</span>
-                                <input type="reset" value="Cancel" class="reset">
-                            </div>
+                            <p>Add a note about this client to keep a history of your interactions.</p>
+                            
+
+
+                            <%= render 'newnote' %>
+
+
                         </div>
                     </div>
                 </div>
 
-                <!-- side address column -->
-                <div class="col-md-3 col-xs-12 address pull-right">
-                    <h6>Address</h6>
-                    <iframe width="300" height="133" scrolling="no" src="https://maps.google.com.mx/?ie=UTF8&amp;t=m&amp;ll=19.715081,-155.071421&amp;spn=0.010746,0.025749&amp;z=14&amp;output=embed"></iframe>
-                    <ul>
-                        <li>2301 East Lamar Blvd. Suite 140. </li>
-                        <li>City, Arlington. United States,</li>
-                        <li>Zip Code, TX 76006.</li>
-                        <li class="ico-li">
-                            <i class="ico-phone"></i>
-                            1817 274 2933
-                        </li>
-                         <li class="ico-li">
-                            <i class="ico-mail"></i>
-                            <a href="#">alejandra@detail.com</a>
-                        </li>
-                    </ul>
-                </div>
+                
             </div>
         </div>
 
@@ -130,7 +117,15 @@
 
 <%= link_to 'See Client Progess', progress_client_path(@client) %>
 
-<%= link_to 'View Appointments', appointments_client_path(@client) %>
 
-<%= link_to 'Edit', edit_client_path(@client) %>
+
+<script>
+ $(document).ready(function()
+ {
+   //Handles menu drop down`enter code here`
+   $('.dropdown-menu').click(function(e) {
+        e.stopPropagation();
+    });
+ });
+  </script>
 

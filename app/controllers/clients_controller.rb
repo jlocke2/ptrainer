@@ -5,6 +5,7 @@ class ClientsController < ApplicationController
    def index
     @search = current_user.clients.search(params[:q])
    	@clients = @search.result.rank(:row_order)
+    @client = Client.new
     
    	
    end
@@ -37,19 +38,23 @@ class ClientsController < ApplicationController
    def show
     @client = Client.find(params[:id])
     @appointments = @client.appointments.where(["start_at < ?", Time.now]).order(start_at: :desc).limit(4)
-    @notes = @client.notes
-
+    @notes = @client.notes.order(created_at: :desc).limit(5)
      
    end
 
 
    def create
   	@client = current_user.clients.build(client_params)
+    @search = current_user.clients.search(params[:q])
+    @clients = @search.result.rank(:row_order)
     
-  	  if @client.save
-      		flash[:success] = "Client created!"
-      		redirect_to clients_path
-  	
+      respond_to do |format|
+        if @client.save
+          format.html { redirect_to clients_path, flash[:success] = "Client created!" }
+          format.js
+        else
+          format.html { render action: 'new' }
+        end
       end
     end
 
@@ -61,12 +66,19 @@ class ClientsController < ApplicationController
 
    def update
    	 @client = Client.find(params[:id]) 
-     if @client.update_attributes(client_params)
-        flash[:success] = "Profile updated"
-        redirect_to clients_path
+        respond_to do |format|
+        if @client.update_attributes(client_params)
+          format.html { redirect_to clients_path, flash[:success] = "Profile updated" }
+          format.js
+        else
+          format.html { render action: 'edit' }
+        end
+      end
+
+
     end
    	
-   end
+   
 
 
    def destroy
@@ -77,7 +89,12 @@ class ClientsController < ApplicationController
    end
 
    def appointments
-      @appointments = Appointment.where(client_id: params[:id]).order(start_at: :asc)
+      @appointments = Appointment.where(client_id: params[:id]).order(start_at: :desc)
+      @client = Client.find(params[:id])
+   end
+
+   def notes
+     @notes = Note.where(client_id: params[:id]).order(created_at: :desc)
       @client = Client.find(params[:id])
    end
 

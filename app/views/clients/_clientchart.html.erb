@@ -1,0 +1,68 @@
+<% if current_user.clients.count > 0 %>
+
+
+
+ <!-- Users table -->
+
+    <div class="col-md-9 with-sidebar">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+
+    <th>Name</th>
+	<th class="col-md-3">
+		<span class="line"></span>Next Appointment
+	</th>
+	<th class="col-md-2">
+		<span class="line"></span>Progress
+	</th>
+	<th class="col-md-3 align-right">
+		<span class="line"></span>Phone
+	</th>
+</tr>
+</thead>
+<% @clients.each do |client| %>
+
+<tbody>
+
+
+
+
+  <tr>
+
+    <td>
+    	<%= link_to client.name, client, :class => "name" %>
+    	<span class="subtext"><%= client.email %></span>
+    </td>
+
+
+    <td> 
+        <% if client.appointments.where(["start_at > ?", Time.now]).any? %>
+        <p><%= client.appointments.where(["start_at > ?", Time.now]).order(start_at: :asc).first.start_at.strftime("%D  -   %I:%M%P") %></p>
+    	<span class="subtext"><%= link_to 'View All Appointments', appointments_client_path(client), :class => "link" %></span>
+        <% else %>
+
+        <p>no appointments</p>
+        <span class="subtext"><%= link_to "Create One Now", root_url %></span>
+
+        <% end %>
+    </td>
+
+    <td><%= link_to 'View Progress', progress_client_path(client), :class => "link" %></td>
+
+    <td class="align-right">
+    	<%= client.phone %>
+    </td>
+
+  </tr>
+</tbody>
+<% end %>
+
+</table>
+ 
+
+<% else %>
+
+<p>no clients here</p>
+
+<% end %>

@@ -1,26 +1,82 @@
+    <div id="pad-wrapper" class="users-list">
+            <div class="row header">
 
-<h2>Appointment starts at - <%= @appointment.start_at.strftime("%D  %I:%M%P")%> - <%= @appointment.end_at.strftime("%I:%M%P") %></h2>
-<h2>Appointment for - <%= @client.name %></h2>
+            <h3><%= @client.name %>-<small><%= @appointment.start_at.strftime("%D  %I:%M%P")%> - <%= @appointment.end_at.strftime("%I:%M%P") %></small></h3>
+                <div class="col-md-10 col-sm-12 col-xs-12 pull-right  keep-open" id="hapit">                    
+                    <!-- custom popup filter -->
+                    <!-- styles are located in css/elements.css -->
+                    <!-- script that enables this dropdown is located in js/theme.js -->
+                    
 
-<div id="listing">
-
-<%= render 'list' %>
 
 
-</div>
+
+                    
+
+                    <a href="#" class="btn-flat success pull-right dropdown-toggle" data-toggle="dropdown" id="spacer">
+                        <span>&#43;</span>
+                        ADD EXERCISE
+                    </a>
+                    <div class="dropdown-menu" style = "padding: 15px; padding-bottom: 0px;">
+                     <div id="new_agendar">
+
+						<%= render 'addworkout_form' if signed_in? %>
+
+
+
+						</div>
+                      </div>
+                </div>
+
+
+            </div>
+
+
+		 
+
+
+			<div id="listing">
+
+			<%= render 'list' %>
+
+
+			</div>
  
 
 
-<div style="clear:both"></div>
-<div id="new_agendar">
-
-<%= render 'addworkout_form' if signed_in? %>
 
 
+                
+            </div>
+        </div>
 
-</div>
+<script>
+ $(document).ready(function()
+ {
+  $(document).on('click', function(){
+     $('.keep-open').data('closable', true);
+  });
+  $('body').off('click', '.dropdown-menu');
+  $('body').on('click', '.dropdown-menu', function(e) {
+        $('.keep-open').data('closable', false);
+    });
+  $('body').off('click', '.wizard-actions :submit');
+  $('body').on('click', '.wizard-actions :submit', function(e) {
+        $('.keep-open').data('closable', true);
+        $('#hapit').removeClass('open');
+    });
+   //Handles menu drop down`enter code here`
+   $('.keep-open').off('hide.bs.dropdown');
+   $('.keep-open').on('hide.bs.dropdown', function () {
+        return $(this).data('closable');
+    });
+  });
+
+ $(document).ready(function(){
+  $('.agenda.exerciseBox#new_agenda').remove();
+ });
+  </script>
 
 
 
 
-<%= link_to 'Edit', edit_workout_path(@workout) %>

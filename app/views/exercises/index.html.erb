@@ -43,10 +43,15 @@
 
                     
 
-                    <a href="exercises/new" class="btn-flat success pull-right" id="spacer">
+                    <a href="#" class="btn-flat success pull-right dropdown-toggle" data-toggle="dropdown" id="spacer">
                         <span>&#43;</span>
                         NEW EXERCISE
                     </a>
+                    <div class="dropdown-menu" style = "padding: 15px; padding-bottom: 0px;">
+                     <div>
+                        <%= render 'form' if signed_in? %>
+                        </div>
+                      </div>
                 </div>
             </div>
 
@@ -60,10 +65,16 @@
 
 </div>
 
+  <script>
+ $(document).ready(function()
+ {
+   //Handles menu drop down`enter code here`
+   $('.dropdown-menu').find('form').click(function (e) {
+    e.stopPropagation();
+    });
+  });
+  </script>
 
-<div>
-<%= render 'form' if signed_in? %>
-</div>
 
   
 

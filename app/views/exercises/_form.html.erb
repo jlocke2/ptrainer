@@ -1,6 +1,4 @@
-<div class="row form-wrapper">
-                <!-- left column -->
-                <div class="col-md-9 with-sidebar">
+
                     
                     <%= form_for(Exercise.new, html: { :class => "form-horizontal"}, remote: true) do |f| %>
                     <% if @exercise.errors.any? %>
@@ -42,10 +40,7 @@
                 </div>
 
                 
-            </div>
-        </div>
-
-
+            
 
 
 
