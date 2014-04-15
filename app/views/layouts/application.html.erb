@@ -8,7 +8,7 @@
       <% if current_user.stripe_publishable_key.present? %>
     <script type="text/javascript">
       // This identifies your website in the createToken call below
-      Stripe.setPublishableKey(<%= current_user.stripe_publishable_key %>);
+      Stripe.setPublishableKey("<%= current_user.stripe_publishable_key %>");
       // ...
     </script>
       <% else %>

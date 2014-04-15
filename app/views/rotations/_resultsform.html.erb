@@ -1,0 +1,28 @@
+<%= form_for(@rotation, html: { :class => "form-horizontal" }, remote: true) do |f| %>
+
+                        <div class="form-group">
+                          <%= f.label :amountdone, "How much was completed?", :class => "col-md-2 control-label", :id => "amount_lab" %>
+                              <div class="col-md-8">
+                              <%= f.text_field :amountdone, :class => "form-control", :placeholder => "Amount Completed" %>
+                            </div>
+                        </div>
+
+
+                        <% if @rotation.exwt != "" %>
+
+                        <div class="form-group">
+                          <%= f.label :weightdone, "How much weight was used?", :class => "col-md-2 control-label", :id => "amount_lab" %>
+                              <div class="col-md-8">
+                              <%= f.text_field :weightdone, :class => "form-control", :placeholder => "Pounds" %>
+                            </div>
+                        </div>
+
+                        <% end %>
+                       
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-8">
+                              <%= f.submit "Enter Results", class: "btn mybtn btn-large btn-primary" %>
+                            </div>
+                        </div>
+                              <% end %>

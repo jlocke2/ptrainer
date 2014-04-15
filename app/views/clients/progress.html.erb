@@ -1,150 +1,43 @@
-<div id="tbt">
-<%= current_user.id %>
-</div>
+<div id="pad-wrapper" class="users-list">
+            <div class="row header">
+                <h3>Progress for <%= @client.name.capitalize %></h3><br><br>
+                <%= link_to "Return To Client Profile", client_path(@client) %>
+                <div class="col-md-10 col-sm-12 col-xs-12 pull-right" id="hapit">                    
+                    <!-- custom popup filter -->
+                    <!-- styles are located in css/elements.css -->
+                    <!-- script that enables this dropdown is located in js/theme.js -->
+                    
 
 
-  <%= form_for(current_user, url: progress_client_path(@client), remote: true) do |f| %>
-  <div class="field">
-    <%= f.label :exercise %><br />
-    <%= f.collection_select :id, current_user.exercises, :id, :name, {:include_blank => 'Which exercise do you want to see the progress for?', :selected => 0} %>
-  </div>
-  <%= f.submit "View Progress", class: "btn mybtn btn-lg btn-primary", id: "chartbtn" %>
-<% end %>
 
-<br>
+                    
+
+                    <a href="#" class="btn-flat success pull-right dropdown-toggle" data-toggle="dropdown" id="spacer">
+                        <span>&#43;</span>
+                        Exercise
+                    </a>
+                    <div class="dropdown-menu" style = "padding: 10px 20px;">
+                     <div>
+                        <%= render 'progform' if signed_in? %>
+                        </div>
+                      </div>
+                </div>
+            </div>
+
+
+
 
 <div class="row">
-<div class="col-xs-12, col-sm-12">
-  <canvas id="myChart"></canvas>
-</div>
-</div>
-
-
-
 <div id="prog">
 <%= render "prog" %>
 </div>
-
-<script type="text/javascript">
-
-Array.prototype.mapProperty = function(property) {
-	return this.map(function (obj) {
- 		return obj[property];
-	});
-};
-var myStuff = null;
-
-$( "#user_id" ).change(function() {
-  alert(this.value);
-  myStuff = {"but" : this.value};
-});
-
-var myData = null;
-
-$(document).on("click", "#chartbtn", function(e){
-  e.preventDefault;
-  $.ajax({ 
-    type: 'PATCH',
-    data: myStuff,
-    url: "<%= progcharter_client_path(@client) %>", 
-    dataType: 'json',
-    success: function (data) { 
-       console.log(data)
-       myData = data.sort(custom_sort);
-       myProp(myData);
-
-    }
-});
-});
-
-
-function custom_sort(a, b) {
-    return new Date(a.when).getTime() - new Date(b.when).getTime();
-}
-
-function myProp(myData){
- var data = {
-    labels : myData.mapProperty('when'),
-    datasets : [
-        {
-            fillColor : "rgba(151,187,205,0.5)",
-            strokeColor : "rgba(151,187,205,1)",
-            pointColor : "rgba(151,187,205,1)",
-            pointStrokeColor : "#fff",
-            data : myData.mapProperty('repdone')
-        }
-    ]
-};
-fin(data)
-}
+</div>
+ 
+</div>
 
 
 
 
-function respChart(selector, data, options){
-
-	// Define default option for line chart
-	var option = {
-		scaleOverlay : false,
-		scaleOverride : false,
-		scaleSteps : null,
-		scaleStepWidth : null,
-		scaleStartValue : null,
-		scaleLineColor : "rgba(0,0,0,.1)",
-		scaleLineWidth : 1,
-		scaleShowLabels : true,
-		scaleFontFamily : "'proxima-nova'",
-		scaleFontSize : 10,
-		scaleFontStyle : "normal",
-		scaleFontColor : "#909090",	
-		scaleShowGridLines : true,
-		scaleGridLineColor : "rgba(0,0,0,.05)",
-		scaleGridLineWidth : 1,	
-		bezierCurve : true,
-		pointDot : true,
-		pointDotRadius : 3,
-		pointDotStrokeWidth : 1,
-		datasetStroke : true,
-		datasetStrokeWidth : 2,
-		datasetFill : true,
-		animation : true,
-		animationSteps : 60,
-		animationEasing : "easeOutQuart",
-		onAnimationComplete : null
-	}
-
-	// check if the option is override to exact options 
-	// (bar, pie and other)
-	if (options == false || options == null){
-		options = option;
-	} 
-
-	// get selector by context
-	var ctx = selector.get(0).getContext("2d");
-	// pointing parent container to make chart js inherit its width
-	var container = $(selector).parent();
-
-	// enable resizing matter
-	$(window).resize( generateChart );
-
-	// this function produce the responsive Chart JS
-	function generateChart(){
-		// make chart width fit with its container
-		var ww = selector.attr('width', $(container).width() );
-		var hh = selector.attr('height', $(container).width()/4);
-		// Initiate new chart or Redraw
-		new Chart(ctx).Line(data, options);
-	};
-
-	// run function - render chart at first load
-	generateChart();
-
-}
-
-function fin (data) {
-respChart($("#myChart"),data);
-}
-</script>
 
 
 

@@ -11,13 +11,15 @@ gem 'bootstrap-will_paginate', '0.0.9'
 gem 'devise', '3.2.2'
 gem 'fullcalendar-rails', '1.6.4.0'
 gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
-gem 'html5_validators'
-gem 'jquery-turbolinks'
-gem 'chart-js-rails'
-gem "ransack", github: "activerecord-hackery/ransack", branch: "rails-4"
-gem 'ranked-model'
-gem 'roo'
-gem 'nested_form_fields'
+gem 'html5_validators', '1.1.2'
+gem 'jquery-turbolinks', '2.0.2'
+gem 'chart-js-rails', '0.0.6'
+gem "ransack", '1.1.0'
+gem 'ranked-model', '0.4.0'
+gem 'roo', '1.13.2'
+gem 'nested_form_fields', '0.5.0'
+gem 'momentjs-rails', '2.5.1'
+gem 'bootstrap3-datetimepicker-rails', '3.0.0'
 
 
 

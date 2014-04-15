@@ -20,6 +20,7 @@ match 'payments/charge', to: 'payments#charge', via: :post
   devise_scope :user do
     get '/users/sign_out' => 'devise/sessions#destroy'
   end
+  resources :rotations
   resources :notes , :only => [:create]
   resources :clients do
   collection { post :search, to: 'clients#index' }
@@ -52,6 +53,9 @@ match 'payments/charge', to: 'payments#charge', via: :post
   resources :workouts do
     collection do
       get :trans
+    end
+    member do
+      get :results
     end
   end
   resource :calendar, :only => [:show]

@@ -5,9 +5,19 @@
                     <h3 class="name"><%= @client.name %></h3>
                     <span class="area"><%= @client.email %></span>
                 </div>
-                <a class="btn-flat icon pull-right delete-user" data-toggle="tooltip" title="Delete user" data-placement="top" data-confirm="You sure?" data-method="delete" rel="nofollow" href="<%= client_path %>">
+
+                <div class="col-md-4">
+                <a class="btn-flat icon pull-right delete-user" data-toggle="tooltip" title="Delete Client" data-placement="top" data-confirm="You sure?" data-method="delete" rel="nofollow" href="<%= client_path %>">
                     <i class="icon-trash"></i>
                 </a>
+
+
+
+                 <a href="<%= progress_client_path(@client) %>" class="btn-flat icon large pull-left edit" id="spacer">
+                        View Client Progress
+                    </a>
+                    
+
 
                 <div class="dropdown pull-right" id="hapit">
                  <a href="#"class="btn-flat icon large pull-right edit dropdown-toggle" data-toggle="dropdown">
@@ -18,6 +28,7 @@
                         <%= render 'formedit' if signed_in? %>
                         </div>
                       </div>
+                  </div>
                   </div>
 
 
@@ -63,13 +74,19 @@
                                     <td>
                                         <% if Workout.find_by(appointment_id: appointment.id) %>
                                         <% @id = Workout.find_by(appointment_id: appointment.id) %>
-                                        <%= link_to "See workout results", workout_path(@id) %>
+                                        <%= link_to "View Workout", workout_path(@id) %>
                                         <% else %>
-                                        no workout
+                                        <%= link_to 'Add Workout To This Appointment', new_workout_path(:id => appointment.id ) %>
                                         <% end %>
                                     </td>
                                     <td class="pull-right">
-                                        View Results
+                                        <% if appointment.workout != nil %>
+                                        <% @workout = appointment.workout %>
+                                        
+                                        <%= link_to "View Results", results_workout_path(@workout) %>
+                                        <% else %>
+                                        no workout yet
+                                        <% end %>
                                     </td>
                                    
                                 </tr>
@@ -110,12 +127,6 @@
                 
             </div>
         </div>
-
-
-
-
-
-<%= link_to 'See Client Progess', progress_client_path(@client) %>
 
 
 

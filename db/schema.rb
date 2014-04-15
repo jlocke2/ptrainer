@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140402180919) do
+ActiveRecord::Schema.define(version: 20140409194156) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -80,6 +80,8 @@ ActiveRecord::Schema.define(version: 20140402180919) do
     t.integer  "agenda_id"
     t.string   "unit"
     t.string   "exwt"
+    t.string   "amountdone"
+    t.string   "weightdone"
   end
 
   create_table "users", force: true do |t|

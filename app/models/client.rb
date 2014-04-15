@@ -3,6 +3,9 @@ class Client < ActiveRecord::Base
 	has_many :appointments, dependent: :destroy
 	has_many :notes, dependent: :destroy
 
+	validates :name, presence: true
+	validates :user_id, presence: true
+
 	include RankedModel
   	ranks :row_order
 

@@ -1,4 +1,4 @@
-<%= form_for(Appointment.new, html: { :class => "form-horizontal" }, remote: true) do |f| %>
+<%= form_for(@appointment, html: { :class => "form-horizontal" }, remote: true) do |f| %>
   <% if @appointment.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@appointment.errors.count, "error") %> prohibited this appointment from being saved:</h2>
@@ -10,6 +10,7 @@
       </ul>
     </div>
   <% end %>
+  <h3>Only Update If You NEED To Change</h3><br>
 
  
   <div class="form-group">
@@ -19,7 +20,25 @@
     </div>
   </div>
 
+ <div class="form-group">
+    <label class="col-md-2 control-label" style="max-width:200px;">Date</label>
+                <div class='input-group date col-md-8' >
+                    <input type='text' class="form-control" id='datetimepicker6' />
+                    
+            </div>
+    </div>
+
+ 
+
   <div class="form-group">
+    <label class="col-md-2 control-label" style="max-width:200px;">Start Time</label>
+                <div class='input-group date col-md-8' >
+                    <input type='text' class="form-control" id='datetimepicker4' />
+                    
+            </div>
+    </div>
+
+  <div class="form-group" style="display:none">
     <%= f.label :start_at,"Start Time", :class => "col-md-2 control-label" %>
     <div class="col-md-8 select2-container select2">
       <%= f.datetime_select :start_at %>
@@ -27,6 +46,13 @@
   </div>
 
   <div class="form-group">
+    <label class="col-md-2 control-label" style="max-width:200px;">End Time</label>
+                <div class='input-group date col-md-8'>
+                    <input type='text' class="form-control" id='datetimepicker5' />
+            </div>
+    </div>
+
+  <div class="form-group" style="display:none">
     <%= f.label :end_at, "End Time", :class => "col-md-2 control-label" %>
     <div class="col-md-8">
       <%= f.datetime_select :end_at %>
@@ -42,7 +68,88 @@
 
   <div class="form-group">
       <div class="col-md-offset-2 col-md-8 attachs">
-        <%= f.submit "Create appointment", class: "btn mybtn btn-large btn-primary" %>
+        <%= f.submit "Edit appointment", class: "btn mybtn btn-large btn-primary" %>
       </div>
   </div>
 <% end %>
+
+
+ <script type="text/javascript">
+  var ready2;
+  ready2 = function() {
+
+   
+          $('#datetimepicker4').datetimepicker({
+            pickDate: false,
+            useSeconds: false,
+            minuteStepping: 15,
+          });
+          
+   
+
+
+   
+          $('#datetimepicker5').datetimepicker({
+            pickDate: false,
+            useSeconds: false,
+            minuteStepping: 15,
+          });
+          
+  
+
+
+    
+          $('#datetimepicker6').datetimepicker({
+            pickDate: true,
+            pickTime: false,
+          });
+          
+  
+
+  };
+
+  $(document).ready(ready2);
+  $(document).on('page:load', ready2);
+
+
+  $(document).ready(function(){
+      
+$('body').off('change', '#datetimepicker6')
+$('body').on('change', '#datetimepicker6', function(){
+  var val8 = this.value;
+  var ar1 = val8.split("/");
+  var it1 = ar1[0];
+  var it2 = ar1[1];
+  var it3 = ar1[2];
+  $("select#appointment_start_at_1i option:selected").val(it3);
+  $("select#appointment_end_at_1i option:selected").val(it3);
+  $("select#appointment_start_at_2i option:selected").val(it1);
+  $("select#appointment_end_at_2i option:selected").val(it1);
+  $("select#appointment_start_at_3i option:selected").val(it2);
+  $("select#appointment_end_at_3i option:selected").val(it2);
+});
+
+$('body').off('change', '#datetimepicker4')
+$('body').on('change', '#datetimepicker4', function(){
+  var val9 = this.value;
+  var ar19 = val9.split(/:| /g);
+  if (ar19[2] == "PM") {
+    ar19[0] = Number(ar19[0])+12
+  };
+  $("select#appointment_start_at_4i option:selected").val(ar19[0]);
+  $("select#appointment_start_at_5i option:selected").val(ar19[1]);
+});
+
+$('body').off('change', '#datetimepicker5')
+$('body').on('change', '#datetimepicker5', function(){
+  var val7 = this.value;
+  var ar17 = val7.split(/:| /g);
+  if (ar17[2] == "PM") {
+    ar17[0] = Number(ar17[0])+12
+  };
+  $("select#appointment_end_at_4i option:selected").val(ar17[0]);
+  $("select#appointment_end_at_5i option:selected").val(ar17[1]);
+});
+
+  });
+</script>

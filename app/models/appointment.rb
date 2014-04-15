@@ -1,9 +1,12 @@
 class Appointment < ActiveRecord::Base
 		belongs_to :user
-        belongs_to :client
-        has_one :workout
+    belongs_to :client
+    has_one :workout, dependent: :destroy
 
         validates :client_id, presence: true
+        validates :start_at, presence: true
+        validates :end_at, presence: true
+        validates :user_id, presence: true
 
     def config_date
       "#{start_at.strftime("%D   %I:%M%P")} - #{Client.find(client_id).name}"

@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  include Rails.application.routes.url_helpers
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -10,6 +11,7 @@ class User < ActiveRecord::Base
 
   after_create :create_a_customer
   before_destroy :destroy_a_customer
+
  
          def create_a_customer
          	Stripe.api_key = 'Bf2TeaTMeuPDTWrmecc88biKWbejiayf'
@@ -34,4 +36,5 @@ class User < ActiveRecord::Base
 			cu.delete
          end
 
-end
+ end
+

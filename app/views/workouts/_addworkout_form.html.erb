@@ -14,7 +14,7 @@
                             
                         </ul>                            
                     </div>
-                    <%= form_for(@workout.agendas.build(workout_id: @workout.id), remote: true, html: { :class => "form-horizontal" }) do |f| %>
+                    <%= form_for(@workout.agendas.build(workout_id: @workout.id), remote: true, html: { :class => "form-horizontal", :style => "top: -40px; position: relative;" }) do |f| %>
 
                     <div class="step-content">
                         <div class="step-pane active" id="step1">
@@ -80,7 +80,7 @@
                               <div class="form-group mkvis">
                                     <%= ff.label :exwt, "Weight Added", :class => "col-md-2 control-label" %>
                                     <div class="col-md-8">
-                                    <%= ff.text_field :exwt, :class => "form-control", :placeholder => "Weight Added" %>
+                                    <%= ff.text_field :exwt, :class => "form-control", :placeholder => "Weight Added (lbs)" %>
                                   </div>
                               </div>
                                     <div style="display:none;">
@@ -92,7 +92,7 @@
                         </div>
                     </div>
                         <% end %>
-                    <div class="wizard-actions">
+                    <div class="wizard-actions" style="margin-right:0;">
                         <button type="button" disabled class="btn-glow primary btn-prev"> 
                             <i class="icon-chevron-left"></i> Prev
                         </button>
@@ -228,18 +228,21 @@ $(document).ready(function(){
           .find('option')
           .remove()
           .end()
-          .append('<option value="inch">inches</option>')
-          .append('<option value="foot">feet</option>')
-          .append('<option value="mile">miles</option>')
+          .append('<option value="inches">inches</option>')
+          .append('<option value="feet">feet</option>')
+          .append('<option value="miles">miles</option>')
       ;
     } else if (val2==2) {
         $('label#amount_lab').text('# of Reps');
         $(".place_text").attr("placeholder", "# of Reps");
-        $('.unvis').css({ "display": "none"});
+        $('.unvis').css({ "display": "block"});
         $('.unvis')
           .find('select')
           .find('option')
           .remove()
+          .remove()
+          .end()
+          .append('<option value="reps">reps</option>')
       ;
     } else if (val2==3) {
         $('label#amount_lab').text('Time');
@@ -250,9 +253,9 @@ $(document).ready(function(){
           .find('option')
           .remove()
           .end()
-          .append('<option value="second">seconds</option>')
-          .append('<option value="minute">minutes</option>')
-          .append('<option value="hour">hours</option>')
+          .append('<option value="seconds">seconds</option>')
+          .append('<option value="minutes">minutes</option>')
+          .append('<option value="hours">hours</option>')
       ;
     };
     $("#exercise_weight").prop("disabled", false);
@@ -288,6 +291,11 @@ $(document).ready(function(){
 </script>
 
 <script type="text/javascript">
+function capitaliseFirstLetter(string)
+{
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 $(function () {
 $(document).ready(function(){
 $("body").off("click", "a.add_nested_fields_link");
@@ -300,9 +308,10 @@ $("body").on("click", "a.add_nested_fields_link", function(){
 	$('ul.wizard-steps').append('<li data-target="#step'+n+'"><span class="step">'+m+'</span><span class="title">Set '+m+' <br> information</span></li>');
 	
 	 var itis = $('#agenda_exercise_id option:selected').text();
+   var itise = capitaliseFirstLetter(itis)
 $( ".nested_fields" ).find("#step0").last()
  
-  .prepend('<h3> Set #'+o+' - '+itis+' </h3>')
+  .prepend('<h3> Set #'+o+' - '+itise+' </h3><br><br>')
   .attr( "id", function(  ) {
 
     return "step" + j;

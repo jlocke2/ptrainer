@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
   before_filter :configure_permitted_parameters, if: :devise_controller?
   layout :layout_by_resource
 
+  
+
    def layout_by_resource
     if devise_controller? && resource_name == :user && action_name == 'new'
       "blank"
@@ -14,6 +16,8 @@ class ApplicationController < ActionController::Base
   end
 
   protected
+
+
  
   def configure_permitted_parameters
     #This allows the attributes to be accessible at sign up. I had to add email and password after adding token. 

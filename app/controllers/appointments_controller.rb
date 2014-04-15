@@ -44,7 +44,7 @@ class AppointmentsController < ApplicationController
 
   # GET /appointments/1/edit
   def editordata
-    render :json => { :form => render_to_string(:partial => 'form') }
+    render :json => { :form => render_to_string(:partial => 'forms') }
   end
 
   # POST /appointments
@@ -54,6 +54,9 @@ class AppointmentsController < ApplicationController
 
     respond_to do |format|
       if @appointment.save
+        @workout = current_user.workouts.build(workout_params)
+        @workout.appointment_id = @appointment.id
+        @workout.save
         format.html { redirect_to @appointment, notice: 'appointment was successfully created.' }
         format.json { render action: 'show', status: :created, location: @appointment }
         format.js
@@ -71,6 +74,7 @@ class AppointmentsController < ApplicationController
       if @appointment.update_attributes(appointment_params)
         format.html { render :nothing => true }
         format.json { head :no_content }
+        format.js
       else
         format.html { render action: 'edit' }
         format.json { render json: @appointment.errors, status: :unprocessable_entity }
@@ -128,6 +132,10 @@ class AppointmentsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def appointment_params
       params.require(:appointment).permit(:name, :client_id, :description, :start_at, :end_at)
+    end
+
+    def workout_params
+      params.require(:appointment).permit(:name, :client_id, :appointment_id)
     end
 
     def require_permission

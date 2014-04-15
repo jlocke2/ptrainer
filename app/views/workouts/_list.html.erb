@@ -1,124 +1,165 @@
-<ul class="users">
+<ul class="bxslider">
   <% if @exercises.any? %>
-    <% @exercises.each do |exercise| %>
-      <%= div_for exercise, :class => "exerciseBox" do %>
-    <li style="float:left" class="thumbnail col-xs-12">
+    <% @exercises.each_with_index do |exercise, index| %>
+      <%= div_for exercise, :class => "exerciseBox", :style => "" do %>
+    
+    <li style="float:left" class="thumbnail col-xs-12 text-center">
+
+
       <% if exercise.exercise_id != nil %>
-              <%= Exercise.find(exercise.exercise_id).name.capitalize %>
+             <h3> <%= Exercise.find(exercise.exercise_id).name.capitalize %> <%= form_for(Agenda.find(exercise.id),
+             html: { method: :delete },
+             remote: true) do |f| %>
+  <%= f.submit "Remove Exercise From Workout", class: "btn mybtn btn-xs btn-success" %></h3>
+<% end %>
+              
               <% if exercise.rotations.exists? %>
-              <%= exercise.rotations.to_a.count %>
+              <% @rcount = exercise.rotations.to_a.count %>
+              <% @rotations = exercise.rotations.to_a %>
               <% end %>
 
       <% end %>
-      <h2>Goal</h2>
-     <p> Sets = <%= exercise.set %> </p>
-     Reps = <%= exercise.rep %><br>
-     <% if exercise.weight.present? %>
-     Weight = <%= exercise.weight %>
-     <% end %>
-          <% if  exercise.id %><br>
-
-          <%= form_for(Agenda.find(exercise.id),
-             html: { method: :delete },
-             remote: true) do |f| %>
-  <%= f.submit "Remove Exercise From Workout", class: "btn mybtn btn-xs btn-success" %>
-<% end %>
-
-<h2>Achieved</h2>
-
-  <a class='showme' id="<%= exercise.id %>">Edit this Exercise</a>
-  <a class='showmen' id="<%= exercise.id %>">Enter Results</a>
 
 
 
-<div class="nosee" id="nosee<%= exercise.id %>">
+<% if @rcount != nil %>
 
 
-<h2>Edit</h2>
+
+
+                    <!-- Nav tabs -->
+                          <ul class="nav nav-tabs nav-justified">
+                            <% i = 0 %>
+                            <% while i < @rcount %>
+
+                            <li><a href=".<%= i.to_s %><%= exercise.id.to_s %>" data-toggle="tab">Set #<%= i + 1 %></a></li>
+                            <% i += 1 %>
+                            <% end %>
+                          </ul>
+
+
+
+
+<!-- Tab panes -->
+<div class="container" style="width: 100%;">
+<div class="tab-content">
   
-  <%= form_for(Agenda.find(exercise.id), remote: true) do |f| %>
-  <div><%= f.hidden_field :workout_id %></div>
-   <div class="field">
-    <%= f.label :exercise %><br />
-    <%= f.collection_select :exercise_id, current_user.exercises, :id, :name, prompt: true %>
+  
+
+
+  <% @rotations.each_with_index do |rotation, ind| %>
+
+  
+<div class="tab-pane <%= ind.to_s %><%= exercise.id.to_s %>">
+
+
+                          <div class="text-center">
+                              <h2>Goal</h2>
+                              <br>
+                              <% if rotation.amount != "" %>
+                             <p><%= rotation.amount %> <%= rotation.unit %></p>
+                             <% else %>
+                             <p>Nothing entered. Click edit Set Button to add info.</p>
+                             <% end %>
+                            <br>
+                             <% if rotation.exwt != "" %>
+                            <p> Added Weight = <%= rotation.exwt %> pounds</p>
+                             <% end %>
+                        <% @rotation = rotation %>
+                        <% @unit = @rotation.unit %>
+                        </div>
+
+
+
+
+
+
+
+
+                    <div class="container hapit2 pull-right keep-open" id="hapit2" style="width: 100%;">
+                     <a href="#" class="btn-flat success pull-left dropdown-toggle shiftdn" data-toggle="dropdown" id="spacer">
+                                        <span>&#43;</span>
+                                        ENTER RESULTS
+                                    </a>
+                                    <div class="dropdown-menu" style = "padding: 15px; padding-bottom: 0px; width: 100%;">
+                                     <div id="new_agendar">
+
+                            <%= render 'rotations/resultsform' if signed_in? %>
+                            </div>
+                          </div>
+                          </div>
+
+
+
+
+                          <div class="container hapit2 pull-left keep-open" id="hapit2" style="width: 100%;">
+                     <a href="#" class="btn-flat success pull-right dropdown-toggle" data-toggle="dropdown" id="spacer" >
+                                        <span>&#43;</span>
+                                        EDIT SET
+                                    </a>
+                                    <div class="dropdown-menu" style = "padding: 15px; padding-bottom: 0px; width: 100%;">
+                                     <div id="new_agendar">
+
+                            <%= render 'rotations/editform' if signed_in? %>
+                            </div>
+                          </div>
+                          </div>
+
+
+
+
   </div>
-
-  <p>Fill out only necessary fields below</p>
-
-   <div class="field">
-      <%= f.label :sets %><br />
-      <%= f.number_field :set %>
-    </div>
-
-
-
-     <div class="field">
-      <%= f.label :reps %><br />
-      <%= f.number_field :rep %>
-    </div>
-
-
-     <div class="field">
-      <%= f.label :weight %><br />
-      <%= f.number_field :weight %>
-    </div>
-  <%= f.submit "Edit Exercise", class: "btn mybtn btn-lg btn-primary" %>
 <% end %>
+
+
+
 </div>
-
-
-<div class="nosee" id="noseen<%= exercise.id %>">
-<h2>Enter Results</h2>
-  
-  <%= form_for(Agenda.find(exercise.id), remote: true) do |f| %>
-  <div><%= f.hidden_field :workout_id %></div>
-  
-
-  <p>Fill out only necessary fields below</p>
-
-  <% if exercise.set.present? %>
-
-   <div class="field">
-      <%= f.label :sets, 'Sets Done' %><br />
-      <%= f.number_field :setdone %>
-    </div>
-
-    <% end %>
-
-
-      <% if exercise.rep.present? %>
-
-     <div class="field">
-      <%= f.label :reps, 'Reps Done' %><br />
-      <%= f.number_field :repdone %>
-    </div>
-
-    <% end %>
-    
-    <% if exercise.weight.present? %>
-
-
-     <div class="field">
-      <%= f.label :weight, 'Weight Done' %><br />
-      <%= f.number_field :weightdone %>
-    </div>
-    <% end %>
-
-
-  <%= f.submit "Edit Exercise", class: "btn mybtn btn-lg btn-primary" %>
-<% end %>
 </div>
-
-
-<% end %>
-
-
+  <% end %>
 
     </li>
     <% end %>
   <% end %>
+
+
+
   <% else %>
   <p>no exercises for this workout</p>
  <% end %>
   
 </ul>
+
+<script type="text/javascript">
+$(document).ready(function(){
+  $('.agenda#new_agenda').remove();
+ $('.bxslider').bxSlider({
+  adaptiveHeight: true
+ });
+});
+</script>
+
+
+
+<script type="text/javascript">
+ $(document).ready(function()
+ {
+  $(document).on('click', function(){
+     $('.keep-open').data('closable', true);
+  });
+  $('body').off('click', '.dropdown-menu');
+  $('body').on('click', '.dropdown-menu', function(e) {
+        $('.keep-open').data('closable', false);
+    });
+  $('body').off('click', '.wizard-actions :submit');
+  $('body').on('click', '.wizard-actions :submit', function(e) {
+        $('.keep-open').data('closable', true);
+        $('#hapit').removeClass('open');
+    });
+   //Handles menu drop down`enter code here`
+   $('.keep-open').off('hide.bs.dropdown');
+   $('.keep-open').on('hide.bs.dropdown', function () {
+        return $(this).data('closable');
+    });
+  });
+  </script>
+

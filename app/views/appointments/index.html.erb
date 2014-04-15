@@ -7,10 +7,10 @@
                             <span>&#43;</span>
                             NEW APPOINTMENT
                         </a>
-                        <div class="dropdown-menu" style = "padding: 15px; padding-bottom: 0px;">
+                        <div class="dropdown-menu" style = "padding: 15px; padding-bottom: 0px; width: 400px; max-width: 100%;">
                          <div id="new_agendars">
 
-                            <%= render 'forms' if signed_in? %>
+                            <%= render 'form' if signed_in? %>
 
 
 
@@ -26,7 +26,6 @@
                     </div>
                 </div>
         </div>
-
 
 
 <div id="create_event_dialog" class="dialog" style ="display:none;">
@@ -64,3 +63,83 @@
 
  });
   </script>
+
+  <script type="text/javascript">
+  var ready;
+  ready = function() {
+
+   
+          $('#datetimepicker1').datetimepicker({
+            pickDate: false,
+            useSeconds: false,
+            minuteStepping: 15,
+          });
+          
+   
+
+
+   
+          $('#datetimepicker2').datetimepicker({
+            pickDate: false,
+            useSeconds: false,
+            minuteStepping: 15,
+          });
+          
+  
+
+
+    
+          $('#datetimepicker3').datetimepicker({
+            pickDate: true,
+            pickTime: false,
+          });
+          
+  
+
+  };
+
+  $(document).ready(ready);
+  $(document).on('page:load', ready);
+
+
+  $(document).ready(function(){
+      
+$('body').off('change', '#datetimepicker3')
+$('body').on('change', '#datetimepicker3', function(){
+  var val8 = this.value;
+  var ar1 = val8.split("/");
+  var it1 = ar1[0];
+  var it2 = ar1[1];
+  var it3 = ar1[2];
+  $("select#appointment_start_at_1i option:selected").val(it3);
+  $("select#appointment_end_at_1i option:selected").val(it3);
+  $("select#appointment_start_at_2i option:selected").val(it1);
+  $("select#appointment_end_at_2i option:selected").val(it1);
+  $("select#appointment_start_at_3i option:selected").val(it2);
+  $("select#appointment_end_at_3i option:selected").val(it2);
+});
+
+$('body').off('change', '#datetimepicker1')
+$('body').on('change', '#datetimepicker1', function(){
+  var val9 = this.value;
+  var ar19 = val9.split(/:| /g);
+  if (ar19[2] == "PM") {
+    ar19[0] = Number(ar19[0])+12
+  };
+  $("select#appointment_start_at_4i option:selected").val(ar19[0]);
+  $("select#appointment_start_at_5i option:selected").val(ar19[1]);
+});
+
+$('body').off('change', '#datetimepicker2')
+$('body').on('change', '#datetimepicker2', function(){
+  var val7 = this.value;
+  var ar17 = val7.split(/:| /g);
+  if (ar17[2] == "PM") {
+    ar17[0] = Number(ar17[0])+12
+  };
+  $("select#appointment_end_at_4i option:selected").val(ar17[0]);
+  $("select#appointment_end_at_5i option:selected").val(ar17[1]);
+});
+
+  });
+</script>

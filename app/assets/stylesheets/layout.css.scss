@@ -56,6 +56,11 @@ input.search {
     float: left;
     margin-top: 5px; }
 
+
+.ui-dialog{
+  max-width: 500px !important;
+  width: 100% !important;
+}
 /* Custom navbar stuff */
 /* search input */
 .navbar-inverse {

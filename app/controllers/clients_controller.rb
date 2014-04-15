@@ -1,10 +1,13 @@
 class ClientsController < ApplicationController
+    before_action :set_client, only: [:show, :edit, :update, :destroy, :appointments, :workouts, :progress]
     before_filter :authenticate_user!
+    before_filter :require_permission, only: [:show, :edit, :update, :destroy, :appointments, :progress]
+
 
 
    def index
     @search = current_user.clients.search(params[:q])
-   	@clients = @search.result.rank(:row_order)
+   	@clients = @search.result.order(name: :asc)
     @client = Client.new
     
    	
@@ -47,13 +50,17 @@ class ClientsController < ApplicationController
   	@client = current_user.clients.build(client_params)
     @search = current_user.clients.search(params[:q])
     @clients = @search.result.rank(:row_order)
-    
       respond_to do |format|
-        if @client.save
-          format.html { redirect_to clients_path, flash[:success] = "Client created!" }
-          format.js
+        if current_user.clients.count > 5
+          format.js { render :partial => 'fail_create.js.erb' }
         else
-          format.html { render action: 'new' }
+          if @client.save
+            format.html { redirect_to clients_path, flash[:success] = "Client created!" }
+            format.js
+          else
+            format.html { redirect_to root_url }
+            format.js { "window.location.href = ('#{root_path}');" }
+          end
         end
       end
     end
@@ -72,6 +79,7 @@ class ClientsController < ApplicationController
           format.js
         else
           format.html { render action: 'edit' }
+          format.js {}
         end
       end
 
@@ -100,6 +108,7 @@ class ClientsController < ApplicationController
 
    def workouts
       @workouts = Workout.where(client_id: params[:id])
+      redirect_to client_path(@client)
    end
 
    def progress
@@ -107,8 +116,11 @@ class ClientsController < ApplicationController
       @client = Client.find(params[:id])
       @workouts = Workout.where(client_id: @client)
       @press = []
-      info = []
+      info1 = []
+      info2 = []
+      info3 = []
       @agendas = Agenda.where(workout_id: @workouts)
+      h={}
       
      if request.patch?
         @id = params[:user][:id]
@@ -121,18 +133,29 @@ class ClientsController < ApplicationController
 
           end
       end
-      @agendas.each do |agenda|
-        info << {:workout_id => agenda.workout_id,
+      @agendas.each_with_index do |agenda, index|
+                info1 << {
                 :when => Workout.find(agenda.workout_id).appointment.start_at.strftime("%D"), 
-                :exercise => Exercise.find(agenda.exercise_id).name, :exercise_id => agenda.exercise_id,
-                :repdone => agenda.repdone.to_i, :setdone => agenda.setdone} 
+                :repdone1 => agenda.rotations[0].amountdone.to_i}
+                if agenda.rotations.count >= 2
+        info2 << {
+          :when => Workout.find(agenda.workout_id).appointment.start_at.strftime("%D"), 
+                :repdone1 => agenda.rotations[1].amountdone.to_i}
+              end
+              if agenda.rotations.count >= 3
+        info3 << {
+          :when => Workout.find(agenda.workout_id).appointment.start_at.strftime("%D"), 
+                :repdone1 => agenda.rotations[2].amountdone.to_i}
+              end
+        h = { :set1 => info1, :set2 => info2, :set3 => info3}
+
       end
 
 
         respond_to do |format|
           format.html
           format.js
-          format.json {render :json => info.to_json}
+          format.json {render :json => h.to_json}
         
       end
    end
@@ -144,22 +167,36 @@ class ClientsController < ApplicationController
     @client = Client.find(params[:id])
       @workouts = Workout.where(client_id: @client)
       @press = []
-      info = []
+      info1 = []
+      info2 = []
+      info3 = []
+      h = {}
       @id = params[:but]
         @id = @id.to_i
       
       @agendas = Agenda.where(workout_id: @workouts)
       @agenadas = @agendas.where(exercise_id: @id )
 
-      @agenadas.each do |agenda|
-        info << {:workout_id => agenda.workout_id,
+      @agendas.each_with_index do |agenda, index|
+                info1 << {
                 :when => Workout.find(agenda.workout_id).appointment.start_at.strftime("%D"), 
-                :exercise => Exercise.find(agenda.exercise_id).name, :exercise_id => agenda.exercise_id,
-                :repdone => agenda.repdone.to_i, :setdone => agenda.setdone} 
+                :repdone1 => agenda.rotations[0].amountdone.to_i}
+                if agenda.rotations.count >= 2
+        info2 << {
+          :when => Workout.find(agenda.workout_id).appointment.start_at.strftime("%D"), 
+                :repdone1 => agenda.rotations[1].amountdone.to_i}
+              end
+              if agenda.rotations.count >= 3
+        info3 << {
+          :when => Workout.find(agenda.workout_id).appointment.start_at.strftime("%D"), 
+                :repdone1 => agenda.rotations[2].amountdone.to_i}
+              end
+        h = { :set1 => info1, :set2 => info2, :set3 => info3}
+
       end
 
       respond_to do |format|
-          format.json {render :json => info.to_json}
+          format.json {render :json => h.to_json}
         
       end
     end
@@ -171,8 +208,19 @@ class ClientsController < ApplicationController
 	
   private
 
+    def set_client
+      @client = Client.find(params[:id])
+    end
+
     def client_params
   	  params.require(:client).permit(:name, :age, :gender, :email, :phone, :notes, :row_order)
+    end
+
+    def require_permission
+      if current_user.id != @client.user_id
+        redirect_to root_path
+        #Or do something else here
+      end
     end
 
 end

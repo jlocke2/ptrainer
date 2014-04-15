@@ -1,18 +1,26 @@
 class WorkoutsController < ApplicationController
-    before_action :set_workout, only: [:show, :edit, :update, :destroy]
+    before_action :set_workout, only: [:show, :edit, :update, :destroy, :results]
     before_filter :authenticate_user!
-    before_filter :require_permission, only: [:show, :edit, :update, :destroy]
+    before_filter :require_permission, only: [:show, :edit, :update, :destroy, :results]
 
 
  
 
   def index
-    @workouts = current_user.workouts
+    redirect_to root_path
   end
 
   def show
     @id = @workout.client_id
     @exercises = @workout.agendas
+    @client = Client.find(@id)
+    @appointment = @workout.appointment
+  end
+
+  def results
+    @workout = Workout.find(params[:id])
+    @exercises = @workout.agendas
+    @id = @workout.client_id
     @client = Client.find(@id)
     @appointment = @workout.appointment
   end
@@ -72,6 +80,7 @@ class WorkoutsController < ApplicationController
   end
 
   def edit
+    redirect_to root_path
   end
 
   def update

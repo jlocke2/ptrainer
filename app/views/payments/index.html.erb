@@ -5,7 +5,7 @@
 <div class="login-wrapper">
         
 
-        <div class="box">
+        <div class="box" style="margin-top:-50px;">
             <div class="content-wrap">
                 <h6>Make Payment</h6>
                 <div id='stripe_error' class="alert alert-info" style='display:none'>
@@ -76,6 +76,10 @@
 
 
 <% else %>
+
+<h3>In order to accept Credit Cards from your clients, you must have a Stripe account. <br> Click the button below to create an account or connect an account you already have.</h3><br>
+<p>Stripe is an industry leader in payment processing used by many major websites.</p>
+<p>It is free to create an account.  Stripe simply charges 2.9% + 30¢ for each successful charge.  Visit <a href="http://www.stripe.com" target="_blank">stripe.com</a> to learn more.</p>
 
 <a href="https://connect.stripe.com/oauth/authorize?response_type=code&client_id=ca_3gVAyEvQV65OvJ7W97ycCfpezMA0QncR" class="stripe-connect"><span>Connect with Stripe</span></a>
 

@@ -1,7 +1,8 @@
 
         <div id="pad-wrapper" class="users-list">
             <div class="row header">
-                <h3>Appointments for <%= @client.name %></h3>
+                <h3>Appointments for <%= @client.name %></h3><br><br>
+                <p><%= link_to "Return To Client Profile", client_path(@client) %></p>
               </div>
             </div>
                 
@@ -22,11 +23,11 @@
     <span class="line"></span>Starts At
   </th>
   <th class="col-md-2">
-    <span class="line"></span>Ends At
+    <span class="line"></span>Workout
   </th>
   
   <th class="col-md-3">
-    <span class="line"></span>Workout
+    <span class="line"></span>Results
   </th>
   <th class="col-md-3">
     <span class="line"></span>Remove
@@ -46,23 +47,34 @@
 
 
     <td> 
-        <%= appointment.end_at.strftime("%D   %I:%M%P") %>
-    </td>
-
-
-    <td>
-      <% if appointment.start_at > Time.now %>
+         
 
         <% if appointment.workout.present? %>
+          <% if appointment.start_at > Time.now %>
 
+               <%= link_to 'View Upcoming Workout', workout_path(appointment.workout.id) %>
 
-        <%= link_to 'View Upcoming Workout', workout_path(appointment.workout.id) %>
+            <% else %>
+
+            <%= link_to 'View Past Workout', workout_path(appointment.workout.id) %>
+
+            <% end %>
+
 
         <% else %>
 
         <%= link_to 'Add Workout To This Appointment', new_workout_path(:id => appointment.id ) %></td>
 
         <% end %>
+
+      
+    </td>
+
+
+    <td>
+      <% if appointment.start_at > Time.now %>
+
+        No Results. Workout hasn't happened yet.
 
       <% else %>
 

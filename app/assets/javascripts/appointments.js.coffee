@@ -40,11 +40,7 @@ $(document).ready ->
       if allDay
              $("#calendar").fullCalendar("changeView", "agendaDay").fullCalendar "gotoDate", startDate
       else
-         newForm.display({
-          start_at: new Date(startDate.getTime()),
-          end_at: new Date(endDate.getTime()),
-          allDay: allDay
-        });
+         
         
         
       return
@@ -80,7 +76,7 @@ $(document).ready ->
       $event_actions = $("<div />").attr("id", "event_actions")
       $edit_event = $("<span />").attr("id", "edit_event").html("<a href = 'javascript:void(0);' onclick ='editIt(" + event.id + ")'>Edit</a>")
       $view_event = $("<span />").attr("id", "view_event").html("<a href = 'javascript:void(0);' onclick ='viewIt(" + event.id + ")'>View Workout For This Appointment</a>")
-      $add_workout = $("<span />").attr("id", "add_workout").html("<a href = 'javascript:void(0);' onclick ='newWork(" + event.id + ")'>Add Workout To This Appointment</a>")
+      
       $delete_event = $("<span />").attr("id", "delete_event")
       if event.recurring
         title = event.title + "(Recurring)"
@@ -93,11 +89,11 @@ $(document).ready ->
         title = event.title
         $delete_event.html "<a href = 'javascript:void(0);' onclick ='deleteIt(" + event.id + ", " + false + ")'>Delete</a>"
 
-      $event_actions.append($edit_event).append(" | ").append $delete_event.append(" <br /> "). append $add_workout. append(" <br /> ").append $view_event
+      $event_actions.append($edit_event).append(" | ").append $delete_event.append(" <br /> "). append(" <br /> ").append $view_event
       $("#event_desc_dialog").append($event_description).append $event_actions
       $("#event_desc_dialog").dialog
         title: title
-        modal: true
+        modal: false
         width: 500
         close: (event, ui) ->
           $("#event_desc_dialog").html ""
@@ -171,7 +167,7 @@ $(document).ready ->
     
 
     newForm = display: (options) ->
-        options = {}  if typeof (options) is "undefined"
+        options = {}  
         $("#event_form").trigger "reset"
         startTime = options["start_at"] or new Date()
         endTime = options["end_at"] or new Date(startTime.getTime())
@@ -181,8 +177,8 @@ $(document).ready ->
       
       # FullcalendarEngine.Form.fetch()
         $("#create_event_dialog").dialog
-          title: "New Event"
-          modal: true
+          title: "New Appointment"
+          modal: false
           width: 500
           close: (event, ui) ->
             $("#create_event_dialog").dialog "destroy"

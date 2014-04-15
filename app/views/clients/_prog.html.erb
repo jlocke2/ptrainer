@@ -1,15 +1,71 @@
-<ul>
+<% if @press.any? %>
 
-<% @press.each do |press|%>
+<h3 class="text-center" style="font-size:36px;"><%= @press.first.exercise.name.capitalize %></h3>
+<br>
+<br>
+<% @press.each do |exercise| %>
+<%  @rotations = exercise.rotations %>
+ <!-- Users table -->
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-hover">
+        	<h2 style="font-size:18px;"><%= exercise.workout.appointment.start_at.strftime("%D") %></h2>
+            <thead>
+                <tr>
 
-<li>
-	<p><%= Workout.find(press.workout_id).appointment.start_at.strftime("%D   ") %></p>
- <p> Number of reps done  <%= press.rep %> </p>
-  <p> Number of sets done <%= press.set %> </p>
+  <th class="col-md-4">
+    <span class="line"></span>Set #
+  </th>
+  <th class="col-md-2">
+    <span class="line"></span>Goal
+  </th>
+  
+  <th class="col-md-3 align-right">
+    <span class="line"></span>Amount Done
+  </th>
+</tr>
+</thead>
+<% @rotations.each_with_index do |rotation, index| %>
 
 
-</li>
 
+
+  <tr>
+
+    <td>
+      <%= index+1 %>
+    </td>
+
+
+    <td> 
+    	<% if rotation.amount.present? %>
+        <%= rotation.amount %> <%= rotation.unit %> 
+        <% end %>
+         <% if rotation.exwt.present? %>
+      with <%= rotation.exwt %> Pounds
+      <% end %>
+    </td>
+
+
+    <td class="align-right">
+    	<% if rotation.amountdone.present? %>
+      <%= rotation.amountdone %> <%= rotation.unit %>
+      <% end %>
+      <% if rotation.weightdone.present? %>
+      with <%= rotation.weightdone %> Pounds
+      <% end %>
+    </td>
+
+  </tr>
+</tbody>
 <% end %>
 
-</ul>
+</table>
+ 
+<% end %>
+<br>
+<% else %>
+
+<p>Click green button to view progress for an exercise.</p>
+
+<% end %>

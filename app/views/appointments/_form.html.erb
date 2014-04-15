@@ -11,15 +11,32 @@
     </div>
   <% end %>
 
- 
-  <div class="form-group">
+   <div class="form-group">
     <%= f.label :client, :class => "col-md-2 control-label" %>
     <div class="col-md-8">
       <%= f.collection_select :client_id, current_user.clients, :id, :name, {prompt: true, :required => true} %>
     </div>
   </div>
 
+ <div class="form-group">
+    <label class="col-md-2 control-label" style="max-width:200px;">Date</label>
+                <div class='input-group date col-md-8' >
+                    <input type='text' class="form-control" id='datetimepicker3' />
+                    
+            </div>
+    </div>
+
+ 
+
   <div class="form-group">
+    <label class="col-md-2 control-label" style="max-width:200px;">Start Time</label>
+                <div class='input-group date col-md-8' >
+                    <input type='text' class="form-control" id='datetimepicker1' />
+                    
+            </div>
+    </div>
+
+  <div class="form-group" style="display:none">
     <%= f.label :start_at,"Start Time", :class => "col-md-2 control-label" %>
     <div class="col-md-8 select2-container select2">
       <%= f.datetime_select :start_at %>
@@ -27,6 +44,13 @@
   </div>
 
   <div class="form-group">
+    <label class="col-md-2 control-label" style="max-width:200px;">End Time</label>
+                <div class='input-group date col-md-8'>
+                    <input type='text' class="form-control" id='datetimepicker2' />
+            </div>
+    </div>
+
+  <div class="form-group" style="display:none">
     <%= f.label :end_at, "End Time", :class => "col-md-2 control-label" %>
     <div class="col-md-8">
       <%= f.datetime_select :end_at %>
@@ -46,3 +70,4 @@
       </div>
   </div>
 <% end %>
+

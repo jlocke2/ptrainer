@@ -634,9 +634,20 @@ background-size: 23px 24px;
 }
 @media (max-width: 480px) {
   .btn-flat.success#spacer {
-  width: 296px;
+  width: 100%;
   position: relative;
-  margin: 20px auto 0;
+  margin: 20px auto 20px;
+ }
+}
+
+.btn-flat.success.shiftdn {
+  position: relative;
+  bottom: -30px;
+ }
+
+@media (max-width: 480px) {
+  .btn-flat.success.shiftdn {
+  
  }
 }
 

@@ -1,6 +1,5 @@
-
                     
-                    <%= form_for(Exercise.new, html: { :class => "form-horizontal"}, remote: true) do |f| %>
+                    <%= form_for(@exercise, html: { :class => "form-horizontal"}, remote: true) do |f| %>
                     <% if @exercise.errors.any? %>
                         <div id="error_explanation">
                           <h2><%= pluralize(@exercise.errors.count, "error") %> prohibited this exercise from being saved:</h2>
@@ -31,19 +30,10 @@
 
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-8">
-                              <%= f.submit "Create My Exercise", class: "btn mybtn btn-large btn-primary" %>
+                              <%= f.submit "Edit My Exercise", class: "btn mybtn btn-large btn-primary" %>
                             </div>
                         </div>
                               <% end %>
 
 
                 </div>
-
-                
-            
-
-
-
-
-
-

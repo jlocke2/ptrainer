@@ -16,7 +16,20 @@ class RotationsController < ApplicationController
       end
     end
 
-   
+   def update
+     @rotation = Rotation.find(params[:id]) 
+        respond_to do |format|
+        if @rotation.update_attributes(rotation_params)
+          format.html { redirect_to :back, flash[:success] = "Result Entered" }
+          format.js
+        else
+          format.html { redirect_to :back, flash[:danger] = "Result Not Entered" }
+          format.js {}
+        end
+      end
+
+
+    end
 
    
    
@@ -26,7 +39,8 @@ class RotationsController < ApplicationController
   private
 
     def rotation_params
-  	  params.require(:rotation).permit(:amount)
+  	  params.require(:rotation).permit(:amount, :exwt, :unit, :amountdone, :weightdone)
     end
+
 
 end
