@@ -30,6 +30,7 @@ gem'capistrano-bundler'
 gem'capistrano-rbenv',"~>2.0"
 
 gem 'pg', '0.15.1'
+gem 'unicorn', '4.8.2'
 
 
 group :development, :test do
