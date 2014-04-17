@@ -21,6 +21,13 @@ gem 'nested_form_fields', '0.5.0'
 gem 'momentjs-rails', '2.5.1'
 gem 'bootstrap3-datetimepicker-rails', '3.0.0'
 
+gem'capistrano','~>3.1.0'
+ #railsspecificcapistranofunctions
+gem'capistrano-rails','~>1.1.0'
+ #integratebundlerwithcapistrano 
+gem'capistrano-bundler' 
+ #ifyouareusingRbenv
+gem'capistrano-rbenv',"~>2.0"
 
 
 group :development, :test do
