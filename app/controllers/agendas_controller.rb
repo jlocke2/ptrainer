@@ -51,7 +51,7 @@ private
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def agenda_params
-      params.require(:agenda).permit(:exercise_id, :set, :rep, :weight, :setdone, :repdone, :weightdone, rotations_attributes: [:id, :_destroy, :amount, :unit, :exwt])
+      params.require(:agenda).permit(:exercise_id, :workout_id, :set, :rep, :weight, :setdone, :repdone, :weightdone, rotations_attributes: [:id, :_destroy, :amount, :unit, :exwt])
     end
   
 
