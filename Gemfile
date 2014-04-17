@@ -29,9 +29,10 @@ gem'capistrano-bundler'
  #ifyouareusingRbenv
 gem'capistrano-rbenv',"~>2.0"
 
+gem 'pg', '0.15.1'
+
 
 group :development, :test do
-  gem 'pg', '0.15.1'
   gem 'rspec-rails', '2.13.1'
   # The following optional lines are part of the advanced setup.
   # gem 'guard-rspec', '2.5.0'
@@ -72,7 +73,6 @@ group :doc do
 end
 
 group :production do
-  gem 'pg', '0.15.1'
   gem 'rails_12factor', '0.0.2'
 end
 
