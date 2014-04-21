@@ -109,8 +109,9 @@ class AppointmentsController < ApplicationController
   def destroy
     @appointment.destroy
     respond_to do |format|
-      format.html { render :nothing => true }
+      format.html { redirect_to :back }
       format.json { head :no_content }
+      format.js
     end
       
 

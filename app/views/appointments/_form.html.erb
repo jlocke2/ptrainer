@@ -13,15 +13,15 @@
 
    <div class="form-group">
     <%= f.label :client, :class => "col-md-2 control-label" %>
-    <div class="col-md-8">
-      <%= f.collection_select :client_id, current_user.clients, :id, :name, {prompt: true, :required => true} %>
+    <div class="col-md-8 ui-select date" id="oder">
+      <%= f.collection_select :client_id, current_user.clients, :id, :name, {prompt: true, :required => true}, :style => "padding-left: 15px; width:107%;" %>
     </div>
   </div>
 
  <div class="form-group">
     <label class="col-md-2 control-label" style="max-width:200px;">Date</label>
-                <div class='input-group date col-md-8' >
-                    <input type='text' class="form-control" id='datetimepicker3' />
+                <div class='input-groupst date col-md-8' >
+                    <input type='text' class="form-control" id='datetimepicker3' style="border-radius: 5px" />
                     
             </div>
     </div>
@@ -30,8 +30,8 @@
 
   <div class="form-group">
     <label class="col-md-2 control-label" style="max-width:200px;">Start Time</label>
-                <div class='input-group date col-md-8' >
-                    <input type='text' class="form-control" id='datetimepicker1' />
+                <div class='input-groupst date col-md-8' >
+                    <input type='text' class="form-control" id='datetimepicker1' style="border-radius: 5px" />
                     
             </div>
     </div>
@@ -45,8 +45,8 @@
 
   <div class="form-group">
     <label class="col-md-2 control-label" style="max-width:200px;">End Time</label>
-                <div class='input-group date col-md-8'>
-                    <input type='text' class="form-control" id='datetimepicker2' />
+                <div class='input-groupst date col-md-8'>
+                    <input type='text' class="form-control" id='datetimepicker2' style="border-radius: 5px" />
             </div>
     </div>
 
@@ -58,9 +58,9 @@
   </div>
 
   <div class="form-group">
-    <%= f.label :description,"Notes", :class => "col-md-2 control-label" %>
+    <%= f.label :description,"Notes", :class => "col-md-2 control-label", :style => "border-radius: 5px;" %>
     <div class="col-md-8">
-      <%= f.text_area :description %>
+      <%= f.text_area :description, :style => "width: 235px; border-radius: 5px;" %>
     </div>
   </div>
 

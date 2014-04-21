@@ -10,7 +10,7 @@
              <h3> <%= Exercise.find(exercise.exercise_id).name.capitalize %> <%= form_for(Agenda.find(exercise.id),
              html: { method: :delete },
              remote: true) do |f| %>
-  <%= f.submit "Remove Exercise From Workout", class: "btn mybtn btn-xs btn-success" %></h3>
+  <%= f.submit "Remove Exercise From Workout", class: "btn-flat mybtn btn-xs success" %></h3>
 <% end %>
               
               <% if exercise.rotations.exists? %>

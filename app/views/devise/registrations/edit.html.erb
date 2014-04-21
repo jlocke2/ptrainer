@@ -4,6 +4,19 @@
                     <h3>Edit Your Info</h3>
                 </div>                
             </div>
+            <% flash.each do |name, msg| %>
+
+                    <% if msg.class == Array %>
+                      <% msg.each do |message| %>
+                        <%= content_tag :div, message, class: "alert alert-#{name}" %>
+                      <% end %>
+                    <% else %>
+
+                      
+                      <%= content_tag :div, msg, :class => " alert alert-#{name}" %>
+
+                    <% end %>
+                  <% end %>
             <ul class="nav nav-tabs nav-justified">
               <li class="active"><a href="#profile" data-toggle="tab">Profile</a></li>
               <li><a href="#pay" data-toggle="tab">Payment Info</a></li>
@@ -87,20 +100,7 @@
                 </div>
                 <%= form_tag(card_path, :id => "new_person", :class => "form-horizontal") do %>
 
-                <% flash.each do |name, msg| %>
-
-                    <% if msg.class == Array %>
-                      <% msg.each do |message| %>
-                        <%= content_tag :div, message, class: "alert alert-#{name}" %>
-                      <% end %>
-                    <% else %>
-
-                      
-                      <%= content_tag :div, msg, :class => " alert alert-#{name}" %>
-
-                    <% end %>
-                  <% end %>
-
+               
                 
 
 
@@ -138,7 +138,7 @@
                     </div>
                       
           
-        <div><%= submit_tag "Edit Card Information" , :class => 'btn-glow primary login'%></div>
+        <div><%= submit_tag "Edit Card Information" , :class => 'btn mybtn btn-large btn-primary'%></div>
         <% end %>
 
         </div>

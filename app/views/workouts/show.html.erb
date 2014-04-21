@@ -1,7 +1,7 @@
     <div id="pad-wrapper" class="users-list">
             <div class="row header">
 
-            <h3><%= @client.name %>-<small><%= @appointment.start_at.strftime("%D  %I:%M%P")%>  - <%= @appointment.end_at.strftime("%I:%M%P") %></small></h3><br><br>
+            <h3><%= @client.name %> - <small style="margin-left: 0px;"><%= @appointment.start_at.strftime("%D  %I:%M%P")%>  - <%= @appointment.end_at.strftime("%I:%M%P") %></small></h3><br><br>
             <p data-no-turbolink><%= link_to "See Workout Results", results_workout_path(@workout) %></p>
                 <div class="col-md-10 col-sm-12 col-xs-12 pull-right  keep-open" id="hapit">                    
                     <!-- custom popup filter -->

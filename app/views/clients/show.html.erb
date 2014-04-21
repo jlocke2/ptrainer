@@ -7,7 +7,7 @@
                 </div>
 
                 <div class="col-md-4">
-                <a class="btn-flat icon pull-right delete-user" data-toggle="tooltip" title="Delete Client" data-placement="top" data-confirm="You sure?" data-method="delete" rel="nofollow" href="<%= client_path %>">
+                <a class="btn-flat icon pull-right delete-user deleteMe" data-toggle="tooltip" title="Delete Client" data-placement="top" data-confirm="You sure?" data-method="delete" rel="nofollow" href="<%= client_path %>">
                     <i class="icon-trash"></i>
                 </a>
 
@@ -23,7 +23,7 @@
                  <a href="#"class="btn-flat icon large pull-right edit dropdown-toggle" data-toggle="dropdown">
                     Edit This Client
                 </a>
-                    <div class="dropdown-menu" style = "padding: 15px; padding-bottom: 0px; min-width: 350px;">
+                    <div class="dropdown-menu" id="hundreder3" style = "padding: 15px; padding-bottom: 0px; min-width: 350px;">
                      <div id="editcl">
                         <%= render 'formedit' if signed_in? %>
                         </div>

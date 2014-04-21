@@ -1,7 +1,21 @@
+<% flash.each do |name, msg| %>
 
+                    <% if msg.class == Array %>
+                      <% msg.each do |message| %>
+                        <%= content_tag :div, message, class: "alert alert-#{name}" %>
+                      <% end %>
+                    <% else %>
+
+                      
+                      <%= content_tag :div, msg, :class => " alert alert-#{name}" %>
+
+                    <% end %>
+                  <% end %>
         <div id="pad-wrapper" class="users-list">
             <div class="row header">
                 <h3>My Clients</h3>
+          
+                
                 <div class="col-md-10 col-sm-12 col-xs-12 pull-right" id="hapit">                    
                     <!-- custom popup filter -->
                     <!-- styles are located in css/elements.css -->
@@ -48,7 +62,7 @@
                         <span>&#43;</span>
                         NEW CLIENT
                     </a>
-                    <div class="dropdown-menu" style = "padding: 15px; padding-bottom: 0px;">
+                    <div class="dropdown-menu" id="hundreder" style = "padding: 15px; padding-bottom: 0px;">
                      <div>
                         <%= render 'form' if signed_in? %>
                         </div>
