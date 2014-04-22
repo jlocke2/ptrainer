@@ -13,7 +13,7 @@
                                 <%= f.label :unit, :class => "col-md-2 control-label" %>
                                 <div class="col-md-8">
                              
-                                  <% @formlist = ["seconds","minutes","hours","inches","feet","miles","reps"] %>
+                                  <% @formlist = ["seconds","minutes","hours","inches","feet","meters","miles","reps"] %>
                              
                                 <%= f.select :unit, @formlist.map { |value| [ value, value ] }, :class => "form-control", :placeholder => "Unit" %>
                                 </div>

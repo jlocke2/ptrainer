@@ -72,15 +72,11 @@
 
 
     <td>
-      <% if appointment.start_at > Time.now %>
-
-        No Results. Workout hasn't happened yet.
-
-      <% else %>
+      
 
       <%= link_to 'View Results From This Workout', '#' %>
 
-      <% end %>
+      
 
     <td>
       <%= link_to 'Delete This Appointment', appointment, :confirm => 'Are you sure?', :method => :delete, :class => "deleteMe" %>

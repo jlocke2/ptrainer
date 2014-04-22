@@ -1,3 +1,17 @@
+<% flash.each do |name, msg| %>
+
+                    <% if msg.class == Array %>
+                      <% msg.each do |message| %>
+                        <%= content_tag :div, message, class: "alert alert-#{name}" %>
+                      <% end %>
+                    <% else %>
+
+                      
+                      <%= content_tag :div, msg, :class => " alert alert-#{name}" %>
+
+                    <% end %>
+                  <% end %>
+
 <div id="pad-wrapper" class="users-list">
             <div class="row header">
                 <h3>Exercises</h3>

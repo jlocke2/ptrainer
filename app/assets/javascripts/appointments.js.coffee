@@ -74,8 +74,8 @@ $(document).ready ->
       $("#event_desc_dialog").html ""
       $event_description = $("<div />").html(event.description).attr("id", "edit_appointment_description")
       $event_actions = $("<div />").attr("id", "event_actions")
-      $edit_event = $("<span />").attr("id", "edit_event").html("<a href = 'javascript:void(0);' onclick ='editIt(" + event.id + ")'>Edit</a>")
-      $view_event = $("<span />").attr("id", "view_event").html("<a href = 'javascript:void(0);' onclick ='viewIt(" + event.id + ")'>View Workout For This Appointment</a>")
+      $edit_event = $("<span />").attr("id", "edit_event").html("<a class='btn mybtn btn-large btn-primary' style='width: 100%;' href = 'javascript:void(0);' onclick ='editIt(" + event.id + ")'>Edit Appointment</a>")
+      $view_event = $("<span />").attr("id", "view_event").html("<a class='btn mybtn btn-large btn-success' style='width: 100%;' href = 'javascript:void(0);' onclick ='viewIt(" + event.id + ")'>View Workout</a>")
       
       $delete_event = $("<span />").attr("id", "delete_event")
       if event.recurring
@@ -87,9 +87,9 @@ $(document).ready ->
         $delete_event.append "&nbsp;&nbsp; <a href = 'javascript:void(0);' onclick ='FullcalendarEngine.Events.deleteIt(" + event.id + ", \"future\")'>Delete All Future Events</a>"
       else
         title = event.title
-        $delete_event.html "<a href = 'javascript:void(0);' onclick ='deleteIt(" + event.id + ", " + false + ")'>Delete</a>"
+        $delete_event.html "<a class='btn mybtn btn-large btn-danger' style='width: 100%;' href = 'javascript:void(0);' onclick ='deleteIt(" + event.id + ", " + false + ")'>Delete Appointment</a>"
 
-      $event_actions.append($edit_event).append(" | ").append $delete_event.append(" <br /> "). append(" <br /> ").append $view_event
+      $event_actions.append($view_event).append("<br />").append("<br />").append($edit_event).append("<br />").append("<br />").append($delete_event)
       $("#event_desc_dialog").append($event_description).append $event_actions
       $("#event_desc_dialog").dialog
         title: title

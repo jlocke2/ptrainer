@@ -2,7 +2,7 @@
             <div class="row header">
                 <h3>Progress for <%= @client.name.capitalize %></h3><br><br>
                 <%= link_to "Return To Client Profile", client_path(@client) %>
-                <div class="col-md-10 col-sm-12 col-xs-12 pull-right" id="hapit">                    
+                <div class="col-md-10 col-sm-12 col-xs-12 pull-right keep-open" id="hapit">                    
                     <!-- custom popup filter -->
                     <!-- styles are located in css/elements.css -->
                     <!-- script that enables this dropdown is located in js/theme.js -->
@@ -38,6 +38,33 @@
 
 
 
+<script>
+ $(document).ready(function()
+ {
+   //Handles menu drop down`enter code here`
 
+    $(document).on('click', function(){
+     $('.keep-open').data('closable', true);
+     
+  });
+  $('body').off('click', '.dropdown-menu');
+  $('body').on('click', '.dropdown-menu', function(e) {
+        $('.keep-open').data('closable', false);
+        
+    });
+  $('body').off('click', '.attachs :submit');
+  $('body').on('click', '.attachs :submit', function(e) {
+        $('.keep-open').data('closable', true);
+        $('#hapit').removeClass('open');
+        
+    });
+   //Handles menu drop down`enter code here`
+   $('.keep-open').off('hide.bs.dropdown');
+   $('.keep-open').on('hide.bs.dropdown', function () {
+        return $(this).data('closable');
+    });
+
+ });
+  </script>
 
 

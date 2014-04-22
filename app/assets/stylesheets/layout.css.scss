@@ -36,7 +36,12 @@ body.menu {
     left: 0;
     /*height: 100%;*/
     border-right: 0px;
-    box-shadow: none; }
+    box-shadow: none;
+    width: 100%;
+    z-index: 20000;
+    height: 1000px; }
+
+
 
 input.search {
   background: image-url("lens.png") #fcfcfc no-repeat 95%;

@@ -224,6 +224,7 @@ textarea::-webkit-input-placeholder {
 
 .fc-header-title h2{
 	white-space: normal !important;
+	font-size: 20px !important;
 }
 
 /* NAVBAR */
@@ -253,6 +254,23 @@ textarea::-webkit-input-placeholder {
 	margin-left: 15px;
 }
 /* navbar brand*/
+@media (min-width: 481px) {
+.navbar-brand{
+  background: image-url("logo.png") no-repeat 95%;
+  padding-left: 270px !important;
+}
+}
+@media (max-width: 480px) {
+.navbar-brand{
+  background: image-url("ptl_logo_blue_50.png") no-repeat 95%;
+  padding-left: 30px !important;
+}
+}
+
+.ui-widget-content a {
+	color: white !important;
+}
+
 .navbar-inverse .navbar-brand {
 	color: #ffffff;
 	text-transform: uppercase;

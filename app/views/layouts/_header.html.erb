@@ -8,16 +8,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="<%= root_path %>"><%= image_tag "logo.png" %></a>
+      <a class="navbar-brand" href="<%= root_path %>"></a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
-        <li><%= link_to "Calendar", root_path %></li>
-        <li><%= link_to "Clients", clients_path %></li>
-        <li><%= link_to "Payments", payments_path %></li>
-        <li><%= link_to "Exercise Library", exercises_path %></li>
         <li><%= link_to "My Profile", edit_user_registration_path %></li>
         <li><%= link_to("Sign Out", destroy_user_session_path, :method => :delete)  %></li>
         
