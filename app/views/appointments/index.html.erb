@@ -24,11 +24,11 @@
                         </a>
                         <div class="dropdown-menu" style = "padding: 15px; padding-bottom: 0px; width: 400px; max-width: 100%;">
                          <div id="new_agendars" class="text-center">
-
-                            <%= render 'form' if signed_in? %>
-
-
-
+                          <% if current_user.clients.any? %>
+                        <%= render 'form' if signed_in? %>
+                        <% else %>
+                        <p>You must have existing clients before creating appointments for them.  Click <%= link_to "clients", clients_path %> to create your first client.</p>
+                        <% end %>
                             </div>
                           </div>
                       </div>
