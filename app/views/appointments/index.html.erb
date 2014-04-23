@@ -84,29 +84,26 @@
   ready = function() {
 
    
-          $('#datetimepicker1').datetimepicker({
-            pickDate: false,
-            useSeconds: false,
-            minuteStepping: 15,
+          $('#datetimepicker1').pickatime({
+           
+            interval: 15,
           });
           
    
 
 
    
-          $('#datetimepicker2').datetimepicker({
-            pickDate: false,
-            useSeconds: false,
-            minuteStepping: 15,
+          $('#datetimepicker2').pickatime({
+            
+            interval: 15,
           });
           
   
 
 
     
-          $('#datetimepicker3').datetimepicker({
-            pickDate: true,
-            pickTime: false,
+          $('#datetimepicker3').pickadate({
+            
           });
           
   
