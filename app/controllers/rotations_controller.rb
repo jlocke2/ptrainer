@@ -17,6 +17,7 @@ class RotationsController < ApplicationController
     end
 
    def update
+     
      @rotation = Rotation.find(params[:id]) 
         respond_to do |format|
         if @rotation.update_attributes(rotation_params)

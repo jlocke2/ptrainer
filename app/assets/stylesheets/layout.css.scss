@@ -445,7 +445,7 @@ footer {
     -ms-transition: right .3s;
     -o-transition: right .3s;
     transition: right .3s;
-    position: fixed;
+    position: absolute;
     right: -88px;
     top: 135px;
     font-size: 13px;
@@ -510,7 +510,7 @@ footer {
 
   #sidebar-nav {
     left: -200px;
-    position: fixed;
+    position: absolute;
     z-index: 9999;
     background-color: #f7f7f7;
     padding-top: 0px;
