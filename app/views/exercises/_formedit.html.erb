@@ -19,6 +19,17 @@
                             </div>
                         </div>
 
+
+                         <div class="form-group">
+                            <% the_array2 = ["Reps", "Distance", "Time"] %>
+                            <%= label_tag :exercise, "Measuring", :class => "col-md-2 control-label" %>
+                            <div class="col-md-8 ui-select" id="oder" style="max-width:302px;">
+                            <%= f.select :measure, options_for_select(the_array2.map { |value| [ value, value ] }), {:prompt => "Must Choose One"}, {:class => "form-control", :style => "padding-left: 12px; width: 107%;"} %>
+                          </div>
+                        </div>
+
+                        
+
                         <div class="form-group">
                               <%= f.label :description, :class => "col-md-2 control-label" %>
                               <div class="col-md-8">
