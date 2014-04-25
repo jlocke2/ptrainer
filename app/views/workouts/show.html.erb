@@ -78,8 +78,15 @@
         return $(this).data('closable');
     });
 
+});
+
+ $(document).ready(function(){
+  $('.agenda.exerciseBox#new_agenda').remove();
+ });
 
 
+
+var setAtt = function(){
 
    $(document).on('click', function(){
      $('.keep-open2').data('closable', true);
@@ -120,11 +127,14 @@
     });
 
 
-  });
 
- $(document).ready(function(){
-  $('.agenda.exerciseBox#new_agenda').remove();
- });
+
+}
+
+setAtt();
+
+
+ 
   </script>
 
 

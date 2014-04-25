@@ -11,16 +11,15 @@
 
                               <div class="form-group unvis">
                                 <%= f.label :unit, :class => "col-md-2 control-label" %>
-                                <div class="col-md-8">
+                                <div class="col-md-8 ui-select" id="oder" style="max-width:619px;">
                              
                                   <% @formlist = ["seconds","minutes","hours","inches","feet","meters","miles","reps"] %>
                              
-                                <%= f.select :unit, @formlist.map { |value| [ value, value ] }, :class => "form-control", :placeholder => "Unit" %>
+                                <%= f.select :unit, @formlist.map { |value| [ value, value ] }, {:placeholder => "Unit"}, {:class => "form-control", :style => "padding-left: 12px; width: 107%;"} %>
                                 </div>
                               </div>
 
-                            
-                              
+ 
 
                               <div class="form-group mkvis">
                                   <%= f.label :exwt, "Weight Added", :class => "col-md-2 control-label" %>

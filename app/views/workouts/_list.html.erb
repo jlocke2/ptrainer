@@ -161,5 +161,56 @@ $(document).ready(function(){
         return $(this).data('closable');
     });
   });
+
+
+ var setAtt = function(){
+
+   $(document).on('click', function(){
+     $('.keep-open2').data('closable', true);
+  });
+  $('body').off('click', '.dropdown-menu2');
+  $('body').on('click', '.dropdown-menu2', function(e) {
+        $('.keep-open2').data('closable', false);
+    });
+  $('body').off('click', '.sticker2 :submit');
+  $('body').on('click', '.sticker2 :submit', function(e) {
+        $('.keep-open2').data('closable', true);
+        $('#hapit').removeClass('open');
+    });
+   //Handles menu drop down`enter code here`
+   $('.keep-open2').off('hide.bs.dropdown');
+   $('.keep-open2').on('hide.bs.dropdown', function () {
+        return $(this).data('closable');
+    });
+
+
+
+   $(document).on('click', function(){
+     $('.keep-open3').data('closable', true);
+  });
+  $('body').off('click', '.dropdown-menu3');
+  $('body').on('click', '.dropdown-menu3', function(e) {
+        $('.keep-open3').data('closable', false);
+    });
+  $('body').off('click', '.sticker3 :submit');
+  $('body').on('click', '.sticker3 :submit', function(e) {
+        $('.keep-open3').data('closable', true);
+        $('#hapit').removeClass('open');
+    });
+   //Handles menu drop down`enter code here`
+   $('.keep-open3').off('hide.bs.dropdown');
+   $('.keep-open3').on('hide.bs.dropdown', function () {
+        return $(this).data('closable');
+    });
+
+
+
+
+}
+
+setAtt();
+
   </script>
+
+
 
