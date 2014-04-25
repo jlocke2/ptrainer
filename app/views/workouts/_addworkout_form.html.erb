@@ -19,32 +19,28 @@
                     <div class="step-content">
                         <div class="step-pane active" id="step1">
                             <div class="row form-wrapper">
-                                <div class="col-md-8">
+                                <div class="col-md-12">
 
 
 
 									  <div><%= f.hidden_field :workout_id %></div>
-									   <div class="field">
-									    <%= f.label :exercise %><br />
-									    <%= f.collection_select :exercise_id, current_user.exercises, :id, :name, prompt: true %>
+									   <div class="form-group">
+									    <%= f.label :exercise, :class => "col-md-2 control-label" %>
+                      <div class="col-md-8 ui-select" style="padding-left: 0px;max-width: 400px;left: 14px;">
+									    <%= f.collection_select :exercise_id, current_user.exercises, :id, :name, {prompt: true}, {:class => "form-control", :style => "padding-left: 12px;width: 107%;"} %>
+                      </div>
 									  </div>
+                    <br />
 
-									   <div class="field">
+									   <div class="form-group">
 									   	<% the_array = [1,2,3,4,5,6] %>
-									    <%= label_tag :exercise, "# of Sets/Rotations" %><br />
-									    <%= select_tag :exercise_id, options_for_select(the_array.each_with_index.map {|name, index| [name,index+1]}), :name => nil, :prompt => "Choose One", :disabled => true %>
+									    <%= label_tag :exercise, "# of Sets", :class => "col-md-2 control-label" %>
+                      <div class="col-md-8 ui-select" style="padding-left: 0px;max-width: 400px;left: 14px;">
+									     <%= select_tag :exercise_id, options_for_select(the_array.each_with_index.map {|name, index| [name,index+1]}), :name => nil, :prompt => "Choose One", :disabled => true, :class => "form-control", :style => "padding-left: 12px;width: 107%;" %>
+                      </div>
 									  </div>
+                    <br />
 
-                    <div class="field">
-                      <% the_array2 = ["Distance", "Reps", "Time"] %>
-                      <%= label_tag :exercise, "What are you measuring" %><br />
-                      <%= select_tag :exercise_type, options_for_select(the_array2.each_with_index.map {|name, index| [name,index+1]}), :name => nil, :prompt => "Choose One", :disabled => true %>
-                    </div>
-                    <div class="field">
-                      <% the_array3 = ["Yes", "No"] %>
-                      <%= label_tag :exercise, "More than Body Weight?" %><br />
-                      <%= select_tag :exercise_weight, options_for_select(the_array3.each_with_index.map {|name, index| [name,index+1]}), :name => nil, :prompt => "Choose One", :disabled => true %>
-                    </div>
 
 									  <div style="visibility:hidden;"><%= f.add_nested_fields_link :rotations, 'Add another set for this exercise' %></div>
 
@@ -64,23 +60,23 @@
                         <div id="subfield">
                         <div class="step-pane" id="step0">
                             <div class="row form-wrapper">
-                                <div class="col-md-8">
+                                <div class="col-md-12">
                                 	 <div class="form-group">
 			                              <%= ff.label :amount, :class => "col-md-2 control-label", :id => "amount_lab" %>
 			                              <div class="col-md-8">
-			                              <%= ff.text_field :amount, :class => "form-control place_text", :placeholder => "Amount" %>
+			                              <%= ff.text_field :amount, :class => "form-control place_text", :style => "border-color: #d0dde9;" , :placeholder => "Amount" %>
 			                            </div>
                                 </div>
                                   <div class="form-group unvis">
                                     <%= ff.label :unit, :class => "col-md-2 control-label" %>
-                                    <div class="col-md-8">
-                                    <%= ff.select :unit, [], :class => "form-control", :placeholder => "Unit" %>
+                                    <div class="col-md-8 ui-select" style="padding-left: 0px;max-width: 400px;left: 14px;">
+                                    <%= ff.select :unit, [], {:placeholder => "Unit"}, {:class => "form-control" , :style => "padding-left: 12px;width: 107%;"} %>
                                   </div>
 			                        </div>
                               <div class="form-group mkvis">
                                     <%= ff.label :exwt, "Weight Added", :class => "col-md-2 control-label" %>
                                     <div class="col-md-8">
-                                    <%= ff.text_field :exwt, :class => "form-control", :placeholder => "Weight Added (lbs)" %>
+                                    <%= ff.text_field :exwt, :class => "form-control", :style => "border-color: #d0dde9;" , :placeholder => "Weight Added (lbs)" %>
                                   </div>
                               </div>
                                     <div style="display:none;">
@@ -149,15 +145,13 @@
 $(document).ready(function(){
   $( "body" ).off("change","#agenda_exercise_id");
   $( "body" ).on("change","#agenda_exercise_id",function() {
+
     $("#exercise_id").prop("disabled", false);
     $("#exercise_id").prop('selectedIndex',0);
-    $("#exercise_id").siblings('label').css({ "color": "#333333"});
-    $("#exercise_type").prop("disabled", true);
-    $("#exercise_type").prop('selectedIndex',0);
-    $("#exercise_type").siblings('label').css({ "color": "rgb(177, 177, 177)"});
-    $("#exercise_weight").prop("disabled", true);
-    $("#exercise_weight").prop('selectedIndex',0);
-    $("#exercise_weight").siblings('label').css({ "color": "rgb(177, 177, 177)"});
+    $("#exercise_id").parent().parent().children('label').css({ "color": "#333333"});
+
+    $('.wizard-actions .btn-next').attr("disabled", "true");
+
   });
 });
     
@@ -165,9 +159,8 @@ $(document).ready(function(){
 $(document).ready(function(){
     tibs();
     match_up();
-    $("#exercise_id").siblings('label').css({ "color": "rgb(177, 177, 177)"});
-    $("#exercise_type").siblings('label').css({ "color": "rgb(177, 177, 177)"});
-    $("#exercise_weight").siblings('label').css({ "color": "rgb(177, 177, 177)"});
+    $("#exercise_id").parent().parent().children('label').css({ "color": "rgb(177, 177, 177)"});
+    
     
 var myStuff = null;
 $( "body" ).off("change","#exercise_id");
@@ -197,16 +190,21 @@ $( "body" ).on("change","#exercise_id",function() {
   
   
 
-  $("#exercise_type").prop("disabled", false);
-    $("#exercise_type").prop('selectedIndex',0);
-    $("#exercise_type").siblings('label').css({ "color": "#333333"});
-    $("#exercise_weight").prop("disabled", true);
-    $("#exercise_weight").prop('selectedIndex',0);
-    $("#exercise_weight").siblings('label').css({ "color": "rgb(177, 177, 177)"});
-  
+  $('.wizard-actions .btn-next').removeAttr("disabled");  
  
 
    
+    var idval = $("#agenda_exercise_id").val();
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        data: {id: idval},
+        url: "/exercises/type",
+        success: function(data){
+          console.log(data);
+          setLabel(data)
+        }
+      });
 
     
 
@@ -215,67 +213,55 @@ $( "body" ).on("change","#exercise_id",function() {
 
 });
 
-$(document).ready(function(){
-  $( "body" ).off("change","#exercise_type");
-  $( "body" ).on("change","#exercise_type",function() {
-    var val2 = this.value;
-    if (val2==1) {
-        $('label#amount_lab').text('Distance');
-        $(".place_text").attr("placeholder", "Distance");
-        $('.unvis').css({ "display": "block"});
-        $('.unvis')
-          .find('select')
-          .find('option')
-          .remove()
-          .end()
-          .append('<option value="inches">inches</option>')
-          .append('<option value="feet">feet</option>')
-          .append('<option value="meters">meters</option>')
-          .append('<option value="miles">miles</option>')
-      ;
-    } else if (val2==2) {
-        $('label#amount_lab').text('# of Reps');
-        $(".place_text").attr("placeholder", "# of Reps");
-        $('.unvis').css({ "display": "block"});
-        $('.unvis')
-          .find('select')
-          .find('option')
-          .remove()
-          .remove()
-          .end()
-          .append('<option value="reps">reps</option>')
-      ;
-    } else if (val2==3) {
-        $('label#amount_lab').text('Time');
-        $(".place_text").attr("placeholder", "Time");
-        $('.unvis').css({ "display": "block"});
-        $('.unvis')
-          .find('select')
-          .find('option')
-          .remove()
-          .end()
-          .append('<option value="seconds">seconds</option>')
-          .append('<option value="minutes">minutes</option>')
-          .append('<option value="hours">hours</option>')
-      ;
-    };
-    $("#exercise_weight").prop("disabled", false);
-    $("#exercise_weight").siblings('label').css({ "color": "#333333"});
-  });
-});
 
-$(document).ready(function(){
-  $( "body" ).off("change","#exercise_weight");
-  $( "body" ).on("change","#exercise_weight",function() {
-    var val3 = this.value;
-    if (val3==1) {
-      $('.mkvis').css({ "visibility": "visible"});
-    } else if (val3==2) {
-      $('.mkvis').css({ "visibility": "hidden"});
-    };
-    $('.wizard-actions .btn-next').removeAttr("disabled");
-  });
-});
+var setLabel = function(data){
+  if (data=="Distance") {
+            $('label#amount_lab').text('Distance');
+            $(".place_text").attr("placeholder", "Distance");
+            $('.unvis').css({ "display": "block"});
+            $('.unvis')
+              .find('select')
+              .find('option')
+              .remove()
+              .end()
+              .append('<option value="inches">inches</option>')
+              .append('<option value="feet">feet</option>')
+              .append('<option value="meters">meters</option>')
+              .append('<option value="miles">miles</option>')
+          ;
+        } else if (data=="Reps") {
+            $('label#amount_lab').text('# of Reps');
+            $(".place_text").attr("placeholder", "# of Reps");
+            $('.unvis').css({ "display": "block"});
+            $('.unvis')
+              .find('select')
+              .find('option')
+              .remove()
+              .remove()
+              .end()
+              .append('<option value="reps">reps</option>')
+          ;
+        } else if (data=="Time") {
+            $('label#amount_lab').text('Time');
+            $(".place_text").attr("placeholder", "Time");
+            $('.unvis').css({ "display": "block"});
+            $('.unvis')
+              .find('select')
+              .find('option')
+              .remove()
+              .end()
+              .append('<option value="seconds">seconds</option>')
+              .append('<option value="minutes">minutes</option>')
+              .append('<option value="hours">hours</option>')
+
+            }
+}
+
+
+
+
+
+
 
 $(document).ready(function(){
     $("body").off("click", ".wizard-actions button");

@@ -5,4 +5,5 @@ class Exercise < ActiveRecord::Base
 
 		validates :name, presence: true
 		validates :user_id, presence: true
+		validates :measure, presence: true
 end

@@ -15,6 +15,15 @@ class ExercisesController < ApplicationController
   def show
   end
 
+  def type
+    @exercise = Exercise.find(params[:id])
+    @measure = @exercise.measure
+
+    respond_to do |format|
+      format.json { render json: @measure.to_json }
+    end
+  end
+
   def new
   	@exercise = Exercise.new
   end
@@ -66,7 +75,7 @@ private
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def exercise_params
-      params.require(:exercise).permit(:name, :description)
+      params.require(:exercise).permit(:name, :description, :measure)
     end
 
     def require_permission

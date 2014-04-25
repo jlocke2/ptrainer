@@ -49,6 +49,7 @@ match 'payments/charge', to: 'payments#charge', via: :post
   resources :exercises do
     collection { post :search, to: 'exercises#index' }
     collection { get :search, to: 'exercises#index' }
+    collection { get :type, to: 'exercises#type'}
   end
   resources :workouts do
     collection do
