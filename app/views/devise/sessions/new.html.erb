@@ -12,17 +12,16 @@
                 <h6>Sign in</h6>
                 <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
 
-                <%= devise_error_messages! %>
 
                 <% flash.each do |name, msg| %>
 
                     <% if msg.class == Array %>
                       <% msg.each do |message| %>
-                        <%= content_tag :div, message, class: "alert alert-#{name}" %>
+                        <%= content_tag :div, message, {class: "alert alert-#{name}", style: "background-color: #f2dede;border-color: #ebccd1;color: #a94442;"} %>
                       <% end %>
                     <% else %>
 
-                    <%= content_tag :div, msg, :class => "alert alert-#{name}" %>
+                    <%= content_tag :div, msg, {:class => "alert alert-#{name}", style: "background-color: #f2dede;border-color: #ebccd1;color: #a94442;"} %>
 
                     <% end %>
                   <% end %>
