@@ -3,7 +3,7 @@ class CardsController < ApplicationController
 
 
   def edit
-      Stripe.api_key = 'Bf2TeaTMeuPDTWrmecc88biKWbejiayf'
+      Stripe.api_key = '<%= :secret_key %>'
           
           customer = Stripe::Customer.retrieve(current_user.stripe_customer_token)
           if customer.cards.any?

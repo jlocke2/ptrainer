@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
 
  
          def create_a_customer
-         	Stripe.api_key = 'Bf2TeaTMeuPDTWrmecc88biKWbejiayf'
+         	Stripe.api_key = '<%= :secret_key %>'
          	token = self.stripe_card_token
          	
          	customer = Stripe::Customer.create(
@@ -30,7 +30,7 @@ class User < ActiveRecord::Base
          end
 
          def destroy_a_customer
-         	Stripe.api_key = 'Bf2TeaTMeuPDTWrmecc88biKWbejiayf'
+         	Stripe.api_key = '<%= :secret_key %>'
          	cust = self.stripe_customer_token
          	cu = Stripe::Customer.retrieve(cust)
 			cu.delete
