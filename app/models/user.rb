@@ -15,6 +15,7 @@ class User < ActiveRecord::Base
  
          def create_a_customer
          	Stripe.api_key = "<%= Rails.configuration.stripe[:secret_key] %>"
+
          	token = self.stripe_card_token
          	
          	customer = Stripe::Customer.create(
