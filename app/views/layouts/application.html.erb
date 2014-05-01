@@ -14,7 +14,7 @@
       <% else %>
       <script type="text/javascript">
       // This identifies your website in the createToken call below
-      Stripe.setPublishableKey('<%= :publishable_key %>');
+      Stripe.setPublishableKey('<%= Rails.configuration.stripe[:publishable_key] %>');
       // ...
     </script>
       <% end %>
@@ -22,7 +22,7 @@
     <% else %>
     <script type="text/javascript">
       // This identifies your website in the createToken call below
-      Stripe.setPublishableKey('<%= :publishable_key %>');
+      Stripe.setPublishableKey('<%= Rails.configuration.stripe[:publishable_key] %>');
       // ...
     </script>
     <% end %>
