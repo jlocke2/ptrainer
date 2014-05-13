@@ -24,16 +24,14 @@
   <th class="col-md-2">
     <span class="line"></span>Set #
   </th>
-  <th class="col-md-2">
+  <th class="col-md-3">
     <span class="line"></span>Goal
   </th>
   
   <th class="col-md-3">
     <span class="line"></span>Amount Done
   </th>
-  <th class="col-md-3">
-    <span class="line"></span>Weight Added
-  </th>
+  
 </tr>
 </thead>
 <% @rotations.each_with_index do |rotation, index| %>
@@ -49,15 +47,14 @@
 
 
     <td> 
-        <%= rotation.amount %> <%= rotation.unit %>
+         <%= rotation.amount %> <%= rotation.unit %> <% if rotation.exwt.present? %>
+      with <%= rotation.exwt %> Pounds
+      <% end %>
     </td>
 
 
     <td>
-      <%= rotation.amountdone %> <%= rotation.unit %>
-
-    <td>
-    	<% if rotation.weightdone.present? %>
+      <%= rotation.amountdone %> <%= rotation.unit %> <% if rotation.weightdone.present? %>
       <%= rotation.weightdone %> Pounds
       <% end %>
     </td>

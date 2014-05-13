@@ -11,10 +11,10 @@ class WorkoutsController < ApplicationController
   end
 
   def show
-    @id = @workout.client_id
+    @appointment = @workout.appointment
+    @id = @appointment.client_id
     @exercises = @workout.agendas
     @client = Client.find(@id)
-    @appointment = @workout.appointment
   end
 
   def results
@@ -23,6 +23,20 @@ class WorkoutsController < ApplicationController
     @id = @workout.client_id
     @client = Client.find(@id)
     @appointment = @workout.appointment
+  end
+
+  def email
+    @workout = Workout.find(params[:id])
+    @exercises = @workout.agendas
+    if @workout.appointment.client.email =~ /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/
+        HardWorker.perform_async
+    
+  else
+    respond_to do |format|
+        format.js { render :partial => 'noemail.js.erb' }
+      end
+      flash.discard
+    end
   end
 
   

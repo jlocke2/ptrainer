@@ -12,6 +12,9 @@ class Appointment < ActiveRecord::Base
       "#{start_at.strftime("%D   %I:%M%P")} - #{Client.find(client_id).name}"
     end
 
+
+   
+
     
 
   scope :between, lambda {|start_time, end_time|

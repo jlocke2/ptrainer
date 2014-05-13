@@ -1,0 +1,10 @@
+<html>    
+<body>
+  <p>Hey <%= appointment.client.name %>!  Hope you are having a great day!</p>
+  <p>Just wanted to remind you of our upcoming appointment at <%= appointment.start_at.strftime("%D") %></p>
+  <p>Look forward to seeing you then!</p>
+  <p>Thanks</p>
+  <p><%= appointment.client.user.email %></p>
+
+</body>
+</html>

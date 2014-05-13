@@ -54,9 +54,11 @@ match 'payments/charge', to: 'payments#charge', via: :post
   resources :workouts do
     collection do
       get :trans
+      get :workout_email
     end
     member do
       get :results
+      post :email
     end
   end
   resource :calendar, :only => [:show]

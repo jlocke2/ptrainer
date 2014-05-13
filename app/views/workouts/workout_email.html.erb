@@ -1,0 +1,66 @@
+<html>    
+<body>
+  <p>Hey <%= @workout.appointment.client.name %>!  Hope you are having a great day!</p>
+  <p>Here are the details for our next workout scheduled for <%= @workout.appointment.start_at.strftime("%D") %></p>
+  <p>Let me know how everything goes, or if you have any questions!</p>
+  <p>Thanks</p>
+  <p><%= current_user.email %></p>
+        <% if @exercises.any? %>
+
+<% @exercises.each do |exercise| %>
+<%  @rotations = exercise.rotations %>
+ <!-- Users table -->
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-hover">
+          <h3><%= exercise.exercise.name.capitalize %></h3>
+            <thead>
+                <tr>
+
+  <th class="col-md-2">
+    <span class="line"></span>
+  </th>
+  <th class="col-md-2">
+    <span class="line"></span>
+  </th>
+  
+  
+</tr>
+</thead>
+<% @rotations.each_with_index do |rotation, index| %>
+
+
+
+
+  <tr>
+
+    <td>
+     Set # <%= index+1 %>
+    </td>
+
+
+    <td> 
+        <%= rotation.amount %> <%= rotation.unit %> <% if rotation.exwt.present? %>
+      with <%= rotation.exwt %> Pounds
+      <% end %>
+    </td>
+
+
+    
+
+  </tr>
+</tbody>
+<% end %>
+
+</table>
+ 
+<% end %>
+<br>
+<% else %>
+
+<p>no results yet</p>
+
+<% end %>
+</div>
+</body>
+</html>

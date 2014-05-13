@@ -31,6 +31,10 @@ gem'capistrano-rbenv',"~>2.0"
 
 gem 'pg', '0.15.1'
 gem 'unicorn', '4.8.2'
+gem 'mandrill-api', '1.0.51'
+gem 'sidekiq', '3.0.2'
+gem 'capistrano-sidekiq' , github: 'seuros/capistrano-sidekiq'
+gem 'whenever', :require => false
 
 
 group :development, :test do
