@@ -42,6 +42,6 @@ end
 
 
 
-every 1.day, :at => '4:30 pm' do
+every 1.day, :at => '11:10 am' do
   runner "DailyWorker.perform_async"
 end
