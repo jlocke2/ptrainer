@@ -3,6 +3,7 @@ set :deploy_user, 'deploy'
 
 # setup repo details
 set :scm, :git
+set :scm_passphrase, "Au887927"
 set :repo_url, 'git@github.com:jlocke2/ptrainer.git'
 set :ssh_options, {
   forward_agent: true,
