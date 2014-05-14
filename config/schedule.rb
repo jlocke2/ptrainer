@@ -87,7 +87,7 @@ class DailyWorker
 
 
 
-      end
+      
   end
 end
 
