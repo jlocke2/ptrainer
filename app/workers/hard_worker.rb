@@ -43,10 +43,6 @@ class HardWorker
           
       
       
-      respond_to do |format|
-        format.js { render :partial => 'email.js.erb' }
-      end
-      flash.discard
 
 
 

@@ -30,6 +30,11 @@ class WorkoutsController < ApplicationController
     @exercises = @workout.agendas
     if @workout.appointment.client.email =~ /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/
         HardWorker.perform_async
+        
+      respond_to do |format|
+        format.js { render :partial => 'email.js.erb' }
+      end
+      flash.discard
     
   else
     respond_to do |format|
