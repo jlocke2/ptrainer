@@ -30,7 +30,7 @@ class WorkoutsController < ApplicationController
     @exercises = @workout.agendas
     if @workout.appointment.client.email =~ /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/
       include Sidekiq::Worker
-      class NewWorker
+      
         def perform
           require 'mandrill'
         
@@ -68,9 +68,9 @@ class WorkoutsController < ApplicationController
                      #     "reject_reason"=>"hard-bounce",
                      #     "_id"=>"abc123abc123abc123abc123abc123"}]
           end
-        end
+        
 
-        NewWorker.perform_async
+        perform_async
         
       respond_to do |format|
         format.js { render :partial => 'email.js.erb' }
