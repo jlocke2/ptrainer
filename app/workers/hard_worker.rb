@@ -51,9 +51,7 @@ class HardWorker
 
 
 class DailyWorker
-  include Sidekiq::Worker
-
-  def perform
+ 
   	require 'mandrill'
     appointments = Appointment.where([" ? < start_at < ?", 270.minutes.from_now, 1710,minutes.from_now ])
       appointments.each do |appointment|
@@ -94,7 +92,7 @@ class DailyWorker
               #     "_id"=>"abc123abc123abc123abc123abc123"}]
 
 
-  			end
+  
 
 
 
