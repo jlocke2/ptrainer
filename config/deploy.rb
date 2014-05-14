@@ -4,6 +4,10 @@ set :deploy_user, 'deploy'
 # setup repo details
 set :scm, :git
 set :repo_url, 'git@github.com:jlocke2/ptrainer.git'
+set :ssh_options, {
+  forward_agent: true,
+  port: 443
+}
 
 # setup rvm.
 set :rbenv_type, :system
