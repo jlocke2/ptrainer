@@ -5,7 +5,6 @@ set :deploy_user, 'deploy'
 set :scm, :git
 set :repo_url, 'git@github.com:jlocke2/ptrainer.git'
 set :ssh_options, {
-  forward_agent: true,
   port: 443
 }
 
