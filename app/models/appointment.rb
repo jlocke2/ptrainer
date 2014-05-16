@@ -27,7 +27,7 @@ class Appointment < ActiveRecord::Base
 
         mandrill = Mandrill::API.new 'gdATMo6lVK4YKoTdolhuBQ'
           message = {"html"=>" <p>Hey #{appointment.client.name}!  Hope you are having a great day!</p>
-  <p>Just wanted to remind you of our upcoming appointment on #{appointment.start_at.strftime("%A %D")} at #{appointment.start_at.strftime("%%I:%M%P")}</p>
+  <p>Just wanted to remind you of our upcoming appointment on #{appointment.start_at.strftime("%A %D")} at #{appointment.start_at.strftime("%I:%M%P")}</p>
   <p>Look forward to seeing you then!</p>
   <p>Thanks</p>
   <p>#{appointment.client.user.email}</p>",
