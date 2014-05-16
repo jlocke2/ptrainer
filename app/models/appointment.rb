@@ -1,6 +1,6 @@
 class Appointment < ActiveRecord::Base
 
-  
+
   include ActionView::Helpers::DateHelper
 
 		belongs_to :user
@@ -23,7 +23,7 @@ class Appointment < ActiveRecord::Base
     appointments = Appointment.where([" ? < start_at AND start_at < ?", Time.current.advance(minutes: 270), Time.current.advance(minutes: 1710) ])
       appointments.each do |appointment|
 
-        if appoinment.client.email =~ /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/
+        if appointment.client.email =~ /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/
 
         mandrill = Mandrill::API.new 'gdATMo6lVK4YKoTdolhuBQ'
           message = {"html"=>" <p>Hey #{appointment.client.name}!  Hope you are having a great day!</p>
