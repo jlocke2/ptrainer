@@ -1,4 +1,6 @@
 class Appointment < ActiveRecord::Base
+
+  
   include ActionView::Helpers::DateHelper
 
 		belongs_to :user
@@ -18,13 +20,14 @@ class Appointment < ActiveRecord::Base
    def self.perform
 
     require 'mandrill'
-    appointments = Appointment.where([" ? < start_at AND start_at < ?", 270.minutes.from_now, 1710,minutes.from_now ])
+    appointments = Appointment.where([" ? < start_at AND start_at < ?", Time.current.advance(minutes: 270), Time.current.advance(minutes: 1710) ])
       appointments.each do |appointment|
 
+        if appoinment.client.email =~ /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/
 
         mandrill = Mandrill::API.new 'gdATMo6lVK4YKoTdolhuBQ'
           message = {"html"=>" <p>Hey #{appointment.client.name}!  Hope you are having a great day!</p>
-  <p>Just wanted to remind you of our upcoming appointment on #{appointment.start_at.strftime("%A %D")}at #{appointment.start_at.strftime("%D  -   %I:%M%P")}</p>
+  <p>Just wanted to remind you of our upcoming appointment on #{appointment.start_at.strftime("%A %D")} at #{appointment.start_at.strftime("%%I:%M%P")}</p>
   <p>Look forward to seeing you then!</p>
   <p>Thanks</p>
   <p>#{appointment.client.user.email}</p>",
@@ -63,7 +66,7 @@ class Appointment < ActiveRecord::Base
 
   
 
-
+        end
 
 
       
