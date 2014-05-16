@@ -40,8 +40,7 @@ end
 
 
 
-
-
-every 1.day, :at => '2:25 pm' do
-  runner "Appointment.perform_async"
+every 1.day, :at => '4:30 pm' do
+  set :job_template, 'bash -lc ":job" '
+  command "cd /home/deploy/apps/ptrainer_production/current && RAILS_ENV=production bin/rails runner 'Appointment.perform'"
 end

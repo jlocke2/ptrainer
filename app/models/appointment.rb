@@ -1,4 +1,6 @@
 class Appointment < ActiveRecord::Base
+  include ActionView::Helpers::DateHelper
+  
 		belongs_to :user
     belongs_to :client
     has_one :workout, dependent: :destroy
@@ -16,13 +18,17 @@ class Appointment < ActiveRecord::Base
    def self.perform
 
     require 'mandrill'
-    appointments = Appointment.where([" ? < start_at < ?", 270.minutes.from_now, 1710,minutes.from_now ])
+    appointments = Appointment.where([" ? < start_at AND start_at < ?", 270.minutes.from_now, 1710,minutes.from_now ])
       appointments.each do |appointment|
 
 
         mandrill = Mandrill::API.new 'gdATMo6lVK4YKoTdolhuBQ'
-          message = {"html"=>"#{render_to_string('workouts/workout_reminder_email', :layout => false)}",
-           "text"=>"Example text content",
+          message = {"html"=>" <p>Hey #{appointment.client.name}!  Hope you are having a great day!</p>
+  <p>Just wanted to remind you of our upcoming appointment on #{appointment.start_at.strftime("%D")}at #{appointment.start_at.strftime("%D  -   %I:%M%P")}</p>
+  <p>Look forward to seeing you then!</p>
+  <p>Thanks</p>
+  <p>#{appointment.client.user.email}</p>",
+           "text"=>"",
            "subject"=>"Upcoming Workout Reminder",
            "from_email"=>"#{appointment.client.user.email}",
            "from_name"=>"",
@@ -30,7 +36,7 @@ class Appointment < ActiveRecord::Base
               [{"email"=>"#{appointment.client.email}",
                   "name"=>"#{appointment.client.name}",
                   "type"=>"to"}],
-           "headers"=>{"Reply-To"=>"#{cappointment.client.user.email}"},
+           "headers"=>{"Reply-To"=>"#{appointment.client.user.email}"},
            "important"=>false,
            "track_opens"=>nil,
            "track_clicks"=>nil,
