@@ -14,32 +14,59 @@ class WorkoutsController < ApplicationController
     @appointment = @workout.appointment
     @id = @appointment.client_id
     @exercises = @workout.agendas
-    @client = Client.find(@id)
+    unless @appointment.present?
+      @client = Client.find(@id)
+    else
+      @meetups = @appointment.meetups
+      @attends = []
+      @meetups.each do |meetup|
+        @name = Client.find(meetup.client_id).name
+        @attends << @name
+        @last = @attends.last
+      end
+    end
   end
 
   def results
     @workout = Workout.find(params[:id])
     @exercises = @workout.agendas
     @id = @workout.client_id
-    @client = Client.find(@id)
     @appointment = @workout.appointment
+    @meetups = @appointment.meetups
+      @attends = []
+      @meetups.each do |meetup|
+        @name = Client.find(meetup.client_id).name
+        @attends << @name
+        @last = @attends.last
+      end
+
   end
 
   def email
     @workout = Workout.find(params[:id])
     @exercises = @workout.agendas
-    if @workout.appointment.client.email =~ /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/
+    @appointment = @workout.appointment
+    @meetups = @appointment.meetups
+     @attends = []
+      @meetups.each do |meetup|
+        @name = Client.find(meetup.client_id).id
+        @attends << @name
+      end
+
+      @attends.each do |attend|
+
+    if Client.find(attend).email =~ /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/
         require 'mandrill'
       
                mandrill = Mandrill::API.new 'gdATMo6lVK4YKoTdolhuBQ'
-               message = {"html"=>"#{render_to_string('workouts/workout_email', :layout => false)}",
+               message = {"html"=>"#{render_to_string('workouts/workout_email', :layout => false, locals: {:attend => attend})}",
                 "text"=>"Example text content",
                 "subject"=>"Upcoming Workout",
                 "from_email"=>"#{current_user.email}",
                 "from_name"=>"",
                 "to"=>
-                   [{"email"=>"#{Workout.find(params[:id]).appointment.client.email}",
-                       "name"=>"#{Workout.find(params[:id]).appointment.client.name}",
+                   [{"email"=>"#{Client.find(attend).email}",
+                       "name"=>"#{Client.find(attend).email}",
                        "type"=>"to"}],
                "headers"=>{"Reply-To"=>"#{current_user.email}"},
                 "important"=>false,
@@ -64,6 +91,7 @@ class WorkoutsController < ApplicationController
                    #     "status"=>"sent",
                    #     "reject_reason"=>"hard-bounce",
                    #     "_id"=>"abc123abc123abc123abc123abc123"}]
+    
         
         
       respond_to do |format|
@@ -77,9 +105,12 @@ class WorkoutsController < ApplicationController
       end
       flash.discard
     end
+
+  end
+    
   end
 
-  
+
 
   def trans
     if params[:id]

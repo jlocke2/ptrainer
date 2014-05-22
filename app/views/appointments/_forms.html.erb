@@ -12,13 +12,17 @@
   <% end %>
   <h3>Only Update If You NEED To Change</h3><br>
 
- 
+  <div class="form-group">
+    <%= f.label :client, "Clients", :class => "col-md-2 control-label", :style => "text-align:center;margin-right:34px;" %>
+      <%= f.collection_select :client_id, current_user.clients, :id, :name, {:required => true}, :style => "padding-left: 15px; width:107%;", :multiple => "multiple", :id => "clientschg" %>
+  
+  </div>
   
 
  <div class="form-group">
     <label class="col-md-2 control-label" style="max-width:200px;">Date</label>
                 <div class='input-group date col-md-8' >
-                    <input type='text' class="form-control" id='datetimepicker6' />
+                    <input type='text' class="form-control" id='datetimepicker6' style="border-radius: 5px; cursor: pointer;" />
                     
             </div>
     </div>
@@ -28,7 +32,7 @@
   <div class="form-group">
     <label class="col-md-2 control-label" style="max-width:200px;">Start Time</label>
                 <div class='input-group date col-md-8' >
-                    <input type='text' class="form-control" id='datetimepicker4' />
+                    <input type='text' class="form-control" id='datetimepicker4' style="border-radius: 5px; cursor: pointer;" />
                     
             </div>
     </div>
@@ -43,7 +47,7 @@
   <div class="form-group">
     <label class="col-md-2 control-label" style="max-width:200px;">End Time</label>
                 <div class='input-group date col-md-8'>
-                    <input type='text' class="form-control" id='datetimepicker5' />
+                    <input type='text' class="form-control" id='datetimepicker5' style="border-radius: 5px; cursor: pointer;" />
             </div>
     </div>
 
@@ -144,4 +148,14 @@ $('body').on('change', '#datetimepicker5', function(){
 });
 
   });
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+              window.prettyPrint() && prettyPrint();
+  $('#clientschg').multiselect({
+                  maxHeight: 200
+              });
+});
+
 </script>

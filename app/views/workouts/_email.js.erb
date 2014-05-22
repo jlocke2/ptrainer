@@ -1,2 +1,2 @@
-<% flash[:success] = "Email succesfully sent to #{Workout.find(params[:id]).appointment.client.name}." %>
+<% flash[:success] = "Email succesfully sent to those with email addresses." %>
 $("#flash_msg").html("<%= escape_javascript(render('workouts/flmsg')) %>");

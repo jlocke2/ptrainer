@@ -22,7 +22,7 @@
                             <span>&#43;</span>
                             NEW APPOINTMENT
                         </a>
-                        <div class="dropdown-menu" style = "padding: 15px; padding-bottom: 0px; width: 400px; max-width: 100%;">
+                        <div class="dropdown-menu padadj" style = "padding: 15px; padding-bottom: 0px; width: 400px; max-width: 100%;">
                          <div id="new_agendars" class="text-center">
                           <% if current_user.clients.any? %>
                         <%= render 'form' if signed_in? %>
@@ -64,6 +64,7 @@
         $('.keep-open').data('closable', false);
         
     });
+
   $('body').off('click', '.attachs :submit');
   $('body').on('click', '.attachs :submit', function(e) {
         $('.keep-open').data('closable', true);
@@ -158,4 +159,16 @@
 
 
   });
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+              window.prettyPrint() && prettyPrint();
+  $('#appointment_client_id').multiselect({
+                  maxHeight: 200
+              });
+});
+$(document).ready(function(){
+    $('.multiselect').css('margin-left', '0px');
+});
 </script>

@@ -1,6 +1,13 @@
 class Client < ActiveRecord::Base
 	belongs_to :user
+
+	has_many :meetups, dependent: :destroy
+	has_many :appointments, :through => :meetups
+
 	has_many :appointments, dependent: :destroy
+
+
+
 	has_many :notes, dependent: :destroy
 
 	validates :name, presence: true

@@ -222,6 +222,63 @@ textarea::-webkit-input-placeholder {
 }
 }
 
+
+
+
+
+@media (max-width: 480px) {
+.btn-sizers{
+	left: 0px;
+	min-width: 322px;
+}
+}
+@media (min-width: 481px) and (max-width: 978px) {
+.btn-sizers{
+	left: 0px;
+	min-width: 368px;
+}
+}
+
+@media (min-width: 979px) {
+.btn-sizers{
+	width: 235px;
+	left: -34px;
+}
+}
+
+
+
+
+
+@media (max-width: 480px) {
+.down-sizers{
+	
+	width: 322px;
+}
+}
+@media (min-width: 481px) and (max-width: 978px) {
+.down-sizers{
+	
+	width: 368px;
+}
+}
+
+@media (min-width: 979px) {
+.down-sizers{
+	width: 235px;
+	left: -34px !important;
+}
+}
+
+
+
+
+
+
+
+
+
+
 .fc-header-title h2{
 	white-space: normal !important;
 	font-size: 20px !important;

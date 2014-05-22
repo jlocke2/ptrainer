@@ -10,6 +10,10 @@
         <div class="box">
             <div class="content-wrap">
                 <h6>Sign up</h6>
+                <p>Coming after Test Period. <br><%= mail_to "alan@personaltrainerlabs.com", "Contact Us" %> to learn how to become a test user</p>
+
+<div style="display:none;">
+
                 <div id='stripe_error' class="alert alert-info" style='display:none'>
                 </div>
                 <%= form_for(resource, :as => resource_name, :html => {:id => "new_person"}, :url => registration_path(resource_name)) do |f| %>
@@ -43,13 +47,14 @@
                   <% else %>
 
                
-
+                  
                      <div class='form-group'>
                      <%= label_tag :plan, "Which plan are you signing up for?" %><br >
                        <div class="ui-select" id="oder" style="max-width:328px;width:100%;left:0px;min-width:284px;">
                         <%= f.select(:plan,[['solo - $19', "solo"], ['plus - $49', "plus"]], {}, {:class => "form-control", :style => "padding-left: 12px; width: 107%;"}) %>
                        </div>
                      </div>
+                 
 
                       <div class='form-group'>
                         <%= label_tag :card_number, "Credit Card Number" %>
@@ -71,6 +76,8 @@
 
             </div>
         </div>
+
+          </div>
 
         <div class="no-account">
             <p>Already have an account?</p>

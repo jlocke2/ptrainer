@@ -4,17 +4,19 @@ class Appointment < ActiveRecord::Base
   include ActionView::Helpers::DateHelper
 
 		belongs_to :user
+
     belongs_to :client
+
+    has_many :meetups, dependent: :destroy
+    has_many :clients, :through => :meetups
+
     has_one :workout, dependent: :destroy
 
-        validates :client_id, presence: true
         validates :start_at, presence: true
         validates :end_at, presence: true
         validates :user_id, presence: true
 
-    def config_date
-      "#{start_at.strftime("%D   %I:%M%P")} - #{Client.find(client_id).name}"
-    end
+   
 
 
    def self.perform
@@ -23,10 +25,19 @@ class Appointment < ActiveRecord::Base
     appointments = Appointment.where([" ? < start_at AND start_at < ?", Time.current.advance(minutes: 270), Time.current.advance(minutes: 1710) ])
       appointments.each do |appointment|
 
+         @meetups = appointment.meetups
+         @attends = []
+          @meetups.each do |meetup|
+            @name = Client.find(meetup.client_id).id
+            @attends << @name
+          end
+
+      @attends.each do |attend|
+
         if appointment.client.email =~ /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/
 
         mandrill = Mandrill::API.new 'gdATMo6lVK4YKoTdolhuBQ'
-          message = {"html"=>" <p>Hey #{appointment.client.name}!  Hope you are having a great day!</p>
+          message = {"html"=>" <p>Hey #{Client.find(attend).name}!  Hope you are having a great day!</p>
   <p>Just wanted to remind you of our upcoming appointment on #{appointment.start_at.strftime("%A %D")} at #{appointment.start_at.strftime("%I:%M%P")}</p>
   <p>Look forward to seeing you then!</p>
   <p>Thanks</p>
@@ -36,8 +47,8 @@ class Appointment < ActiveRecord::Base
            "from_email"=>"#{appointment.client.user.email}",
            "from_name"=>"",
            "to"=>
-              [{"email"=>"#{appointment.client.email}",
-                  "name"=>"#{appointment.client.name}",
+              [{"email"=>"#{Client.find(attend).email}",
+                  "name"=>"#{Client.find(attend).email}",
                   "type"=>"to"}],
            "headers"=>{"Reply-To"=>"#{appointment.client.user.email}"},
            "important"=>false,
@@ -63,7 +74,7 @@ class Appointment < ActiveRecord::Base
               #     "reject_reason"=>"hard-bounce",
               #     "_id"=>"abc123abc123abc123abc123abc123"}]
 
-
+end
   
 
         end

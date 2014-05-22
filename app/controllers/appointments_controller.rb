@@ -14,7 +14,22 @@ class AppointmentsController < ApplicationController
         
       
       @appointments.each do |appointment|
-        appointments << {:id => appointment.id, :title => Client.find(appointment.client_id).name, :description => appointment.description || "Some cool description here...", :start => appointment.start_at, :end => appointment.end_at}
+        meets = Meetup.where(appointment_id: appointment)
+        if meets.any?
+          if meets.count > 1
+           first = meets.first.client_id
+           num = meets.count
+           num1 = num-1
+           count = Client.find(first).name + " + " + num1.to_s
+         else
+          first = meets.first.client_id
+          count = Client.find(first).name
+        end
+       else
+        count = "no"
+      end
+
+        appointments << {:id => appointment.id, :title => count  , :description => appointment.description || "Some cool description here...", :start => appointment.start_at, :end => appointment.end_at}
       end
     end
 
@@ -50,6 +65,7 @@ class AppointmentsController < ApplicationController
   # POST /appointments
   # POST /appointments.json
   def create
+
     @appointment = current_user.appointments.build(appointment_params)
 
     respond_to do |format|
@@ -57,6 +73,15 @@ class AppointmentsController < ApplicationController
         @workout = current_user.workouts.build(workout_params)
         @workout.appointment_id = @appointment.id
         @workout.save
+         clients = params[:appointment][:client_id]
+          clients.each do |client|
+            if client != ""
+              @meetup = Meetup.new
+              @meetup.appointment_id = @appointment.id
+              @meetup.client_id = client
+              @meetup.save
+            end
+          end
         format.html { redirect_to @appointment, notice: 'appointment was successfully created.' }
         format.json { render action: 'show', status: :created, location: @appointment }
         format.js
@@ -72,6 +97,22 @@ class AppointmentsController < ApplicationController
   def update
     respond_to do |format|
       if @appointment.update_attributes(appointment_params)
+        clients = params[:appointment][:client_id]
+        if clients.any?
+         meets = Meetup.where(appointment_id: @appointment)
+         meets.each do |meet|
+          meet.destroy
+        end
+      end
+        
+          clients.each do |client|
+            if client != ""
+              @meetup = Meetup.new
+              @meetup.appointment_id = @appointment.id
+              @meetup.client_id = client
+              @meetup.save
+            end
+          end
         format.html { render :nothing => true }
         format.json { head :no_content }
         format.js
@@ -132,11 +173,11 @@ class AppointmentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def appointment_params
-      params.require(:appointment).permit(:name, :client_id, :description, :start_at, :end_at)
+      params.require(:appointment).permit(:name, :description, :start_at, :end_at)
     end
 
     def workout_params
-      params.require(:appointment).permit(:name, :client_id, :appointment_id)
+      params.require(:appointment).permit(:name, :appointment_id)
     end
 
     def require_permission

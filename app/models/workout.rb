@@ -6,7 +6,6 @@ class Workout < ActiveRecord::Base
 	has_many :exercises, :through => :agendas
 
 	validates :user_id, presence: true
-	validates :client_id, presence: true
 	validates :appointment_id, presence: true
 
    

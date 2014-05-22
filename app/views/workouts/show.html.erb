@@ -7,7 +7,21 @@
             <div class="row header">
 
 
-            <h3><%= link_to @client.name, client_path(@client) %> - <small style="margin-left: 0px;"><%= @appointment.start_at.strftime("%D  %I:%M%P")%>  - <%= @appointment.end_at.strftime("%I:%M%P") %></small></h3>
+            <h3><% unless @appointment.present?%><%= link_to @client.name, client_path(@client) %><% else %><h3>Workout for 
+
+              <% @attends.each_with_index do |attend,i| %>
+              <% unless i == @attends.length-1 %>
+              <% if @attends.length > 2 %>
+              <%= attend %>,
+              <% else %>
+              <%= attend %>
+              <% end %>
+              <% end %>
+
+              <% end %>
+              and <%= @last %>
+
+              <% end %> - <small style="margin-left: 0px;"><%= @appointment.start_at.strftime("%D  %I:%M%P")%>  - <%= @appointment.end_at.strftime("%I:%M%P") %></small></h3>
                 <div class="col-md-12 col-sm-12 col-xs-12 pull-right  keep-open" id="hapit" style="padding-top: 10px;">                    
                     <!-- custom popup filter -->
                     <!-- styles are located in css/elements.css -->
@@ -26,7 +40,7 @@
                    
 
                     <div>
-                  <%= submit_tag "EMAIL WORKOUT TO CLIENT", class: "btn-flat primary pull-right", id: "spacer2", style: "margin-left:20px;height:33px;" %>
+                  <%= submit_tag "EMAIL WORKOUT TO CLIENTS", class: "btn-flat primary pull-right", id: "spacer2", style: "margin-left:20px;height:33px;" %>
                     </div>
 
                     <% end %>

@@ -1,9 +1,22 @@
 
         <div id="pad-wrapper" class="users-list">
             <div class="row header">
-                <h3>Results for <%= @client.name %> on <%= @appointment.start_at.strftime("%D   %I:%M%P") %></h3><br><br>
+                <h3>Workout for 
+
+              <% @attends.each_with_index do |attend,i| %>
+              <% unless i == @attends.length-1 %>
+              <% if @attends.length > 2 %>
+              <%= attend %>,
+              <% else %>
+              <%= attend %>
+              <% end %>
+              <% end %>
+
+              <% end %>
+              and <%= @last %>
+
+               - <small style="margin-left: 0px;"><%= @appointment.start_at.strftime("%D  %I:%M%P")%>  - <%= @appointment.end_at.strftime("%I:%M%P") %></small></h3><br><br>
                 <p><%= link_to "Return To Workout", workout_path(@workout) %></p>
-                <p><%= link_to "Return To Client Profile", client_path(@client) %></p>
               </div>
             </div>
                 

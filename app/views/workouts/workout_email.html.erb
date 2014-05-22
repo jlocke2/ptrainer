@@ -1,6 +1,6 @@
 <html>    
 <body>
-  <p>Hey <%= @workout.appointment.client.name %>!  Hope you are having a great day!</p>
+  <p>Hey <%= Client.find(attend).name %>!  Hope you are having a great day!</p>
   <p>Here are the details for our next workout scheduled for <%= @workout.appointment.start_at.strftime("%D") %></p>
   <p>Let me know how everything goes, or if you have any questions!</p>
   <p>Thanks</p>

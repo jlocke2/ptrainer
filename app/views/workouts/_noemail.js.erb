@@ -1,2 +1,2 @@
-<% flash[:danger] = "Email unable to send.  #{Workout.find(params[:id]).appointment.client.name} must have a valid email address first." %>
+<% flash[:danger] = "Email unable to send to everyone.  Clients must have a valid email address first." %>
 $("#flash_msg").html("<%= escape_javascript(render('workouts/flmsg')) %>");
