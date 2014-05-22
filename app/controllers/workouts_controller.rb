@@ -47,6 +47,7 @@ class WorkoutsController < ApplicationController
     @exercises = @workout.agendas
     @appointment = @workout.appointment
     @meetups = @appointment.meetups
+    @results = []
      @attends = []
       @meetups.each do |meetup|
         @name = Client.find(meetup.client_id).id
@@ -94,19 +95,26 @@ class WorkoutsController < ApplicationController
     
         
         
-      respond_to do |format|
-        format.js { render :partial => 'email.js.erb' }
-      end
-      flash.discard
+      
     
   else
-    respond_to do |format|
+    @results << "true"
+   
+
+  end
+end
+  if @results.any?
+     respond_to do |format|
         format.js { render :partial => 'noemail.js.erb' }
       end
       flash.discard
-    end
-
-  end
+  
+  else
+    respond_to do |format|
+        format.js { render :partial => 'email.js.erb' }
+      end
+      flash.discard
+end
     
   end
 

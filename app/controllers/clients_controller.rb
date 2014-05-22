@@ -97,8 +97,8 @@ class ClientsController < ApplicationController
    end
 
    def appointments
-      @appointments = Appointment.where(client_id: params[:id]).order(start_at: :desc)
       @client = Client.find(params[:id])
+      @appointments = @client.appointments.order(start_at: :desc)
    end
 
    def notes

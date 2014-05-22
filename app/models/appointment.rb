@@ -5,10 +5,9 @@ class Appointment < ActiveRecord::Base
 
 		belongs_to :user
 
-    belongs_to :client
 
     has_many :meetups, dependent: :destroy
-    has_many :clients, :through => :meetups
+    has_many :clients, through: :meetups
 
     has_one :workout, dependent: :destroy
 

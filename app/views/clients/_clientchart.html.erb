@@ -37,6 +37,7 @@
 
 
     <td> 
+        <% meetups = Meetup.where(client_id: client.id) %>
         <% if client.appointments.where(["start_at > ?", Time.now]).any? %>
         <p><%= client.appointments.where(["start_at > ?", Time.now]).order(start_at: :asc).first.start_at.strftime("%D  -   %I:%M%P") %></p>
     	<span class="subtext"><%= link_to 'View All Appointments', appointments_client_path(client), :class => "link" %></span>
