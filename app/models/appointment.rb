@@ -33,7 +33,7 @@ class Appointment < ActiveRecord::Base
 
       @attends.each do |attend|
 
-        if appointment.client.email =~ /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/
+        if Client.find(attend).email =~ /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/
 
         mandrill = Mandrill::API.new 'gdATMo6lVK4YKoTdolhuBQ'
           message = {"html"=>" <p>Hey #{Client.find(attend).name}!  Hope you are having a great day!</p>
