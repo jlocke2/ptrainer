@@ -51,15 +51,29 @@ class ClientsController < ApplicationController
     @search = current_user.clients.search(params[:q])
     @clients = @search.result.rank(:row_order)
       respond_to do |format|
-        if current_user.clients.count > 5
-          format.js { render :partial => 'fail_create.js.erb' }
-        else
-          if @client.save
-            format.html { redirect_to clients_path, flash[:success] = "Client created!" }
-            format.js
+        if current_user.plan = "solo"
+          if current_user.clients.count > 5
+            format.js { render :partial => 'fail_create.js.erb' }
           else
-            format.html { redirect_to root_url }
-            format.js { "window.location.href = ('#{root_path}');" }
+            if @client.save
+              format.html { redirect_to clients_path, flash[:success] = "Client created!" }
+              format.js
+            else
+              format.html { redirect_to root_url }
+              format.js { "window.location.href = ('#{root_path}');" }
+            end
+          end
+        else
+          if current_user.clients.count > 50
+            format.js { render :partial => 'fail_create_plus.js.erb' }
+          else
+            if @client.save
+              format.html { redirect_to clients_path, flash[:success] = "Client created!" }
+              format.js
+            else
+              format.html { redirect_to root_url }
+              format.js { "window.location.href = ('#{root_path}');" }
+            end
           end
         end
       end
