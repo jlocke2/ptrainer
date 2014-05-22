@@ -40,16 +40,16 @@ class Appointment < ActiveRecord::Base
   <p>Just wanted to remind you of our upcoming appointment on #{appointment.start_at.strftime("%A %D")} at #{appointment.start_at.strftime("%I:%M%P")}</p>
   <p>Look forward to seeing you then!</p>
   <p>Thanks</p>
-  <p>#{appointment.client.user.email}</p>",
+  <p>#{Client.find(attend).user.email}</p>",
            "text"=>"",
            "subject"=>"Upcoming Workout Reminder",
-           "from_email"=>"#{appointment.client.user.email}",
+           "from_email"=>"#{Client.find(attend).user.email}",
            "from_name"=>"",
            "to"=>
               [{"email"=>"#{Client.find(attend).email}",
                   "name"=>"#{Client.find(attend).email}",
                   "type"=>"to"}],
-           "headers"=>{"Reply-To"=>"#{appointment.client.user.email}"},
+           "headers"=>{"Reply-To"=>"#{Client.find(attend).user.email}"},
            "important"=>false,
            "track_opens"=>nil,
            "track_clicks"=>nil,
