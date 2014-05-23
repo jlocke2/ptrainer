@@ -9,11 +9,10 @@ class User < ActiveRecord::Base
   has_many :exercises, dependent: :destroy
   has_many :workouts, dependent: :destroy
 
-
+  after_create :create_a_customer
   before_destroy :destroy_a_customer
 
  
-if false 
          def create_a_customer
          	Stripe.api_key = "sk_live_eIf0ipJOpy4u6Cb4ejK54Uu8"
 
@@ -24,21 +23,20 @@ if false
   				:plan => self.plan,
   				:email => self.email
 			)
-
-
            
 
 			card = customer.cards.first
 			update_attributes(:stripe_card_token => card.id)
 			update_attributes(:stripe_customer_token => customer.id)
          end
- end
 
          def destroy_a_customer
          	Stripe.api_key = "sk_live_eIf0ipJOpy4u6Cb4ejK54Uu8"
-         	cust = self.stripe_customer_token
-         	cu = Stripe::Customer.retrieve(cust)
-			cu.delete
+            if self.stripe_customer_token.present?
+             	cust = self.stripe_customer_token
+             	cu = Stripe::Customer.retrieve(cust)
+        			cu.delete
+            end
          end
 
  end
