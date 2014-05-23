@@ -16,11 +16,13 @@ class CardsController < ApplicationController
           card = customer.cards.all().first  
           current_user.update_attributes(:stripe_card_token => card.id)
         else
+          token = params[:stripe_card_token]
           customer = Stripe::Customer.create(
-          :card => params[:stripe_card_token],
+          :card => token,
           :plan => "plus",
           :email => current_user.email
       )
+
           card = customer.cards.all().first
           current_user.update_attributes(:stripe_card_token => card.id)
           current_user.update_attributes(:stripe_customer_token => customer.id)
