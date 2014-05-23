@@ -33,4 +33,4 @@ $.rails.showConfirmDialog = (link) ->
 	$(html).modal()
 	$('body').on 'click', 'a.confirmers', ->
 	  $('.deleteMe').removeAttr('data-confirm')
-	  $('a.deleteMe').trigger('click')
+	  $('.deleteMe').trigger('click')
