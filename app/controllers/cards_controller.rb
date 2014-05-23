@@ -5,7 +5,7 @@ class CardsController < ApplicationController
   def edit
       Stripe.api_key = "sk_live_eIf0ipJOpy4u6Cb4ejK54Uu8%"
       
-        if current_user.stripe_customer_token.any?
+        if current_user.stripe_customer_token.present?
           customer = Stripe::Customer.retrieve(current_user.stripe_customer_token)
           if customer.cards.any?
             customer.cards.retrieve(current_user.stripe_card_token).delete()
