@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
   has_many :exercises, dependent: :destroy
   has_many :workouts, dependent: :destroy
 
-  after_create :create_a_customer
+
   before_destroy :destroy_a_customer
 
  
