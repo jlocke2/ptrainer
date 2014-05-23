@@ -13,6 +13,7 @@ class User < ActiveRecord::Base
   before_destroy :destroy_a_customer
 
  
+if false 
          def create_a_customer
          	Stripe.api_key = "sk_live_eIf0ipJOpy4u6Cb4ejK54Uu8"
 
@@ -23,12 +24,15 @@ class User < ActiveRecord::Base
   				:plan => self.plan,
   				:email => self.email
 			)
+
+
            
 
 			card = customer.cards.first
 			update_attributes(:stripe_card_token => card.id)
 			update_attributes(:stripe_customer_token => customer.id)
          end
+ end
 
          def destroy_a_customer
          	Stripe.api_key = "sk_live_eIf0ipJOpy4u6Cb4ejK54Uu8"

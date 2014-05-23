@@ -3,9 +3,9 @@ class CardsController < ApplicationController
 
 
   def edit
-      Stripe.api_key = "<%= Rails.configuration.stripe[:secret_key] %>"
+      Stripe.api_key = "sk_live_eIf0ipJOpy4u6Cb4ejK54Uu8%"
       
-          
+        if current_user.stripe_customer_token.any?
           customer = Stripe::Customer.retrieve(current_user.stripe_customer_token)
           if customer.cards.any?
             customer.cards.retrieve(current_user.stripe_card_token).delete()
@@ -15,6 +15,17 @@ class CardsController < ApplicationController
 
           card = customer.cards.all().first  
           current_user.update_attributes(:stripe_card_token => card.id)
+        else
+          customer = Stripe::Customer.create(
+          :card => params[:stripe_card_token],
+          :plan => "plus",
+          :email => current_user.email
+      )
+          card = customer.cards.all().first
+          current_user.update_attributes(:stripe_card_token => card.id)
+          current_user.update_attributes(:stripe_customer_token => customer.id)
+          current_user.update_attributes(:plan => "plus")
+        end
 
       flash[:success] = "Credit Card Info Updated"
       redirect_to edit_user_registration_path
