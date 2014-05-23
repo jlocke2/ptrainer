@@ -12,6 +12,7 @@ class CardsController < ApplicationController
           end
           
           customer.cards.create(:card => params[:stripe_card_token])
+          customer.subscriptions.create(:plan => "plus")
 
           card = customer.cards.all().first  
           current_user.update_attributes(:stripe_card_token => card.id)
