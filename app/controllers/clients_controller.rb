@@ -128,7 +128,11 @@ class ClientsController < ApplicationController
    def progress
 
       @client = Client.find(params[:id])
-      @workouts = Workout.where(client_id: @client)
+      apts = @client.appointments
+      @workouts = []
+      apts.each do |apt|
+       @workouts << apt.workout.id
+      end
       @press = []
       info1 = []
       info2 = []

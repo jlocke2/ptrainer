@@ -6,7 +6,7 @@ class PaymentsController < ApplicationController
 	end
 
 	def verify
-		customer = ActiveSupport::JSON.decode(`curl -X POST https://connect.stripe.com/oauth/token -d client_secret=Bf2TeaTMeuPDTWrmecc88biKWbejiayf -d code=#{params[:code]} -d grant_type=authorization_code`)
+		customer = ActiveSupport::JSON.decode(`curl -X POST https://connect.stripe.com/oauth/token -d client_secret=ca_45X9k9lCwzyC2vrIiB3iwR9KOechZXV0 -d code=#{params[:code]} -d grant_type=authorization_code`)
 		current_user.update_attributes(:stripe_publishable_key => customer["stripe_publishable_key"])
 		current_user.update_attributes(:access_token => customer["access_token"])
 		flash[:success] = "Successfully connected to Stripe"
