@@ -44,6 +44,9 @@ match 'payments/charge', to: 'payments#charge', via: :post
       get :workouts
       get :editordata
     end
+    collection do
+      get :newdata
+    end
   end
   resources :agendas, only: [:create, :destroy, :update]
   resources :exercises do

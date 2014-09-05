@@ -12,6 +12,10 @@
                     <% end %>
                   <% end %>
 
+<div id="flashtest">
+
+</div>
+
 <div id="pad-wrapper">
                 <div class="row calendar-wrapper">
                     <div class="col-md-12" style="padding-bottom:20px;">
@@ -43,9 +47,7 @@
         </div>
 
 
-<div id="create_event_dialog" class="dialog" style ="display:none;">
-    <%= render 'form' %>
-  </div>
+
 
     <div id="event_desc_dialog" class="dialog" style="display:none;"></div>
 
@@ -61,6 +63,17 @@
   });
   $('body').off('click', '.dropdown-menu');
   $('body').on('click', '.dropdown-menu', function(e) {
+        $('.keep-open').data('closable', false);
+        
+    });
+
+  $('body').off('click', '.clockpicker-popover');
+  $('body').on('click', '.clockpicker-popover', function(e) {
+        $('.keep-open').data('closable', false);
+        
+    });
+  $('body').off('click', '.datepicker');
+  $('body').on('click', '.datepicker', function(e) {
         $('.keep-open').data('closable', false);
         
     });
@@ -85,27 +98,62 @@
   ready = function() {
 
    
-          $('#datetimepicker1').pickatime({
-           
-            interval: 15,
+          $('#datetimepicker1').clockpicker({
+           default: "now",
+           twelvehour: true,
+           donetext: "Done",
+           afterDone: function() {
+                            var timeplus = $('#datetimepicker1').val();
+            
+            var ar88 = timeplus.split(/:| /g);
+            if (ar88[0] == 12) {
+              ar88[0] = Number(ar88[0])-11
+            } else {
+             ar88[0] =  Number(ar88[0])+1
+            };
+            if (ar88[0] == 12) {
+              if (ar88[2] == "PM") {
+              ar88[2] = "AM"
+              } else {
+                ar88[2] = "PM"
+              };
+            };
+            
+            var timeplus2 = ar88.join(" ");
+            var timeplus3 = timeplus2.replace(" ", ":");
+            $('#datetimepicker2').val(timeplus3);
+                        }
           });
           
    
 
 
    
-          $('#datetimepicker2').pickatime({
+          $('#datetimepicker2').clockpicker({
             
-            interval: 15,
+           default: "now",
+           twelvehour: true,
+           donetext: "Done",
+
           });
+
           
   
 
 
     
-          $('#datetimepicker3').pickadate({
-            
-          });
+          $('#datetimepicker3').datepicker({
+            orientation: "top auto",
+             autoclose: true,
+             todayBtn: true,
+             todayHighlight: true,
+          })
+          .on('show', function(e) {
+        var $popup = $('.datepicker');
+        $popup.click(function () { return false; });
+    });;
+
+
           
   
 
@@ -165,7 +213,10 @@
 $(document).ready(function() {
               window.prettyPrint() && prettyPrint();
   $('#appointment_client_id').multiselect({
-                  maxHeight: 200
+                  maxHeight: 200,
+                  enableFiltering: true,
+                  enableCaseInsensitiveFiltering: true,
+                  filterPlaceholder: 'Search',
               });
 });
 $(document).ready(function(){

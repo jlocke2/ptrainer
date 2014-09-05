@@ -8,8 +8,8 @@ class ExercisesController < ApplicationController
 
   def index
     @exercise = Exercise.new
-    @search = current_user.exercises.search(params[:q])
-    @exercises = @search.result
+    @search = current_user.exercises.order_by_name.search(params[:q])
+    @exercises = @search.result.order_by_name
   end
 
   def show

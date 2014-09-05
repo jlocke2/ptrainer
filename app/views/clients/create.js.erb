@@ -1,3 +1,6 @@
 $("#new_client").html("<%= escape_javascript(render('clients/form')) %>");
 $("#clchart").html("<%= escape_javascript(render('clients/clientchart')) %>");
 $('#hapit').removeClass('open');
+$("#flashtest").html("<%= escape_javascript(render('clients/flashsuccess')) %>");
+$(".alert-success").delay(1000).fadeOut(1400);
+$(document).ready(ready);

@@ -10,11 +10,10 @@
       </ul>
     </div>
   <% end %>
-  <h3>Only Update If You NEED To Change</h3><br>
 
   <div class="form-group">
     <%= f.label :client, "Clients", :class => "col-md-2 control-label", :style => "text-align:center;margin-right:34px;" %>
-      <%= f.collection_select :client_id, current_user.clients, :id, :name, {:required => true}, :style => "padding-left: 15px; width:107%;", :multiple => "multiple", :id => "clientschg" %>
+      <%= f.collection_select :client_id, current_user.clients, :id, :name, {:required => true}, :class=> "multisel2", :style => "padding-left: 15px; width:107%;", :multiple => "multiple", :id => "clientschg" %>
   
   </div>
   
@@ -22,7 +21,7 @@
  <div class="form-group">
     <label class="col-md-2 control-label" style="max-width:200px;">Date</label>
                 <div class='input-group date col-md-8' >
-                    <input type='text' class="form-control" id='datetimepicker6' style="border-radius: 5px; cursor: pointer;" />
+                    <input type='text' class="form-control" id='datetimepicker9' style="border-radius: 5px; cursor: pointer; left:20px" readonly />
                     
             </div>
     </div>
@@ -32,7 +31,7 @@
   <div class="form-group">
     <label class="col-md-2 control-label" style="max-width:200px;">Start Time</label>
                 <div class='input-group date col-md-8' >
-                    <input type='text' class="form-control" id='datetimepicker4' style="border-radius: 5px; cursor: pointer;" />
+                    <input type='text' class="form-control" id='datetimepicker7' style="border-radius: 5px; cursor: pointer; left:20px;" readonly />
                     
             </div>
     </div>
@@ -47,7 +46,7 @@
   <div class="form-group">
     <label class="col-md-2 control-label" style="max-width:200px;">End Time</label>
                 <div class='input-group date col-md-8'>
-                    <input type='text' class="form-control" id='datetimepicker5' style="border-radius: 5px; cursor: pointer;" />
+                    <input type='text' class="form-control" id='datetimepicker8' style="border-radius: 5px; cursor: pointer; left:20px" readonly />
             </div>
     </div>
 
@@ -58,7 +57,7 @@
     </div>
   </div>
 
-  <div class="form-group">
+  <div class="form-group" style="display:none;">
     <%= f.label :description,"Notes", :class => "col-md-2 control-label" %>
     <div class="col-md-8">
       <%= f.text_area :description %>
@@ -67,7 +66,7 @@
 
   <div class="form-group">
       <div class="col-md-offset-2 col-md-8 attachs">
-        <%= f.submit "Save Changes", class: "btn mybtn btn-large btn-primary" %>
+        <%= f.submit "Save Changes", class: "btn mybtn btn-large btn-primary", style: "left:30px;position:relative;" %>
       </div>
   </div>
 <% end %>
@@ -78,27 +77,60 @@
   ready2 = function() {
 
    
-         $('#datetimepicker4').pickatime({
-           
-            interval: 15,
+         $('#datetimepicker7').clockpicker({
+           default: "now",
+           twelvehour: true,
+           donetext: "Done",
+           afterDone: function() {
+                            var timeplus = $('#datetimepicker7').val();
+            
+            var ar88 = timeplus.split(/:| /g);
+            if (ar88[0] == 12) {
+              ar88[0] = Number(ar88[0])-11
+            } else {
+             ar88[0] =  Number(ar88[0])+1
+            };
+            if (ar88[0] == 12) {
+              if (ar88[2] == "PM") {
+              ar88[2] = "AM"
+              } else {
+                ar88[2] = "PM"
+              };
+            };
+            
+            var timeplus2 = ar88.join(" ");
+            var timeplus3 = timeplus2.replace(" ", ":");
+            $('#datetimepicker8').val(timeplus3);
+                        }
           });
           
    
 
 
    
-          $('#datetimepicker5').pickatime({
+          $('#datetimepicker8').clockpicker({
             
-            interval: 15,
+           default: "now",
+           twelvehour: true,
+           donetext: "Done",
+
           });
+
           
   
 
 
     
-          $('#datetimepicker6').pickadate({
-            
-          });
+          $('#datetimepicker9').datepicker({
+            orientation: "top auto",
+             autoclose: true,
+             todayBtn: true,
+             todayHighlight: true,
+          })
+          .on('show', function(e) {
+        var $popup = $('.datepicker');
+        $popup.click(function () { return false; });
+    });;
           
   
 
@@ -110,8 +142,8 @@
 
   $(document).ready(function(){
       
-$('body').off('change', '#datetimepicker6')
-$('body').on('change', '#datetimepicker6', function(){
+$('body').off('change', '#datetimepicker9')
+$('body').on('change', '#datetimepicker9', function(){
   var val8 = this.value;
   var ar1 = val8.split("/");
   var it1 = ar1[0];
@@ -125,8 +157,8 @@ $('body').on('change', '#datetimepicker6', function(){
   $("select#appointment_end_at_3i option:selected").val(it2);
 });
 
-$('body').off('change', '#datetimepicker4')
-$('body').on('change', '#datetimepicker4', function(){
+$('body').off('change', '#datetimepicker7')
+$('body').on('change', '#datetimepicker7', function(){
   var val9 = this.value;
   var ar19 = val9.split(/:| /g);
   if (ar19[2] == "PM") {
@@ -136,8 +168,8 @@ $('body').on('change', '#datetimepicker4', function(){
   $("select#appointment_start_at_5i option:selected").val(ar19[1]);
 });
 
-$('body').off('change', '#datetimepicker5')
-$('body').on('change', '#datetimepicker5', function(){
+$('body').off('change', '#datetimepicker8')
+$('body').on('change', '#datetimepicker8', function(){
   var val7 = this.value;
   var ar17 = val7.split(/:| /g);
   if (ar17[2] == "PM") {

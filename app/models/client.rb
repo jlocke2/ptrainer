@@ -12,6 +12,9 @@ class Client < ActiveRecord::Base
 	validates :name, presence: true
 	validates :user_id, presence: true
 
+
+	 scope :order_by_name, -> { order('LOWER(name)') }
+
 	include RankedModel
   	ranks :row_order
 

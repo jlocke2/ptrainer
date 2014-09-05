@@ -1,6 +1,11 @@
 /*
 Version: 3.2 Timestamp: Mon Sep 10 10:38:04 PDT 2012
 */
+.multiselect-container input
+{
+    display: none
+}
+
 .select2-container {
     position: relative;
     display: inline-block;

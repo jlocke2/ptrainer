@@ -1,7 +1,7 @@
 class AppointmentsController < ApplicationController
   before_action :set_appointment, only: [:show, :edit, :update, :destroy, :move, :resize, :workouts, :editordata]
   before_filter :authenticate_user!
-  before_filter :require_permission, except: [:new, :create, :index]
+  before_filter :require_permission, except: [:new, :create, :index, :newdata]
 
 
   # GET /appointments
@@ -18,18 +18,24 @@ class AppointmentsController < ApplicationController
         if meets.any?
           if meets.count > 1
            first = meets.first.client_id
+           allp = []
+           meets.each do |meet|
+           @name = Client.find(meet.client_id).name
+           allp << @name
+           end
            num = meets.count
            num1 = num-1
-           count = Client.find(first).name + " + " + num1.to_s
+           count = Client.find(first).name + " + " + num1.to_s + " more"
          else
           first = meets.first.client_id
           count = Client.find(first).name
+          allp = Client.find(first).name
         end
        else
         count = "no"
       end
 
-        appointments << {:id => appointment.id, :title => count  , :description => appointment.description || "Some cool description here...", :start => appointment.start_at, :end => appointment.end_at}
+        appointments << {:id => appointment.id, :title => count  , :description => appointment.description || "Some cool description here...", :start => appointment.start_at, :end => appointment.end_at, :allp => allp}
       end
     end
 
@@ -59,7 +65,20 @@ class AppointmentsController < ApplicationController
 
   # GET /appointments/1/edit
   def editordata
-    render :json => { :form => render_to_string(:partial => 'forms') }
+    @apt = Appointment.find(params[:id])
+        meets = Meetup.where(appointment_id: @apt)
+        if meets.any?
+          @allp = []
+          meets.each do |meet|
+          @allp << meet.client_id
+        end
+      end
+    render :json => { :form => render_to_string(:partial => 'forms'), :apt => @apt, :id => @allp }
+
+  end
+
+  def newdata
+    render :json => { :form => render_to_string(:partial => 'formclick') }
   end
 
   # POST /appointments
@@ -82,7 +101,7 @@ class AppointmentsController < ApplicationController
               @meetup.save
             end
           end
-        format.html { redirect_to @appointment, notice: 'appointment was successfully created.' }
+        format.html { redirect_to root_path, success: 'Appointment was successfully created.' }
         format.json { render action: 'show', status: :created, location: @appointment }
         format.js
       else

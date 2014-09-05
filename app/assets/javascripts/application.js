@@ -21,5 +21,6 @@
 //= require bootstrap
 //= require moment
 //= require bootstrap-datetimepicker
+//= require bootstrap-datepicker
 //= require nested_form_fields
 //= require turbolinks

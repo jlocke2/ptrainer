@@ -1,4 +1,79 @@
-$("#new_appointment").html("<%= escape_javascript(render('appointments/form')) %>");
+$("#new_agendars").html("<%= escape_javascript(render('appointments/form')) %>");
 $("#calendar").fullCalendar("refetchEvents");
 $('#hapit').removeClass('open');
+$(document).ready(function() {
+              window.prettyPrint() && prettyPrint();
+  $('#appointment_client_id').multiselect({
+                  maxHeight: 200
+              });
+});
+$("#flashtest").html("<%= escape_javascript(render('appointments/successapt')) %>");
+$(".alert-success").delay(1000).fadeOut(1400);
+
+
+
+
+$('#datetimepicker1').clockpicker({
+       default: "now",
+       twelvehour: true,
+       donetext: "Done",
+       afterDone: function() {
+                        var timeplus = $('#datetimepicker1').val();
+        
+        var ar88 = timeplus.split(/:| /g);
+        if (ar88[0] == 12) {
+          ar88[0] = Number(ar88[0])-11
+        } else {
+         ar88[0] =  Number(ar88[0])+1
+        };
+        if (ar88[0] == 12) {
+          if (ar88[2] == "PM") {
+          ar88[2] = "AM"
+          } else {
+            ar88[2] = "PM"
+          };
+        };
+        
+        var timeplus2 = ar88.join(" ");
+        var timeplus3 = timeplus2.replace(" ", ":");
+        $('#datetimepicker2').val(timeplus3);
+                    }
+      });
+      
+
+
+
+
+
+
+      $('#datetimepicker2').clockpicker({
+        
+       default: "now",
+       twelvehour: true,
+       donetext: "Done",
+
+      });
+
+      
+
+
+
+
+      $('#datetimepicker3').datepicker({
+        orientation: "top auto",
+         autoclose: true,
+         todayBtn: true,
+         todayHighlight: true,
+      })
+      .on('show', function(e) {
+    var $popup = $('.datepicker');
+    $popup.click(function () { return false; });
+});
+
+
+      
+
+
+
+
 $(document).ready(ready);

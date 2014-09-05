@@ -539,3 +539,10 @@ footer {
   #main-stats .stat {
     width: 50%;
     float: left; } }
+
+.popover.top {
+  z-index: 10000 !important;
+}
+.popover {
+  z-index: 10100 !important;
+}

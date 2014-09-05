@@ -20,6 +20,7 @@ gem 'roo', '1.13.2'
 gem 'nested_form_fields', '0.5.0'
 gem 'momentjs-rails', '2.5.1'
 gem 'bootstrap3-datetimepicker-rails', '3.0.0'
+gem 'bootstrap-datepicker-rails'
 
 gem'capistrano','~>3.1.0'
  #railsspecificcapistranofunctions

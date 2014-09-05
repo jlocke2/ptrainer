@@ -6,7 +6,7 @@ class ClientsController < ApplicationController
 
 
    def index
-    @search = current_user.clients.search(params[:q])
+    @search = current_user.clients.order_by_name.search(params[:q])
    	@clients = @search.result.order(name: :asc)
     @client = Client.new
     
@@ -52,7 +52,7 @@ class ClientsController < ApplicationController
     @clients = @search.result.rank(:row_order)
       respond_to do |format|
         if current_user.plan = "solo"
-          if current_user.clients.count > 5
+          if current_user.clients.count > 50
             format.js { render :partial => 'fail_create.js.erb' }
           else
             if @client.save

@@ -13,4 +13,5 @@
  *= require fullcalendar
  *= require jquery.ui.all
  *= require font-awesome
+ *= require bootstrap-datepicker3
 */

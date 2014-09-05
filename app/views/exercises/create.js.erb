@@ -1,3 +1,5 @@
 $("#new_exercise").html("<%= escape_javascript(render('exercises/form')) %>");
 $("#lister").html("<%= escape_javascript(render('exercises/lister')) %>");
 $('.dropdown-menu').dropdown('toggle');
+$("#flashtest").html("<%= escape_javascript(render('exercises/flashsuccess')) %>");
+$(".alert-success").delay(1000).fadeOut(1400);
