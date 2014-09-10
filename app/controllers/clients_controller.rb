@@ -143,9 +143,11 @@ class ClientsController < ApplicationController
      if request.patch?
         @id = params[:user][:id]
         @id = @id.to_i
-        @agendas = @agendas.where(exercise_id: @id)
+        @agendas = @agendas.where(exercise_id: @id).joins(:workout => :appointment).order('appointments.start_at DESC')
         @agendas.each do | type|
         @press << type if type.exercise_id == @id
+
+        
 
 
 

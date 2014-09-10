@@ -1,8 +1,4 @@
 
-        
-        <div id="pad-wrapper">
-            <div class="row">
-                <div class="col-md-12 col-xs-12 refreshing">
                     <div id="fuelux-wizard" class="wizard row" style="display:none;">
                         <ul class="wizard-steps">
                             <li data-target="#step1" class="active">
@@ -14,7 +10,7 @@
                             
                         </ul>                            
                     </div>
-                    <%= form_for(@workout.agendas.build(workout_id: @workout.id), remote: true, html: { :class => "form-horizontal", :style => "top: -40px; position: relative;" }) do |f| %>
+                    <%= form_for(@workout.agendas.build(workout_id: @workout.id), remote: true, html: { :class => "form-horizontal", :style => "top: -25px; position: relative;" }) do |f| %>
 
                     <div class="step-content">
                         <div class="step-pane active" id="step1">
@@ -24,7 +20,7 @@
 
 
 									  <div><%= f.hidden_field :workout_id %></div>
-									   <div class="form-group">
+									   <div class="form-group" style="margin-bottom:0px">
 									    <%= f.label :exercise, :class => "col-md-2 control-label" %>
                       <div class="col-md-8 ui-select" style="padding-left: 0px;max-width: 400px;left: 14px;">
 									    <%= f.collection_select :exercise_id, current_user.exercises, :id, :name, {prompt: true}, {:class => "form-control", :style => "padding-left: 12px;width: 107%;"} %>
@@ -32,7 +28,7 @@
 									  </div>
                     <br />
 
-									   <div class="form-group">
+									   <div class="form-group" style="margin-bottom:0px">
 									   	<% the_array = [1,2,3,4,5,6] %>
 									    <%= label_tag :exercise, "# of Sets", :class => "col-md-2 control-label" %>
                       <div class="col-md-8 ui-select" style="padding-left: 0px;max-width: 400px;left: 14px;">
@@ -42,7 +38,7 @@
                     <br />
 
 
-									  <div style="visibility:hidden;"><%= f.add_nested_fields_link :rotations, 'Add another set for this exercise' %></div>
+									  <div style="display:none;"><%= f.add_nested_fields_link :rotations, 'Add another set for this exercise' %></div>
 
 
 
@@ -62,21 +58,21 @@
                             <div class="row form-wrapper">
                                 <div class="col-md-12">
                                 	 <div class="form-group">
-			                              <%= ff.label :amount, :class => "col-md-2 control-label", :id => "amount_lab" %>
+			                              <%= ff.label :amount, :class => "col-md-2 control-label", :style => "text-align: center;width: 169px;", :id => "amount_lab" %>
 			                              <div class="col-md-8">
-			                              <%= ff.text_field :amount, :class => "form-control place_text", :style => "border-color: #d0dde9;" , :placeholder => "Amount" %>
+			                              <%= ff.text_field :amount, :class => "form-control place_text", :style => "border-color: #d0dde9;width:169px;" , :placeholder => "Amount" %>
 			                            </div>
                                 </div>
                                   <div class="form-group unvis">
-                                    <%= ff.label :unit, :class => "col-md-2 control-label" %>
+                                    <%= ff.label :unit, :class => "col-md-2 control-label", :style => "text-align: center;width: 169px;" %>
                                     <div class="col-md-8 ui-select" style="padding-left: 0px;max-width: 400px;left: 14px;">
                                     <%= ff.select :unit, [], {:placeholder => "Unit"}, {:class => "form-control" , :style => "padding-left: 12px;width: 107%;"} %>
                                   </div>
 			                        </div>
-                              <div class="form-group mkvis">
-                                    <%= ff.label :exwt, "Weight Added", :class => "col-md-2 control-label" %>
+                              <div class="form-group mkvis" style="margin-top:18px;">
+                                    <%= ff.label :exwt, "Weight Added", :class => "col-md-2 control-label", :style => "text-align: center;width: 169px;" %>
                                     <div class="col-md-8">
-                                    <%= ff.text_field :exwt, :class => "form-control", :style => "border-color: #d0dde9;" , :placeholder => "Weight Added (lbs)" %>
+                                    <%= ff.text_field :exwt, :class => "form-control", :style => "border-color: #d0dde9;width:169px;" , :placeholder => "Weight Added (lbs)" %>
                                   </div>
                               </div>
                                     <div style="display:none;">
@@ -88,11 +84,11 @@
                         </div>
                     </div>
                         <% end %>
-                    <div class="wizard-actions" style="margin-right:0;">
+                    <div class="wizard-actions" style="right: 34px; width: 293px; align-content: center; position: relative;">
                         <button type="button" disabled class="btn-glow primary btn-prev"> 
                             <i class="icon-chevron-left"></i> Prev
                         </button>
-                        <button type="button" disabled class="btn-glow primary btn-next" data-last="Finish">
+                        <button type="button" disabled class="btn-glow primary btn-next" style="margin-left:94px;" data-last="Finish">
                             Next <i class="icon-chevron-right"></i>
                         </button>
                             <%= f.submit "Add Exercise To Workout", class: "btn-glow success btn-finish" %>
@@ -100,9 +96,7 @@
                         <% end %>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+         
 
     
  <script type="text/javascript">

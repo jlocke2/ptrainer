@@ -6,15 +6,19 @@ class RotationsController < ApplicationController
 
 
    def create
-    @agenda = Agenda.find(params[:id])
+    @agenda = Agenda.find(params[:rid])
   	@rotation = @agenda.rotations.build(rotation_params)
-    
-  	  if @rotation.save
-      		flash[:success] = "Client created!"
-      		redirect_to clients_path
+        respond_to do |format|
+          if @rotation.save
+            format.html { redirect_to :back, flash[:success] = "New Set Created" }
+            format.js
+          else
+            format.html { redirect_to :back, flash[:danger] = "Set Not Created" }
+            format.js
+          end
+        end
   	
       end
-    end
 
    def update
      
@@ -31,6 +35,35 @@ class RotationsController < ApplicationController
 
 
     end
+
+
+   def editdata
+    @rotation = params[:rotid]
+
+    render :json => { :form => render_to_string(:partial => 'editform') }
+
+  end
+
+   def newrotate
+    @agenda = Agenda.find(params[:rotid]).id
+
+    render :json => { :form => render_to_string(:partial => 'newform'), :agenda => @agenda }
+
+  end
+
+
+
+  def destroy
+    @rotation = Rotation.find(params[:id])
+    @agenda = @rotation.agenda
+    @workout = @agenda.workout
+    @rotation.destroy
+    respond_to do |format|
+      format.html { redirect_to workout_path(@workout) }
+      format.js
+    end
+    
+   end
 
    
    

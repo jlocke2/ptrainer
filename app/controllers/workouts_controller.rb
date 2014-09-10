@@ -13,7 +13,7 @@ class WorkoutsController < ApplicationController
   def show
     @appointment = @workout.appointment
     @id = @appointment.client_id
-    @exercises = @workout.agendas
+    @exercises = @workout.agendas.sort_by {|x| x.created_at}
     unless @appointment.present?
       @client = Client.find(@id)
     else

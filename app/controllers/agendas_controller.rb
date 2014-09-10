@@ -43,6 +43,20 @@ class AgendasController < ApplicationController
     end
   end
 
+  def editdata
+    @agenda = Agenda.find(params[:id])
+    @rotation = params[:rotid]
+        rotates = @agenda.rotations
+        if rotates.any?
+          @alla = []
+          rotates.each do |rotate|
+          @alla << rotate.id
+        end
+      end
+    render :json => { :form => render_to_string(:partial => 'rotations/editform'), :agenda => @agenda, :id => @alla }
+
+  end
+
     
   
 private

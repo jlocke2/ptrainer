@@ -7,7 +7,10 @@ class Agenda < ActiveRecord::Base
 	validates :workout_id, presence: true
 	validates :exercise_id, presence: true
 
-	
+
+	def order_by_apt_start
+	  Agenda.workouts.appointment.order("start_at ASC")
+	end
 
 
 end

@@ -1,4 +1,6 @@
-<%= form_for(Rotation.find(@rotation), url: rotation_path, method: :patch, html: { :class => "form-horizontal" }, remote: true) do |f| %>
+<%= form_for(Rotation.new, html: { :class => "form-horizontal" }, remote: true) do |f| %>
+
+                              <%= hidden_field_tag :rid, @agenda %>
 
                                <div class="form-group">
                                 <%= f.label :amount, :class => "col-md-2 control-label", :id => "amount_lab" %>
@@ -34,16 +36,7 @@
 
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-8 sticker3">
-                              <%= f.submit "Edit Set", class: "btn mybtn btn-large btn-primary", style: "margin-left: 42px;" %>
+                              <%= f.submit "Add New Set", class: "btn mybtn btn-large btn-primary", style: "margin-left: 42px;" %>
                             </div>
                         </div>
                               <% end %>
-
-<%= form_for(Rotation.find(@rotation),
-             html: { method: :delete },
-             remote: true) do |f| %>
-  <%= f.submit "Remove Set From Workout", class: "btn-flat mybtn btn-sm danger", style: "float: center; margin-top: 8px; margin-top: 8px; align-content: center; margin-left: 44px" %>
-        <% end %>
-
-
-

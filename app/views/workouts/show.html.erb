@@ -3,60 +3,63 @@
      </div>
 
      
-    <div id="pad-wrapper" class="users-list">
-            <div class="row header">
+    <div id="pad-wrapper" class="users-list" style="padding: 0px 20px; margin-top: 25px;">
 
 
-            <h3><% unless @appointment.present?%><%= link_to @client.name, client_path(@client) %><% else %><h3>Workout for 
-
-              <% @attends.each_with_index do |attend,i| %>
-              <% unless i == @attends.length-1 %>
-              <% if @attends.length > 2 %>
-              <%= attend %>,
-              <% else %>
-              <%= attend %>
-              <% end %>
-              <% end %>
-
-              <% end %>
-              and <%= @last %>
-
-              <% end %> - <small style="margin-left: 0px;"><%= @appointment.start_at.strftime("%D  %I:%M%P")%>  - <%= @appointment.end_at.strftime("%I:%M%P") %></small></h3>
-                <div class="col-md-12 col-sm-12 col-xs-12 pull-right  keep-open" id="hapit" style="padding-top: 10px;">                    
+<div class="col-md-12 col-sm-12 col-xs-12 pull-right  keep-open" id="hapit" style="padding-top: 10px;">                    
                     <!-- custom popup filter -->
                     <!-- styles are located in css/elements.css -->
                     <!-- script that enables this dropdown is located in js/theme.js -->
                     
 
-                    <a href="<%= results_workout_path(@workout) %>" class="btn-flat btn-warning pull-left text-center" id="spacer3" style="height:33px;" data-no-turbolink>
-                        SHOW WORKOUT RESULTS
-                    </a>
-
-
-
-                    
-                    <%= form_tag(email_workout_path, remote: true) do  %>
-
-                   
-
-                    <div>
-                  <%= submit_tag "EMAIL WORKOUT TO CLIENTS", class: "btn-flat primary pull-right", id: "spacer2", style: "margin-left:20px;height:33px;" %>
-                    </div>
-
-                    <% end %>
-                    
 
 
 
 
+           <div style=" margin-bottom: 8px;
+"><h3 style=" margin-bottom: 0px;"><% unless @appointment.present?%><%= link_to @client.name, client_path(@client) %><% else %>Workout for 
 
-                    
 
-                    <a href="#" class="btn-flat success pull-right dropdown-toggle text-center" data-toggle="dropdown" id="spacer">
-                        <span>&#43;</span>
+               <% if @attends.length == 1 %>
+              <%= @last %>
+              <% else %>
+
+
+              <% @attends.each_with_index do |attend,i| %>
+             
+
+              <% if i == @attends.length-1 %>
+              and <%= attend %>
+
+              <% else %>
+
+              <%= attend %>,
+              <% end %>
+
+               
+
+
+
+
+              <% end %>
+             
+
+
+              <% end %>
+
+
+              <% end %> </h3>
+                <span class="subtext" style="color: #999999;"><%= @appointment.start_at.strftime("%D  %I:%M%P")%>  - <%= @appointment.end_at.strftime("%I:%M%P") %></span>
+              </div>
+
+
+
+
+
+                    <a href="#" class="btn-flat success pull-right dropdown-toggle text-center" data-toggle="dropdown" >
                         ADD EXERCISE
                     </a>
-                    <div class="dropdown-menu dropdown-menu1" style = "padding: 15px; padding-bottom: 10px; z-index: 10000; width: 100%;">
+                    <div class="dropdown-menu dropdown-menu1" style = "padding: 15px; padding-bottom: 10px; z-index: 10000;top:39px;width:325px">
                      <div id="new_agendar">
 
                       <% if current_user.exercises.any? %>
@@ -65,24 +68,39 @@
                         <p>You must have existing exercises before creating a workout.  Click <%= link_to "exercises", exercises_path %> to create your first exercise.</p>
                         <% end %>
 
-						
-
-
-
-						</div>
                       </div>
+                    </div>
+
+                    <a class="btn-flat btn-warning pull-left text-center" style="margin-right: 22px;">
+                        RESULTS
+                    </a>
+
+
+
+
+
+            <div class="row header">
+
+
+                           
+                    <!-- custom popup filter -->
+                    <!-- styles are located in css/elements.css -->
+                    <!-- script that enables this dropdown is located in js/theme.js -->
+                    
+
+                  
                 </div>
 
 
             </div>
 
 
-		 
+
 
 
 			<div id="listing">
 
-			<%= render 'list' %>
+			<%= render 'newlist' %>
 
 
 			</div>
@@ -172,9 +190,133 @@ var setAtt = function(){
 setAtt();
 
 
+$('.table tr:even').css('background-color', 'rgba(202, 201, 201, 0.34)');
+$('.table tr:first').css('background-color', 'rgba(217, 237, 247, 0.66)');
  
   </script>
 
+<script type="text/javascript">
 
+$(document).ready(function() {
+
+  $('body').off('click','.icon-plus');
+  $('body').on('click','.icon-plus',function(){
+
+
+
+
+
+     var rot2 = $(this).parent('td').attr('id');
+     console.log(rot2)
+      $.when($.ajax({
+                          data: {rotid: rot2 },
+                          url: "/rotations/newrotate",
+                          success: function(data) {
+                            $("#new_rotation").html(data["form"]);
+
+                          }})).then(
+
+
+
+      
+        $(this).popover({
+          title: "Add Set To Exercise",
+          width: 500,
+          animation: false,
+          trigger: 'manual',
+          container: 'body',
+          placement: 'top',
+          content: "<div id='new_rotation'></div>",
+          html: true,
+          template: '<div class="popover" style="width:500px" role="tooltip"><h3 class="popover-title" style="text-align: center;"></h3><div class="popover-content"></div></div>'
+        }).popover('show')
+
+
+                          );
+
+
+
+
+
+
+
+
+  });
+
+  $('body').off('click','.icon-remove');
+  $('body').on('click','.icon-remove',function(){
+    $(this).siblings('.removeform').children('form').trigger("submit.rails");
+  });
+
+$("body").on("click", function (e) {
+
+    if ($(e.target).is(".editrotate")) {
+        $('#hapit').removeClass('open');
+        e.stopPropagation();
+    } else if ($(e.target).is(".icon-plus")) {
+      $('#hapit').removeClass('open');
+        e.stopPropagation();
+    } else {
+      $('.editrotate').popover('destroy');
+      $('.icon-plus').popover('destroy');
+    }
+
+
+
+});
+
+        
+
+
+$('body').off('click', '.editrotate');
+$('body').on('click', '.editrotate', function(e){
+  $('.editrotate').popover('destroy');
+  $('.icon-plus').popover('destroy');
+  var rot = $(this).attr('id');
+  $.when($.ajax({
+                      data: {rotid: rot },
+                      url: "/rotations/" + rot + "/editdata",
+                      success: function(data) {
+                        $("#edit_agenda_description").html(data["form"]);
+
+                      }})).then(
+
+
+
+  
+    $(this).popover({
+      title: "Edit Exercise",
+      width: 500,
+      animation: false,
+      trigger: 'manual',
+      container: 'body',
+      placement: 'top',
+      content: "<div id='edit_agenda_description'></div>",
+      html: true,
+      template: '<div class="popover" style="width:500px" role="tooltip"><h3 class="popover-title" style="text-align: center;"></h3><div class="popover-content"></div></div>'
+    }).popover('show')
+
+
+                      );
+                        });
+
+
+
+});
+
+
+$(document).ready(function(){
+
+       
+        
+
+         
+       
+
+       
+});
+
+
+</script>
 
 
