@@ -18,7 +18,10 @@
 $('.editrotate').popover('destroy');
 $("#new_agendar").html("<%= escape_javascript(render('workouts/addworkout_form')) %>");
 $("#listing").html("<%= escape_javascript(render('workouts/newlist')) %>");
+$("#listing2").html("<%= escape_javascript(render('workouts/newlist2')) %>");
 $('#hapit').removeClass('open');
-$('.table tr:even').css('background-color', 'rgba(202, 201, 201, 0.34)');
-$('.table tr:first').css('background-color', 'rgba(217, 237, 247, 0.66)');
+$('#table1 tr:even').css('background-color', 'rgba(202, 201, 201, 0.34)');
+$('#table1 tr:first').css('background-color', 'rgba(217, 237, 247, 0.66)');
+$('#table2 tr:even').css('background-color', 'rgba(202, 201, 201, 0.34)');
+$('#table2 tr:first').css('background-color', 'rgba(217, 237, 247, 0.66)');
 })();

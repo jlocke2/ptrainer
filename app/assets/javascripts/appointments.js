@@ -302,9 +302,9 @@ function settime() {
       placement: 'top',
       content: "<div id='edit_appointment_description2'></div><div id='hidepop'><div class='field'> When: <span class='date'>" + splits[0] + " " + splits[1] + " " + splits[2] + " at " + timesplit[0] + ":" + timesplit[1] + " " + fintime +
       "</span></div> <div class='field' style='margin-bottom:-5px;'> Who: <span class='who'>" + allp + "</span></div>" + "<br />" + 
-      "<a class='btn-sm mybtn btn-small btn-primary' style='width: 30%; margin-right:15px;' href = 'javascript:void(0);' onclick ='editIt(" + event.id + ")'>Edit Time</a>" +
-      "<a class='btn-sm mybtn btn-small btn-success' style='width: 30%; margin-right:15px;' href = 'javascript:void(0);' onclick ='viewIt(" + event.id + ")'>Build Workout</a>" + 
-      "<a class='btn-sm mybtn btn-small btn-danger' style='width: 30%;' href = 'javascript:void(0);' onclick ='deleteIt(" + event.id + ", " + false + ")'>Delete</a></div>",
+      "<a class='btn-sm mybtn btn-small btn-primary' style='width: 30%; margin-right: 15px; padding-left: 10px; padding-right: 10px; margin-left: 3px;' href = 'javascript:void(0);' onclick ='editIt(" + event.id + ")'>Edit Time</a>" +
+      "<a class='btn-sm mybtn btn-small btn-success' style='width: 96px; margin-right: 15px; padding-left: 12px; padding-right: 12px;' href = 'javascript:void(0);' onclick ='viewIt(" + event.id + ")'>Workout</a>" + 
+      "<a class='btn-sm mybtn btn-small btn-danger' style='width: 30%; padding-left: 17px; padding-right: 17px;' href = 'javascript:void(0);' onclick ='deleteIt(" + event.id + ", " + false + ")'>Delete</a></div>",
       html: true,
       template: '<div class="popover" style="width:500px" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
     });

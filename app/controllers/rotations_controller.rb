@@ -44,6 +44,18 @@ class RotationsController < ApplicationController
 
   end
 
+
+
+   def enterresults
+    @rotation = params[:rotid]
+
+    render :json => { :form => render_to_string(:partial => 'resultsform') }
+
+  end
+
+
+
+
    def newrotate
     @agenda = Agenda.find(params[:rotid]).id
 

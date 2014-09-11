@@ -56,7 +56,7 @@
 
 
 
-                    <a href="#" class="btn-flat success pull-right dropdown-toggle text-center" data-toggle="dropdown" >
+                    <a href="#" class="btn-flat success pull-right dropdown-toggle text-center" id="addexercise" data-toggle="dropdown" >
                         ADD EXERCISE
                     </a>
                     <div class="dropdown-menu dropdown-menu1" style = "padding: 15px; padding-bottom: 10px; z-index: 10000;top:39px;width:325px">
@@ -71,9 +71,18 @@
                       </div>
                     </div>
 
-                    <a class="btn-flat btn-warning pull-left text-center" style="margin-right: 22px;">
-                        RESULTS
+                    <a class="btn-flat btn-warning pull-left text-center" id="enterresults" style="margin-right: 22px;">
+                        ENTER RESULTS
                     </a>
+
+                     <a class="btn-flat btn-info pull-left text-center" id="workoutbuilder" style="margin-right: 22px; display:none;">
+                        WORKOUT BUILDER
+                    </a>
+
+                     <a href="<%= results_workout_path(@workout) %>" class="btn-flat btn-primary pull-right text-center" id="viewresults" style="display:none;">
+                        VIEW RESULTS
+                    </a>
+
 
 
 
@@ -95,7 +104,12 @@
             </div>
 
 
+  <div id="listing2" style="display:none;">
 
+      <%= render 'newlist2' %>
+
+
+      </div>
 
 
 			<div id="listing">
@@ -104,6 +118,10 @@
 
 
 			</div>
+
+
+
+    
  
 
 
@@ -190,8 +208,10 @@ var setAtt = function(){
 setAtt();
 
 
-$('.table tr:even').css('background-color', 'rgba(202, 201, 201, 0.34)');
-$('.table tr:first').css('background-color', 'rgba(217, 237, 247, 0.66)');
+$('#table1 tr:even').css('background-color', 'rgba(202, 201, 201, 0.34)');
+$('#table1 tr:first').css('background-color', 'rgba(217, 237, 247, 0.66)');
+$('#table2 tr:even').css('background-color', 'rgba(202, 201, 201, 0.34)');
+$('#table2 tr:first').css('background-color', 'rgba(217, 237, 247, 0.66)');
  
   </script>
 
@@ -235,18 +255,74 @@ $(document).ready(function() {
                           );
 
 
-
-
-
-
-
-
   });
+
+
+
 
   $('body').off('click','.icon-remove');
   $('body').on('click','.icon-remove',function(){
     $(this).siblings('.removeform').children('form').trigger("submit.rails");
   });
+
+
+  $('body').off('click','#enterresults');
+  $('body').on('click','#enterresults',function(){
+    $('#enterresults').css('display','none');
+    $('#addexercise').css('display','none');
+    $('#workoutbuilder').css('display','inline-block');
+    $('#viewresults').css('display','inline-block');
+    $('#h3results').css('display','block');
+    $('#h3build').css('display','none');
+    $('.table-responsive').effect("highlight", {}, 3000);
+    $('#h3results').effect("highlight", {}, 3000);
+    $('#listing').css('display','none');
+    $('#listing2').css('display','block');
+  });
+
+  $('body').off('click','#workoutbuilder');
+  $('body').on('click','#workoutbuilder',function(){
+    $('#enterresults').css('display','inline-block');
+    $('#addexercise').css('display','inline-block');
+    $('#workoutbuilder').css('display','none');
+    $('#viewresults').css('display','none');
+    $('#h3results').css('display','none');
+    $('#h3build').css('display','block');
+    $('.table-responsive').effect("highlight", {}, 3000);
+    $('#h3build').effect("highlight", {}, 3000);
+    $('#listing').css('display','block');
+    $('#listing2').css('display','none');
+
+  });
+
+  $('.icon-plus').hover(function(){
+    $(this).tooltip({
+      title: "Add Set To Exercise",
+      animation: false,
+      trigger: 'manual',
+      container: 'body',
+      placement: 'top',
+      html: true,
+      template: '<div class="tooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
+    }).tooltip('toggle')
+  });
+
+   $('.icon-remove').hover(function(){
+    $(this).tooltip({
+      title: "Remove Exercise From Workout",
+      animation: false,
+      trigger: 'manual',
+      container: 'body',
+      placement: 'top',
+      html: true,
+      template: '<div class="tooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
+    }).tooltip('toggle')
+  });
+
+
+
+
+
 
 $("body").on("click", function (e) {
 
@@ -256,9 +332,13 @@ $("body").on("click", function (e) {
     } else if ($(e.target).is(".icon-plus")) {
       $('#hapit').removeClass('open');
         e.stopPropagation();
-    } else {
+    } else if ($(e.target).is(".editrotateresults")) {
+      $('#hapit').removeClass('open');
+        e.stopPropagation();
+    }else {
       $('.editrotate').popover('destroy');
       $('.icon-plus').popover('destroy');
+      $('.editrotateresults').popover('destroy');
     }
 
 
@@ -272,6 +352,7 @@ $('body').off('click', '.editrotate');
 $('body').on('click', '.editrotate', function(e){
   $('.editrotate').popover('destroy');
   $('.icon-plus').popover('destroy');
+  $('.editrotateresults').popover('destroy');
   var rot = $(this).attr('id');
   $.when($.ajax({
                       data: {rotid: rot },
@@ -299,6 +380,57 @@ $('body').on('click', '.editrotate', function(e){
 
                       );
                         });
+
+
+
+
+
+
+    $('body').off('click', '.editrotateresults');
+    $('body').on('click', '.editrotateresults', function(e){
+      $('.editrotate').popover('destroy');
+      $('.icon-plus').popover('destroy');
+      $('.editrotateresults').popover('destroy');
+      var rot = $(this).attr('id');
+      $.when($.ajax({
+                          data: {rotid: rot },
+                          url: "/rotations/" + rot + "/enterresults",
+                          success: function(data) {
+                            $("#enter_rotate_results").html(data["form"]);
+                            var newweight = $('#rotation_exwt').val();
+                          $('#rotation_weightdone').val(newweight);
+                          var newamount = $('#rotation_amount').val();
+                          $('#rotation_amountdone').val(newamount);
+
+                          }})).then(
+
+
+
+      
+        $(this).popover({
+          title: "Enter Results For Exercise",
+          width: 500,
+          animation: false,
+          trigger: 'manual',
+          container: 'body',
+          placement: 'top',
+          content: "<div id='enter_rotate_results'></div>",
+          html: true,
+          template: '<div class="popover" style="width:500px" role="tooltip"><h3 class="popover-title" style="text-align: center;"></h3><div class="popover-content"></div></div>'
+        }).popover('show')
+
+       
+
+
+                          );
+
+
+                            });
+
+
+
+
+
 
 
 

@@ -1,24 +1,43 @@
 
         <div id="pad-wrapper" class="users-list">
             <div class="row header">
-                <h3>Workout for 
+               <div style=""><h3 style=" margin-bottom: 0px;"><% unless @appointment.present?%><%= link_to @client.name, client_path(@client) %><% else %>Workout for 
+
+
+               <% if @attends.length == 1 %>
+              <%= @last %>
+              <% else %>
+
 
               <% @attends.each_with_index do |attend,i| %>
-              <% unless i == @attends.length-1 %>
-              <% if @attends.length > 2 %>
-              <%= attend %>,
+             
+
+              <% if i == @attends.length-1 %>
+              and <%= attend %>
+
               <% else %>
-              <%= attend %>
-              <% end %>
+
+              <%= attend %>,
               <% end %>
 
-              <% end %>
-              and <%= @last %>
+               
 
-               - <small style="margin-left: 0px;"><%= @appointment.start_at.strftime("%D  %I:%M%P")%>  - <%= @appointment.end_at.strftime("%I:%M%P") %></small></h3><br><br>
+
+
+
+              <% end %>
+             
+
+
+              <% end %>
+
+
+              <% end %> </h3><br><br>
+                <span class="subtext" style="color: #999999;"><%= @appointment.start_at.strftime("%D  %I:%M%P")%>  - <%= @appointment.end_at.strftime("%I:%M%P") %></span>
+              </div>
                 <p><%= link_to "Return To Workout", workout_path(@workout) %></p>
               </div>
-            </div>
+            
                 
 
 
@@ -60,15 +79,23 @@
 
 
     <td> 
+      <% if rotation.amount.present? %>
          <%= rotation.amount %> <%= rotation.unit %> <% if rotation.exwt.present? %>
       with <%= rotation.exwt %> Pounds
+      <% end %>
+      <% else %>
+      <p>No Result Entered</p>
       <% end %>
     </td>
 
 
     <td>
+      <% if rotation.amountdone.present? %>
       <%= rotation.amountdone %> <%= rotation.unit %> <% if rotation.weightdone.present? %>
-      <%= rotation.weightdone %> Pounds
+      with <%= rotation.weightdone %> Pounds
+      <% end %>
+      <% else %>
+      No Result Entered
       <% end %>
     </td>
 
@@ -87,7 +114,7 @@
 <% end %>
 </div>
  
-
+</div>
 
 
 

@@ -23,6 +23,7 @@ match 'payments/charge', to: 'payments#charge', via: :post
   resources :rotations do
     member do
         get :editdata
+        get :enterresults
       end
       collection do
         get :newrotate

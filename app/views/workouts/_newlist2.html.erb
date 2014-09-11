@@ -13,8 +13,8 @@
  
 
     <div class="col-md-12 table-responsive">
-      <h3 style="text-align: center; margin-bottom: 0px;" id="h3build">Build Workout</h3>
-        <table class="table table-bordered" id="table1">
+      <h3 style="text-align: center; margin-bottom: 0px; display:none;" id="h3results">Enter Results</h3>
+        <table class="table table-bordered" id="table2">
             <thead>
                 
                 <tr>
@@ -40,16 +40,7 @@
     <td style="min-width: 180px;" id="<%= exercise.id %>">
         <% if exercise.exercise_id != nil %>
     	<p class="pull-left" style="bottom: 4px; position: relative;"><%= Exercise.find(exercise.exercise_id).name.capitalize %></p>
-        <i class="icon-remove" style="float: right; margin-top: 10px; color: #b85e80;font-size:18px; margin-right: 4px; cursor: pointer;"></i>
-        <i class="icon-plus" style="float: right; margin-top: 10px; color: #96bf48;font-size:18px; margin-right:12px;cursor: pointer;"></i>
         
-        <div style="display:none;" class="removeform">
-            <%= form_for(Agenda.find(exercise.id),
-                 html: { method: :delete },
-                 remote: true) do |f| %>
-              <%= f.submit "Remove", class: "btn-flat mybtn btn-xs danger", style: "float: right; margin-top: 8px;" %>
-                    <% end %>
-        </div>
 
 
         
@@ -59,7 +50,7 @@
 
 <% @rotations.each_with_index do |rotation, ind| %>
 
-    <td id="<%= rotation.id %>" class="editrotate"> 
+    <td id="<%= rotation.id %>" class="editrotateresults"> 
       <%= rotation.amount %> <%= rotation.unit %>  <% if rotation.exwt != "" %>
                             <%= rotation.exwt %> pounds
                              <% end %>
@@ -89,9 +80,8 @@
  
 
 <% else %>
-<div style="clear: both;"><p>No exercises yet</p></div>
 
+<div style="clear: both;"><p>No exercises yet</p></div>
 
 <% end %>
 </div>
-

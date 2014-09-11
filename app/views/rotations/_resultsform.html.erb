@@ -1,28 +1,81 @@
-<%= form_for(@rotation, html: { :class => "form-horizontal" }, remote: true) do |f| %>
+<%= form_for(Rotation.find(@rotation), url: rotation_path, method: :patch, html: { :class => "form-horizontal" }, remote: true) do |f| %>
 
-                        <div class="form-group">
-                          <%= f.label :amountdone, "How much was completed?", :class => "col-md-2 control-label", :id => "amount_lab" %>
-                              <div class="col-md-8">
-                              <%= f.text_field :amountdone, :class => "form-control", :placeholder => "Amount Completed" %>
-                            </div>
-                        </div>
+<% @newrotation =  Rotation.find(@rotation) %>
 
 
-                        <% if @rotation.exwt != "" %>
+  
+                              <div class="form-group">
+                                <%= f.label :amountdone, "Amount", :class => "col-md-2 control-label", :id => "amount_lab" %>
+                                    <div class="col-md-8">
+                                    <%= f.text_field :amountdone, :class => "form-control", :style => "width: 153px; margin-left: 12px;", :placeholder => "Amount Completed" %>
+                                  </div>
+                              </div>
 
-                        <div class="form-group">
-                          <%= f.label :weightdone, "How much weight was used?", :class => "col-md-2 control-label", :id => "amount_lab" %>
-                              <div class="col-md-8">
-                              <%= f.text_field :weightdone, :class => "form-control", :placeholder => "Pounds" %>
-                            </div>
-                        </div>
 
-                        <% end %>
+                              <div class="form-group unvis">
+                                <%= f.label :unit, :class => "col-md-2 control-label" %>
+                                <div class="col-md-8 ui-select" id="oder" style="max-width:619px; width: 153px; margin-left: 12px !important;">
+                             
+                                  <% @formlist = ["seconds","minutes","hours","inches","feet","meters","miles","reps"] %>
+                             
+                                <%= f.select :unit, @formlist.map { |value| [ value, value ] }, {:placeholder => "Unit"}, {:class => "form-control", :style => "padding-left: 12px; width: 153px;"} %>
+                                </div>
+                              </div>
+
+
+
+                              <% if @newrotation.exwt != "" %>
+
+                              <div class="form-group">
+                                <%= f.label :weightdone, "Weight Added", :class => "col-md-2 control-label", :id => "amount_lab" %>
+                                    <div class="col-md-8">
+                                    <%= f.text_field :weightdone, :class => "form-control", :style => "width: 153px;margin-left: 12px;", :placeholder => "Pounds" %>
+                                  </div>
+                              </div>
+
+                              <% end %>
+
+
+
+
+
+
+                               <div class="form-group" style="display:none;">
+                                <%= f.label :amount, :class => "col-md-2 control-label", :id => "amount_lab" %>
+                                  <div class="col-md-8">
+                                  <%= f.text_field :amount, :class => "form-control place_text", :style => "margin-left: 12px;", :placeholder => "Amount" %>
+                                </div>
+                              </div>
+
+                              
+
+                              
+ 
+
+                              <div class="form-group mkvis" style="display:none;">
+                                  <%= f.label :exwt, "Weight Added", :class => "col-md-2 control-label" %>
+                                  <div class="col-md-8">
+                                  <%= f.text_field :exwt, :class => "form-control", :style => "margin-left: 12px;", :placeholder => "Weight Added" %>
+                                </div>
+                              </div>
+
+                        
+
                        
 
                         <div class="form-group">
-                            <div class="col-md-offset-2 col-md-8 sticker2">
-                              <%= f.submit "Enter Results", class: "btn mybtn btn-large btn-primary" %>
+                            <div class="col-md-offset-2 col-md-8 sticker3">
+                              <%= f.submit "Enter Results", class: "btn mybtn btn-large btn-primary", style: "margin-left: 32px;" %>
                             </div>
                         </div>
                               <% end %>
+
+
+
+
+
+
+
+
+
+
