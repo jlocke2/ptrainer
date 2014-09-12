@@ -44,7 +44,7 @@
 <% if @exercises.any? %>
 
 <% @exercises.each do |exercise| %>
-<%  @rotations = exercise.rotations %>
+<%  @rotations = exercise.rotations.sort_by {|x| x.created_at} %>
  <!-- Users table -->
 <div class="row">
     <div class="col-md-12">
