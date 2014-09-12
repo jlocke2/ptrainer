@@ -1,5 +1,4 @@
 class RegistrationsController < Devise::RegistrationsController
-  rescue_from Stripe::CardError, with: :card_error
 
 
   def create

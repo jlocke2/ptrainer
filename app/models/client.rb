@@ -1,5 +1,6 @@
 class Client < ActiveRecord::Base
-	belongs_to :user
+	has_one :user, :as => :rolable
+	belongs_to :trainer
 
 	has_many :meetups, dependent: :destroy
 	has_many :appointments, through: :meetups
