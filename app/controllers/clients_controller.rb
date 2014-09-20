@@ -6,7 +6,7 @@ class ClientsController < ApplicationController
 
 
    def index
-    @search = current_user.clients.order_by_name.search(params[:q])
+    @search = current_user.rolable.clients.order_by_name.search(params[:q])
    	@clients = @search.result.order(name: :asc)
     @client = Client.new
     
@@ -47,35 +47,17 @@ class ClientsController < ApplicationController
 
 
    def create
-  	@client = current_user.clients.build(client_params)
-    @search = current_user.clients.search(params[:q])
+  	@client = current_user.rolable.clients.build(client_params)
+    @search = current_user.rolable.clients.search(params[:q])
     @clients = @search.result.rank(:row_order)
       respond_to do |format|
-        if current_user.plan = "solo"
-          if current_user.clients.count > 50
-            format.js { render :partial => 'fail_create.js.erb' }
-          else
-            if @client.save
+        if @client.save
               format.html { redirect_to clients_path, flash[:success] = "Client created!" }
               format.js
             else
               format.html { redirect_to root_url }
               format.js { "window.location.href = ('#{root_path}');" }
             end
-          end
-        else
-          if current_user.clients.count > 50
-            format.js { render :partial => 'fail_create_plus.js.erb' }
-          else
-            if @client.save
-              format.html { redirect_to clients_path, flash[:success] = "Client created!" }
-              format.js
-            else
-              format.html { redirect_to root_url }
-              format.js { "window.location.href = ('#{root_path}');" }
-            end
-          end
-        end
       end
     end
 
@@ -87,10 +69,17 @@ class ClientsController < ApplicationController
 
    def update
    	 @client = Client.find(params[:id]) 
+     @user = current_user
         respond_to do |format|
         if @client.update_attributes(client_params)
+          if current_user.rolable_type == "Trainer"
           format.html { redirect_to clients_path, flash[:success] = "Profile updated" }
           format.js
+         else
+           @user.update_without_password(user_params)
+           format.js { render :partial => 'update_info.js.erb'}
+
+         end
         else
           format.html { render action: 'edit' }
           format.js {}
@@ -236,11 +225,32 @@ class ClientsController < ApplicationController
   	  params.require(:client).permit(:name, :age, :gender, :email, :phone, :notes, :row_order)
     end
 
+
+
+
+
     def require_permission
-      if current_user.id != @client.user_id
+      if current_user.rolable_type == "Trainer"
+        if current_user.id != @client.trainer.user.id 
         redirect_to root_path
         #Or do something else here
       end
+
+     else
+     
+        
+      end
+      
+    end
+
+
+
+
+
+
+
+    def user_params
+      params[:client].permit(:email)
     end
 
 end

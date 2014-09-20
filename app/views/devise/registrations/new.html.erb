@@ -10,9 +10,9 @@
         <div class="box">
             <div class="content-wrap">
                 <h6>Sign up</h6>
-                <p>Coming after Test Period. <br><%= mail_to "alan@personaltrainerlabs.com", "Contact Us" %> to learn how to become a test user</p>
+                
 
-<div style="display:none;">
+
 
                 
                 <%= form_for(resource, :as => resource_name, :html => {:id => "new_person"}, :url => registration_path(resource_name)) do |f| %>
@@ -31,17 +31,16 @@
                     <% end %>
                   <% end %>
 
+                  <div><%= text_field_tag :name, nil, :placeholder => "Name", :autofocus => true, :class => "form-control" %></div>
 
-                  <div><%= f.text_field :name, :autofocus => true, :class => "form-control", :placeholder => "Name" %></div>
-
-                <div><%= f.email_field :email, :autofocus => true, :class => "form-control", :placeholder => "E-mail address" %></div>
+                <div><%= f.email_field :email, :class => "form-control", :placeholder => "E-mail address" %></div>
 
 				<div><%= f.password_field :password, :class => "form-control", :placeholder => "Your password" %></div>
 
 				<div><%= f.password_field :password_confirmation, :class => "form-control", :placeholder => "Confirm Your password" %></div>
 
 
-                  
+                  <%= hidden_field_tag 'user_type', 'trainer' %>
 				  
 				<div><%= f.submit "Sign up" , :class => 'btn-glow primary login'%></div>
 				<% end %>
@@ -49,7 +48,7 @@
             </div>
         </div>
 
-          </div>
+  
 
         <div class="no-account">
             <p>Already have an account?</p>

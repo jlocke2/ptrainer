@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140912220913) do
+ActiveRecord::Schema.define(version: 20140918180251) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,8 +36,19 @@ ActiveRecord::Schema.define(version: 20140912220913) do
     t.datetime "end_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "user_id"
+    t.integer  "trainer_id"
     t.integer  "client_id"
+  end
+
+  create_table "availables", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.string   "start_at"
+    t.string   "end_at"
+    t.string   "day_of_week"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "trainer_id"
   end
 
   create_table "cats", force: true do |t|
@@ -49,7 +60,7 @@ ActiveRecord::Schema.define(version: 20140912220913) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "user_id"
+    t.integer  "trainer_id"
     t.integer  "age"
     t.string   "gender"
     t.string   "email"
@@ -61,7 +72,7 @@ ActiveRecord::Schema.define(version: 20140912220913) do
   create_table "exercises", force: true do |t|
     t.string   "name"
     t.text     "description"
-    t.integer  "user_id"
+    t.integer  "trainer_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "measure"
@@ -116,8 +127,14 @@ ActiveRecord::Schema.define(version: 20140912220913) do
     t.string   "stripe_customer_token"
     t.string   "stripe_publishable_key"
     t.string   "access_token"
+    t.integer  "rolable_id"
+    t.string   "rolable_type"
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
   end
 
+  add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
@@ -125,7 +142,7 @@ ActiveRecord::Schema.define(version: 20140912220913) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "user_id"
+    t.integer  "trainer_id"
     t.integer  "client_id"
     t.integer  "appointment_id"
   end

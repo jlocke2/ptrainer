@@ -1,12 +1,45 @@
-<h2>Resend confirmation instructions</h2>
 
-<%= form_for(resource, :as => resource_name, :url => confirmation_path(resource_name), :html => { :method => :post }) do |f| %>
-  <%= devise_error_messages! %>
+<div class="headerers">
+        <a href="<%= root_url %>">
+            <%= image_tag "logo.png" %>
+        </a>
+    </div>
 
-  <div><%= f.label :email %><br />
-  <%= f.email_field :email, :autofocus => true %></div>
+<div class="login-wrapper">
+        
 
-  <div><%= f.submit "Resend confirmation instructions" %></div>
-<% end %>
+        <div class="box">
+            <div class="content-wrap">
+                <h6>Resend confirmation instructions	</h6>
 
-<%= render "devise/shared/links" %>
+
+
+                
+		<%= form_for(resource, :as => resource_name, :url => confirmation_path(resource_name), :html => { :method => :post }) do |f| %>
+
+                <% flash.each do |name, msg| %>
+                    <% if msg.class == Array %>
+                      <% msg.each do |message| %>
+                        <%= content_tag :div, message, class: "alert alert-#{name}" %>
+                      <% end %>
+                    <% else %>
+
+                      
+                      <%= content_tag :div, msg, :class => " alert alert-#{name}" %>
+
+                    <% end %>
+                  <% end %>
+
+
+
+
+
+                     <div><%= f.email_field :email, :class => "form-control", :placeholder => "Email Address" %></div>
+                     <div><%= f.submit "Resend confirmation instructions" , :class => 'btn-glow primary login'%></div>
+ 
+              <% end %>
+               
+           
+
+            </div>
+        </div>

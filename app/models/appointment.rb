@@ -3,7 +3,7 @@ class Appointment < ActiveRecord::Base
 
   include ActionView::Helpers::DateHelper
 
-		belongs_to :user
+		belongs_to :trainer
 
 
     has_many :meetups, dependent: :destroy
@@ -13,7 +13,12 @@ class Appointment < ActiveRecord::Base
 
         validates :start_at, presence: true
         validates :end_at, presence: true
-        validates :user_id, presence: true
+        validates :trainer_id, presence: true
+
+  validates :start_at, :end_at, :overlap => {:scope => "trainer_id", :exclude_edges => ["start_at", "end_at"]}
+
+validate :check_times2
+  
 
    
 
@@ -111,6 +116,18 @@ end
   def self.format_date(date_time)
     Time.at(date_time.to_i).to_formatted_s(:db)
   end
+
+
+
+  private
+
+      def check_times2
+        if self[:end_at] < self[:start_at]
+          errors[:end_date] << "Error message"
+          return false
+        end
+
+      end
 
 
 end

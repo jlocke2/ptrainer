@@ -7,7 +7,8 @@
                     <i class="icon-calendar-empty"></i>
                     <span>Calendar</span>
                 </a>
-            </li>            
+            </li> 
+            <% unless current_user.rolable_type == "Client" %>           
             <li>
                 
                 <a href="<%= clients_url %>">
@@ -15,6 +16,7 @@
                     <span>Clients</span>
                 </a>
             </li> 
+            <% end %>
             <li>
                 
                 <a href="<%= payments_url %>">
@@ -22,14 +24,14 @@
                     <span>Payments</span>
                 </a>
             </li> 
-            
+            <% unless current_user.rolable_type == "Client" %>
             <li>
                 <a href="<%= exercises_url %>">
                     <i class="icon-book"></i>
                     <span>Exercises</span>
                 </a>
             </li>
-            
+            <% end %>
             <li>
                 <a href="<%= edit_user_registration_path %>">
                     <i class="icon-cog"></i>

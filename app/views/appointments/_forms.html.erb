@@ -13,7 +13,7 @@
 
   <div class="form-group">
     <%= f.label :client, "Clients", :class => "col-md-2 control-label", :style => "text-align:center;margin-right:34px;" %>
-      <%= f.collection_select :client_id, current_user.clients, :id, :name, {:required => true}, :class=> "multisel2", :style => "padding-left: 15px; width:107%;", :multiple => "multiple", :id => "clientschg" %>
+      <%= f.collection_select :client_id, current_user.rolable.clients, :id, :name, {:required => true}, :class=> "multisel2", :style => "padding-left: 15px; width:107%;", :multiple => "multiple", :id => "clientschg" %>
   
   </div>
   

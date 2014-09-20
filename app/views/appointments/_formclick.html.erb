@@ -21,7 +21,7 @@
 
    <div class="form-group">
     <%= f.label :client, "Clients", :class => "col-md-2 control-label", :style => "text-align:center;" %>
-      <%= f.collection_select :client_id, current_user.clients.order_by_name, :id, :name, {:required => true}, :class => "multisel", :style => "padding-left: 15px; width:107%;", :multiple => "multiple" %>
+      <%= f.collection_select :client_id, current_user.rolable.clients.order_by_name, :id, :name, {:required => true}, :class => "multisel", :style => "padding-left: 15px; width:107%;", :multiple => "multiple" %>
   
   </div>
 

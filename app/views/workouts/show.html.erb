@@ -54,7 +54,7 @@
 
 
 
-
+                    <% unless current_user.rolable_type == "Client" %>
 
                     <a href="#" class="btn-flat success pull-right dropdown-toggle text-center" id="addexercise" data-toggle="dropdown" >
                         ADD EXERCISE
@@ -62,7 +62,7 @@
                     <div class="dropdown-menu dropdown-menu1" style = "padding: 15px; padding-bottom: 10px; z-index: 10000;top:39px;width:325px">
                      <div id="new_agendar">
 
-                      <% if current_user.exercises.any? %>
+                      <% if current_user.rolable.exercises.any? %>
                         <%= render 'addworkout_form' if signed_in? %>
                         <% else %>
                         <p>You must have existing exercises before creating a workout.  Click <%= link_to "exercises", exercises_path %> to create your first exercise.</p>
@@ -79,7 +79,9 @@
                         WORKOUT BUILDER
                     </a>
 
-                     <a href="<%= results_workout_path(@workout) %>" class="btn-flat btn-primary pull-right text-center" id="viewresults" style="display:none;">
+                    <% end %>
+
+                     <a href="<%= results_workout_path(@workout) %>" class="btn-flat btn-primary pull-right text-center" id="viewresults" <% unless current_user.rolable_type == "Client" %> style="display:none;" <% end %>>
                         VIEW RESULTS
                     </a>
 
@@ -103,7 +105,7 @@
 
             </div>
 
-
+<% unless current_user.rolable_type == "Client" %>
   <div id="listing2" style="display:none;">
 
       <%= render 'newlist2' %>
@@ -118,6 +120,15 @@
 
 
 			</div>
+
+      <% else %>
+           <div id="listing2">
+
+              <%= render 'newlist2' %>
+
+
+            </div>
+      <% end %>
 
 
 

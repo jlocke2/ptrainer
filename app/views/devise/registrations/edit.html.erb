@@ -1,7 +1,13 @@
-<div id="pad-wrapper" class="new-user">
-            <div class="row header">
+<% if current_user.rolable_type == "Trainer" %>
+
+<div id="flashtest">
+
+</div>
+
+<div id="pad-wrapper" class="new-user" style="margin-top: 20px;">
+            <div class="row header" style="margin-bottom: 0px;">
                 <div class="col-md-12">
-                    <h3>Edit Your Info</h3>
+                   
                 </div>                
             </div>
             <% flash.each do |name, msg| %>
@@ -18,7 +24,8 @@
                     <% end %>
                   <% end %>
             <ul class="nav nav-tabs nav-justified">
-              <li class="active"><a href="#profile" data-toggle="tab">Profile</a></li>
+              <li class="active"><a href="#profile" data-toggle="tab">My Info</a></li>
+              <li><a href="#calendar2" data-toggle="tab">Calendar Settings</a></li>
               <li><a href="#pay" data-toggle="tab">Payment Info</a></li>
               <li><a href="#cancel" data-toggle="tab">Cancel My Account</a></li>
             </ul>
@@ -31,13 +38,21 @@
                   <div class="container">
 <div class="tab-content">
                   <div class="tab-pane active" id="profile">
-                    <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :class => "form-horizontal"  }) do |f| %>
+                    <%= form_for(resource, :as => resource_name, remote: true, :url => registration_path(resource_name), :html => { :method => :patch, :class => "form-horizontal"  }) do |f| %>
                       <%= devise_error_messages! %>
+
+
+                      <div class="form-group">
+                              <%= f.label :name, :class => "col-md-2 control-label" %>
+                              <div class="col-md-8">
+                              <%= text_field_tag :name, resource.rolable.name, :autofocus => true, :class => "form-control", :placeholder => "Name" %>
+                            </div>
+                        </div>
 
                         <div class="form-group">
                               <%= f.label :email, :class => "col-md-2 control-label" %>
                               <div class="col-md-8">
-                              <%= f.email_field :email, :autofocus => true, :class => "form-control", :placeholder => "Email" %>
+                              <%= f.email_field :email, :class => "form-control", :placeholder => "Email" %>
                             </div>
                         </div>
 
@@ -46,14 +61,14 @@
                         <% end %>
 
                         <div class="form-group">
-                              <%= f.label :password, :class => "col-md-2 control-label" %>
+                              <%= f.label :password, "New Password", :class => "col-md-2 control-label" %>
                               <div class="col-md-8">
                               <%= f.password_field :password, :autocomplete => "off", :class => "form-control", :placeholder => "leave blank if you don't want to change it" %>
                             </div>
                         </div>
 
                         <div class="form-group">
-                              <%= f.label :password_confirmation, :class => "col-md-2 control-label" %>
+                              <%= f.label :password_confirmation,"Confirm New Password", :class => "col-md-2 control-label" %>
                               <div class="col-md-8">
                               <%= f.password_field :password_confirmation, :autocomplete => "off", :class => "form-control", :placeholder => "leave blank if you don't want to change it" %>
                             </div>
@@ -87,6 +102,82 @@
 
                       </div>
 
+                       <div class="tab-pane" id="calendar2">
+                      <h3>Set Master Calendar</h3>
+
+
+                      <%-# start of table -%>
+                      <% @trainer = current_user.rolable %>
+                     
+                      
+                       <table class="table table-hover table-condensed">
+                          <thead>
+                              <tr>
+
+                              <th class="col-md-2">Day</th>
+                            <th class="col-md-2">
+                              <span class="line"></span>Start
+                            </th>
+                            <th class="col-md-2">
+                              <span class="line"></span>End
+                            </th>
+                            
+                          </tr>
+                          </thead>
+
+                          <tbody>
+
+                             <%= form_for(@trainer, url: setschedule_trainer_path(current_user.rolable.id), method: :patch, remote: true) do |f| %>
+
+                           <%= f.fields_for :availables, @availables.sort_by {|x| x.created_at} do |ff| %>
+
+                            <tr>
+
+                              <td>
+
+                                <%= ff.text_field :day_of_week, :class => "form-control", :style => "width:100px;height: 30px;cursor: default; background: white; color: black; border:none;", :placeholder => "Day of Week"   %> 
+                              </td>
+
+                            
+
+                              <td> 
+
+                                <%= ff.text_field :start_at, :class => "form-control datetimepicker1", :style => "width:100px;height: 30px; cursor: pointer; background: white; color: black;", :placeholder => "Start Time", :readonly => true %>
+
+                              </td>
+
+                              <td> 
+
+                                <%= ff.text_field :end_at, :class => "form-control datetimepicker1", :style => "width:100px;height: 30px; cursor: pointer; background: white; color: black;", :placeholder => "End Time", :readonly => true %>
+
+                              </td>
+
+                              
+
+                            </tr>
+                            <% end %>
+                          
+                         
+                        </tbody>
+                          </table>
+
+                      <%-# end of table -%>
+
+
+
+                      <div class="form-group">
+                        <div class="col-md-8">
+                          <%= f.submit "Save Master Schedule", class: "btn mybtn btn-large btn-primary" %>
+                        </div>
+                    </div>
+
+                      
+
+                      <% end %>
+                      
+
+                      </div>
+
 
 
 
@@ -103,5 +194,152 @@
             </div>
 </div>
 
+<script type="text/javascript">
+$('.datetimepicker1').clockpicker({
+           default: "now",
+           twelvehour: true,
+           donetext: "Done",
+          });
+          
+</script>
 
+<% else %>
+
+<div id="flashtest">
+
+</div>
+
+<div id="pad-wrapper" class="user-profile">
+            <!-- header -->
+            <div class="row header">
+                <div class="col-md-6">
+                  <div id="nameemail2">
+                    <%= render 'nameemail2' %>
+                  </div>
+                    
+                </div>
+
+                <% @clientprog = current_user.rolable %>
+
+                <div class="col-md-6">
+                <a class="btn-flat icon pull-right delete-user deleteMe" data-toggle="tooltip" title="Delete My Account" data-placement="top" data-confirm="You sure?" data-method="delete" rel="nofollow" href="<%= client_path(@clientprog) %>">
+                    <i class="icon-trash"></i>
+                </a>
+
+                
+
+                 <a href="<%= progress_client_path(@clientprog) %>" class="btn-flat icon large pull-left edit" id="spacer" style="float: right !important; margin-left: 12px;">
+                        View My Progress
+                    </a>
+                    
+
+
+                <div class="dropdown pull-right" id="hapit">
+                 <a href="#"class="btn-flat icon large pull-right edit dropdown-toggle" data-toggle="dropdown">
+                    Edit My Information
+                </a>
+                    <div class="dropdown-menu" id="hundreder3" style = "padding: 15px; padding-bottom: 0px; min-width: 350px;">
+                     <div id="editcl">
+                        <%= render 'editform' if signed_in? %>
+                        </div>
+                      </div>
+                  </div>
+                  </div>
+
+
+            </div>
+
+            <div class="row profile">
+                <!-- bio, new note & orders column -->
+                <div class="col-md-9 bio">
+                    <div class="profile-box">
+                        <!-- biography -->
+                        <div id="cldets">
+                            <%= render "clientdet" %>
+                        </div>
+                        
+
+                        <h6>Recent Appointments</h6><p><%= link_to "view all of my appointments", appointments_client_path(current_user.rolable) %></p>
+                        <br>
+                        <!-- recent orders table -->
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="col-md-5">
+                                        Date
+                                    </th>
+                                    <th class="col-md-3">
+                                        <span class="line"></span>
+                                        Workout
+                                    </th>
+                                    
+                                    <th class="col-md-3 pull-right">
+                                        <span class="line"></span>
+                                        Results
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                              <% @client = current_user.rolable
+                                @appointments = @client.appointments.where(["start_at < ?", Time.now]).order(start_at: :desc).limit(4) %>
+                                <% @appointments.each do |appointment| %>
+                                <!-- row -->
+                                <tr class="first">
+                                    <td>
+                                        <%= appointment.start_at.strftime("%D") %>
+                                    </td>
+                                    <td>
+                                        <% if Workout.find_by(appointment_id: appointment.id) %>
+                                        <% @id = Workout.find_by(appointment_id: appointment.id) %>
+                                        <%= link_to "View Workout", workout_path(@id) %>
+                                        <% else %>
+                                        <%= link_to 'Add Workout To This Appointment', new_workout_path(:id => appointment.id ) %>
+                                        <% end %>
+                                    </td>
+                                    <td class="pull-right">
+                                        <% if appointment.workout != nil %>
+                                        <% @workout = appointment.workout %>
+                                        
+                                        <%= link_to "View Results", results_workout_path(@workout) %>
+                                        <% else %>
+                                        no workout yet
+                                        <% end %>
+                                    </td>
+                                   
+                                </tr>
+                               
+                            </tbody>
+                            <% end %>
+                        </table>
+
+<br><br>
+<h6>Change Password</h6>
+
+                        <div id="notetable">
+
+                            <%= render 'edituserinfo' %>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+
+
+
+<script>
+ $(document).ready(function()
+ {
+   //Handles menu drop down`enter code here`
+   $('.dropdown-menu').click(function(e) {
+        e.stopPropagation();
+    });
+ });
+  </script>
+
+
+<% end %>
 

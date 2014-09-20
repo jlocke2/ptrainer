@@ -1,4 +1,4 @@
-<% if current_user.clients.count > 0 %>
+<% if current_user.rolable.clients.count > 0 %>
 
 
 
@@ -32,7 +32,7 @@
 
     <td>
     	<%= link_to client.name, client, :class => "name" %>
-    	<span class="subtext"><%= client.email %></span>
+    	<span class="subtext"><%= client.user.email %></span>
     </td>
 
 

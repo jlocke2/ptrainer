@@ -1,5 +1,5 @@
 class Client < ActiveRecord::Base
-	has_one :user, :as => :rolable
+	has_one :user, :as => :rolable, dependent: :destroy
 	belongs_to :trainer
 
 	has_many :meetups, dependent: :destroy
@@ -11,8 +11,6 @@ class Client < ActiveRecord::Base
 	has_many :notes, dependent: :destroy
 
 	validates :name, presence: true
-	validates :user_id, presence: true
-
 
 	 scope :order_by_name, -> { order('LOWER(name)') }
 
@@ -27,7 +25,7 @@ class Client < ActiveRecord::Base
 	    client = find_by_id(row["id"]) || new
 	    parameters = ActionController::Parameters.new(row.to_hash)
       	client.update(parameters.permit(:name, :age, :gender, :email, :phone))
-      	client.update_attribute :user_id, current_user_id
+      	client.update_attribute :trainer_id, current_user_id
 	    client.save!
 	  end
 	end

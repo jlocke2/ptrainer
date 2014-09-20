@@ -1,0 +1,7 @@
+$("#flashtest").html("<%= escape_javascript(render('devise/registrations/infosuccess')) %>");
+window.scrollTo(0, 0);
+$(".alert-success").delay(3000).fadeOut(1400);
+$("#editcl").html("<%= escape_javascript(render('devise/registrations/editform')) %>");
+$("#cldets").html("<%= escape_javascript(render('devise/registrations/clientdet')) %>");
+$("#nameemail2").html("<%= escape_javascript(render('devise/registrations/nameemail2')) %>");
+$('#hapit').removeClass('open');

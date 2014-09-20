@@ -1,15 +1,34 @@
 class AppointmentsController < ApplicationController
   before_action :set_appointment, only: [:show, :edit, :update, :destroy, :move, :resize, :workouts, :editordata]
   before_filter :authenticate_user!
-  before_filter :require_permission, except: [:new, :create, :index, :newdata]
+  before_filter :require_permission, except: [:new, :create, :index, :newdata, :mastercalendar]
 
 
   # GET /appointments
   # GET /appointments.json
   def index
       @appointment = Appointment.new
-      @appointments = current_user.appointments
+      @appointments = current_user.rolable.appointments
       appointments = []
+      available = []
+      
+
+
+
+      if current_user.rolable_type == "Trainer"
+      else
+        @others = current_user.rolable.trainer.appointments.includes(:meetups).where.not('meetups.client_id = ?', current_user.id).references(:meetups)
+        if @others.any?
+         @others.each do |other|
+          appointments << {:id => other.id, :title => "Time Already Taken"  , :start => other.start_at, :end => other.end_at, :class => "unavailable"}
+        end
+        end
+      end
+
+    
+
+
+
       if @appointments.any?
         
       
@@ -35,7 +54,7 @@ class AppointmentsController < ApplicationController
         count = "no"
       end
 
-        appointments << {:id => appointment.id, :title => count  , :description => appointment.description || "Some cool description here...", :start => appointment.start_at, :end => appointment.end_at, :allp => allp}
+        appointments << {:id => appointment.id, :title => count  , :description => appointment.description || "Some cool description here...", :start => appointment.start_at, :end => appointment.end_at, :allp => allp, :class => ""}
       end
     end
 
@@ -81,15 +100,31 @@ class AppointmentsController < ApplicationController
     render :json => { :form => render_to_string(:partial => 'formclick') }
   end
 
+  def mastercalendar
+    availablenow = []
+    if current_user.rolable_type == "Trainer"
+      @availables = current_user.rolable.availables.order('created_at ASC')
+    else
+      @availables = current_user.rolable.trainer.availables.order('created_at ASC')
+    end
+
+    if @availables.any?
+        @availables.each do |available|
+          availablenow << {:id => available.id, :title => "Time Unavailable"  , :start => available.start_at, :end => available.end_at, :day => available.day_of_week}
+        end
+      end
+      render :json => { :data => availablenow }
+  end
+
   # POST /appointments
   # POST /appointments.json
   def create
 
-    @appointment = current_user.appointments.build(appointment_params)
+    @appointment = current_user.rolable.appointments.build(appointment_params)
 
     respond_to do |format|
       if @appointment.save
-        @workout = current_user.workouts.build(workout_params)
+        @workout = current_user.rolable.workouts.build(workout_params)
         @workout.appointment_id = @appointment.id
         @workout.save
          clients = params[:appointment][:client_id]
@@ -107,6 +142,7 @@ class AppointmentsController < ApplicationController
       else
         format.html { render action: 'new' }
         format.json { render json: @appointment.errors, status: :unprocessable_entity }
+        format.js { render :partial => 'fail_create.js.erb' }
       end
     end
   end
@@ -138,6 +174,7 @@ class AppointmentsController < ApplicationController
       else
         format.html { render action: 'edit' }
         format.json { render json: @appointment.errors, status: :unprocessable_entity }
+        format.js { render :partial => 'fail_create.js.erb' }
       end
     end
   end
@@ -200,7 +237,7 @@ class AppointmentsController < ApplicationController
     end
 
     def require_permission
-  	  if current_user.id != @appointment.user_id
+  	  if current_user.id != @appointment.trainer.user.id
   	    redirect_to root_path
   	    #Or do something else here
   	  end

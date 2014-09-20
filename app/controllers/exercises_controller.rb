@@ -8,7 +8,7 @@ class ExercisesController < ApplicationController
 
   def index
     @exercise = Exercise.new
-    @search = current_user.exercises.order_by_name.search(params[:q])
+    @search = current_user.rolable.exercises.order_by_name.search(params[:q])
     @exercises = @search.result.order_by_name
   end
 
@@ -29,8 +29,8 @@ class ExercisesController < ApplicationController
   end
 
   def create
-  	@exercise = current_user.exercises.build(exercise_params)
-    @exercises = current_user.exercises
+  	@exercise = current_user.rolable.exercises.build(exercise_params)
+    @exercises = current_user.rolable.exercises
 
     respond_to do |format|
       if @exercise.save
@@ -79,7 +79,7 @@ private
     end
 
     def require_permission
-      if current_user.id != @exercise.user_id
+      if current_user.id != @exercise.trainer.user.id
         redirect_to root_path
         #Or do something else here
       end

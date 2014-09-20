@@ -1,0 +1,59 @@
+<div class="headerers">
+        <a href="<%= root_url %>">
+            <%= image_tag "logo.png" %>
+        </a>
+    </div>
+
+<div class="login-wrapper">
+        
+
+        <div class="box">
+            <div class="content-wrap">
+
+
+
+                <%= form_for resource, :as => resource_name, :url => update_user_confirmation_path, :html => {:method => 'patch'}, :id => 'activation-form' do |f| %>
+                                <%= devise_error_messages! %>
+
+
+                <% flash.each do |name, msg| %>
+                    <% if msg.class == Array %>
+                      <% msg.each do |message| %>
+                        <%= content_tag :div, message, class: "alert alert-#{name}" %>
+                      <% end %>
+                    <% else %>
+
+                      
+                      <%= content_tag :div, msg, :class => " alert alert-#{name}" %>
+
+                    <% end %>
+                  <% end %>
+
+
+
+
+                  <h6>Account Activation<% if resource.rolable.name %> for <%= resource.rolable.name %><% end %></h6>
+
+                <% if @requires_password %>
+                     <div><%= f.password_field :password, :class => "form-control", :placeholder => "Choose a Password" %></div>
+                    <div><%= f.password_field :password_confirmation, :class => "form-control", :placeholder => "Confirm Your password" %></div>
+                <% end %>
+                <%= hidden_field_tag :confirmation_token,@confirmation_token %>
+                <div><%= f.submit "Activate" , :class => 'btn-glow primary login'%></div>
+
+ 
+              <% end %>
+                
+
+
+
+           
+
+      
+
+       
+
+
+
+            </div>
+        </div>

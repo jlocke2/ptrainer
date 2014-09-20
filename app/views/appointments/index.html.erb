@@ -19,23 +19,28 @@
 <div id="pad-wrapper">
                 <div class="row calendar-wrapper">
                     <div class="col-md-12" style="padding-bottom:20px;">
-
                         <div class="col-md-10 col-sm-12 col-xs-12 pull-right keep-open" id="hapit">
 
+                      <% unless current_user.rolable_type == "Client" %>
                         <a href="#" class="btn-flat success pull-right dropdown-toggle" data-toggle="dropdown" id="spacer" style="right: -30px;
 position: relative;">
                             <span>&#43;</span>
-                            NEW APPOINTMENT
+                            NEW APPOINTMENT 
                         </a>
                         <div class="dropdown-menu padadj" style = "padding: 15px; padding-bottom: 0px; width: 400px; max-width: 100%;">
                          <div id="new_agendars" class="text-center">
-                          <% if current_user.clients.any? %>
+                          <% if current_user.rolable_type == "Client" %>
+                          <p>just testing here</p>
+                          <% else %>
+                          <% if current_user.rolable.clients.any? %>
                         <%= render 'form' if signed_in? %>
                         <% else %>
                         <p>You must have existing clients before creating appointments for them.  Click <%= link_to "clients", clients_path %> to create your first client.</p>
                         <% end %>
+                        <% end %>
                             </div>
                           </div>
+                          <% end %>
                       </div>
                   </div>
 
@@ -165,6 +170,12 @@ position: relative;">
 
 
   $(document).ready(function(){
+     rolable = { type: "<%= escape_javascript(current_user.rolable_type) %>" }
+     if (rolable.type == "Client"){
+    $('.fc-button-agendaWeek').css('display','none');
+      };
+
+    
 
     $('body').on('submit','#new_appointment', function(event){
       event.preventDefault;

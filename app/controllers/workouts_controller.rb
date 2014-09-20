@@ -148,7 +148,7 @@ end
       @workout.client_id = Appointment.find(@workout.appointment_id).client_id
     end
     
-    @times = current_user.appointments
+    @times = current_user.rolable.appointments
   end
 
   def create
@@ -157,7 +157,7 @@ end
       @workout.appointment_id = params[:id]
       @workout.client_id = Appointment.find(@workout.appointment_id).client_id
     end
-    @workout = current_user.workouts.build(workout_params)
+    @workout = current_user.rolable.workouts.build(workout_params)
 
     respond_to do |format|
       if @workout.save
@@ -200,9 +200,16 @@ private
     end
 
     def require_permission
-      if current_user.id != @workout.user_id
-        redirect_to root_path
-        #Or do something else here
+      if current_user.rolable_type == "Client" 
+        if current_user.rolable.trainer.id != @workout.trainer.user.id
+          redirect_to root_path
+          #Or do something else here
+        end
+      else
+        if current_user.id != @workout.trainer.user.id
+          redirect_to root_path
+          #Or do something else here
+        end
       end
     end
 

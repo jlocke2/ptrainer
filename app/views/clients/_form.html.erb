@@ -1,45 +1,74 @@
-<%= form_for(Client.new, html: { :class => "form-horizontal" }, remote: true) do |f| %>
+<%= form_for(resource, :method => :post, :as => resource_name, :html => {:id => "new_person", :class => "form-horizontal"}, :url => registration_path(resource_name), remote: true) do |f| %>
 
-                        <div class="form-group">
-                              <%= f.label :name, :class => "col-md-2 control-label" %>
+                       <%= devise_error_messages! %>
+
+                        <% flash.each do |name, msg| %>
+                            <% if msg.class == Array %>
+                              <% msg.each do |message| %>
+                                <%= content_tag :div, message, class: "alert alert-#{name}" %>
+                              <% end %>
+                            <% else %>
+
+                              
+                              <%= content_tag :div, msg, :class => " alert alert-#{name}" %>
+
+                            <% end %>
+                          <% end %>
+
+                           <div class="form-group">
+                              <%= label_tag :name,nil, :class => "col-md-2 control-label" %>
                               <div class="col-md-8">
-                              <%= f.text_field :name, :class => "form-control", :placeholder => "Name" %>
+                              <%= text_field_tag :name, nil, :class => "form-control", :placeholder => "Name" %>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                              <%= f.label :age, :class => "col-md-2 control-label" %>
-                              <div class="col-md-8">
-                              <%= f.number_field :age, :class => "form-control", :placeholder => "Age" %>
-                            </div>
-                        </div>
 
-                        <div class="form-group">
-                              <%= f.label :gender, :class => "col-md-2 control-label" %>
-                              <div class="col-md-8">
-                              <%= f.text_field :gender, :class => "form-control", :placeholder => "Gender" %>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
+                          <div class="form-group">
                               <%= f.label :email, :class => "col-md-2 control-label" %>
                               <div class="col-md-8">
-                              <%= f.email_field :email, :class => "form-control", :placeholder => "Email" %>
+                              <%= f.email_field :email, :class => "form-control", :placeholder => "E-mail address" %>
+                            </div>
+                        </div>
+
+
+
+
+
+                       
+
+                        <div class="form-group">
+                              <%= label_tag :age,nil, :class => "col-md-2 control-label" %>
+                              <div class="col-md-8">
+                              <%= number_field_tag :age,nil, :class => "form-control", :placeholder => "Age" %>
                             </div>
                         </div>
 
                         <div class="form-group">
-                              <%= f.label :phone, :class => "col-md-2 control-label" %>
+                              <%= label_tag :gender,nil, :class => "col-md-2 control-label" %>
                               <div class="col-md-8">
-                              <%= f.phone_field :phone, :class => "form-control", :placeholder => "Phone" %>
+                              <%= text_field_tag :gender,nil, :class => "form-control", :placeholder => "Gender" %>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                              <%= label_tag :phone,nil, :class => "col-md-2 control-label" %>
+                              <div class="col-md-8">
+                              <%= phone_field_tag :phone,nil, :class => "form-control", :placeholder => "Phone" %>
                             </div>
                         </div>
 
                         
+                        <%= hidden_field_tag 'user_type', 'client' %>
+                        <%= hidden_field_tag 'trainerid', current_user.rolable.id %>
 
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-8">
                               <%= f.submit "Create my client", class: "btn mybtn btn-large btn-primary" %>
                             </div>
                         </div>
+
+
+
+
                               <% end %>

@@ -19,7 +19,7 @@
                     <div class="dropdown-menu" style = "padding: 10px 20px;">
                      <div>
 
-                        <% if current_user.exercises.any? %>
+                        <% if current_user.rolable.exercises.any? %>
                         <%= render 'progform' if signed_in? %>
                         <% else %>
                         <p>You must have existing exercises before checking their progress.  Click <%= link_to "exercises", exercises_path %> to create your first exercise.</p>

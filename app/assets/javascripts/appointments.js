@@ -4,6 +4,8 @@ $(document).ready(function() {
   d = date.getDate();
   m = date.getMonth();
   y = date.getFullYear();
+  day = date.getDay();
+  var allowed = true;
   $("#calendar").fullCalendar({
     header: {
       left: "prev,next today",
@@ -11,20 +13,82 @@ $(document).ready(function() {
       right: "month,agendaWeek,agendaDay"
     },
     editable: true,
+    allDaySlot: false,
     selectable: true,
     allDayDefault: false,
+    eventRender: function(event, element) {
+            var view = $('#calendar').fullCalendar('getView');
+            if (event.class == "unavailable"){
+              element.css({'background-color':'grey','border':'grey'})
+              event.editable = false
+            };
+            if (view.name == 'month' && event.class == "unavailable") {return false};
+          },
     events: "/appointments.json",
+    getAvailable: function(){
+
+
+
+    },
     select: function(start, end, startDate, endDate, allDay, jsEvent, view) {
         viewer = $('#calendar').fullCalendar('getView');
         if (viewer.name == "month") {
-          console.log(viewer);
+         // console.log(viewer);
         $('.fc-event').popover('destroy');
+        console.log(start)
+        var splitter = start.toString().split(" ");
+          var dayofweek = splitter[0];
+
+        switch (dayofweek) {
+                                      case "Sun":
+                                          newday = "0";
+                                          break;
+                                      case "Mon":
+                                          newday = "1";
+                                          break;
+                                      case "Tue":
+                                          newday = "2";
+                                          break;
+                                      case "Wed":
+                                          newday = "3";
+                                          break;
+                                      case "Thu":
+                                          newday = "4";
+                                          break;
+                                      case "Fri":
+                                          newday = "5";
+                                          break;
+                                      case "Sat":
+                                          newday = "6";
+                                          break;
+                                     
+                                        }
+
+
+        
+         // console.log(dayofweek);
+         console.log(calTime.data[newday]);
+         $('#calendar').fullCalendar('getView').calendar.options.minTime=calTime.data[newday].start;
+          $('#calendar').fullCalendar('getView').calendar.options.maxTime=calTime.data[newday].end;
+         
+
+
+
         $("#calendar").fullCalendar("changeView", "agendaDay").fullCalendar("gotoDate", start);
+        // console.log(start)
       } else {
-         console.log(viewer);
-         console.log(start);
-         console.log(end);
-         $.when($.ajax({
+        viewer = $('#calendar').fullCalendar('getView');
+       //  console.log(viewer);
+       //  console.log(start);
+      //  console.log(end);
+       //  console.log(rolable.type);
+         if (rolable.type == "Client") {
+
+         } else {
+
+
+
+          $.when($.ajax({
                       url: "/appointments/newdata",
                       success: function(data) {
                         $("#new_appointment_description2").html(data["form"]);
@@ -221,18 +285,88 @@ function settime() {
 
 
 
+         };
+         
+
+
+
 
 
         
       };
     },
     viewDestroy: function(view) {
+     // console.log(view);
       $('.fc-event').popover('destroy');
       $('.fc-cell-overlay').popover('destroy');
       
 
+        
     },
-    viewRender: function(view) { /*
+    dayRender: function(date, cell, start){
+      
+    
+    },
+    viewRender: function(view) {
+      // console.log(view);
+      
+      if (allowed){
+            $.ajax({
+                url: "/appointments/mastercalendar",
+                success: function(data) {
+                  console.log(data);
+                  var today = new Date();
+                    var now = today.getDay();
+                    console.log(now)
+                    
+                      console.log(data.data[now].start);
+                    
+                      $('#calendar').fullCalendar('getView').calendar.options.minTime=data.data[now].start;
+                       $('#calendar').fullCalendar('getView').calendar.options.maxTime=data.data[now].end;
+
+                       calTime = data
+
+                  }
+
+
+                    });
+          
+          allowed = false
+      };
+     
+      
+     // console.log(dayofweek);
+    /*  if (dayofweek == "Wed") {
+        $('#calendar').fullCalendar('getView').calendar.options.minTime=2;
+       $('#calendar').fullCalendar('getView').calendar.options.maxTime=20;
+
+      } else {
+        $('#calendar').fullCalendar('getView').calendar.options.minTime=6;
+       $('#calendar').fullCalendar('getView').calendar.options.maxTime=10;
+      };
+        */
+    
+
+
+
+      /*
+      var view = $('#calendar').fullCalendar('getView');
+      if (view.name == 'month'){
+        console.log("Welcome to the Month");
+      } else if (view.name == 'agendaDay'){
+        for (i = 0; i < 12; i++) { 
+          $('.fc-slot'+i).css('background-color', 'rgba(128, 128, 128, 0.5)');
+        }
+
+        for (i = 40; i < 48; i++) { 
+          $('.fc-slot'+i).css('background-color', 'rgba(128, 128, 128, 0.5)');
+        }
+        
+        console.log(view.name);
+      }else if (view.name == 'agendaWeek'){
+        console.log(view.name);
+      };
+     
       $(".fc-widget-content").popover({
           title: "Creat New Appointment",
           width: 500,
@@ -246,17 +380,30 @@ function settime() {
 
     },
     eventDrop: function(event, dayDelta, minuteDelta, allDay) {
-      console.log('saving on drop');
-      moveTime(event, dayDelta, minuteDelta, allDay);
+      if (event.class == "unavailable") {
+
+       } else {
+        console.log('saving on drop');
+        moveTime(event, dayDelta, minuteDelta, allDay);
+      };
     },
     eventResize: function(event, dayDelta, minuteDelta, allDay) {
-      console.log('saving on resize');
-      resizeTime(event, dayDelta, minuteDelta, allDay);
+      if (event.class == "unavailable") {
+
+       }else {
+        console.log('saving on resize');
+        resizeTime(event, dayDelta, minuteDelta, allDay);
+      };
     },
     eventClick: function(event, jsEvent, view) {
        $('.fc-event').popover('destroy');
        $('.fc-cell-overlay').popover('destroy');
-      showEventDetails(event)
+       if (event.class == "unavailable") {
+
+       }else {
+        showEventDetails(event)
+       };
+      
       
       ;
       $(this).popover('show');
@@ -304,7 +451,7 @@ function settime() {
       "</span></div> <div class='field' style='margin-bottom:-5px;'> Who: <span class='who'>" + allp + "</span></div>" + "<br />" + 
       "<a class='btn-sm mybtn btn-small btn-primary' style='width: 30%; margin-right: 15px; padding-left: 10px; padding-right: 10px; margin-left: 3px;' href = 'javascript:void(0);' onclick ='editIt(" + event.id + ")'>Edit Time</a>" +
       "<a class='btn-sm mybtn btn-small btn-success' style='width: 96px; margin-right: 15px; padding-left: 12px; padding-right: 12px;' href = 'javascript:void(0);' onclick ='viewIt(" + event.id + ")'>Workout</a>" + 
-      "<a class='btn-sm mybtn btn-small btn-danger' style='width: 30%; padding-left: 17px; padding-right: 17px;' href = 'javascript:void(0);' onclick ='deleteIt(" + event.id + ", " + false + ")'>Delete</a></div>",
+      "<a class='btn-sm mybtn btn-small btn-danger' style='width: 30%; padding-left: 17px; padding-right: 17px;' href = 'javascript:void(0);' onclick ='deleteIt(" + event.id + ", " + false + ")'>Cancel</a></div>",
       html: true,
       template: '<div class="popover" style="width:500px" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
     });
@@ -416,7 +563,8 @@ function settime() {
                       $('#hidepop').css('display', 'none');
                       $('.arrow').css('display', 'none');
 
-                      $('.multisel2').multiselect('select', data["id"]);
+                      if (data["id"] != null ) {$('.multisel2').multiselect('select', data["id"])};
+
 
                       var startedit = data["apt"].start.toString();
 
@@ -742,7 +890,6 @@ $(document).ready(function()
 $(document).ready(function(){
 
     
-      
 
 
   });

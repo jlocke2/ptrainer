@@ -15,10 +15,11 @@ match 'payments/charge', to: 'payments#charge', via: :post
 
 
 
-  devise_for :users, :controllers => {:registrations => "registrations", :sessions => "sessions"}
+  devise_for :users, :controllers => {:registrations => "registrations", :sessions => "sessions", :confirmations => "confirmations"}
 
   devise_scope :user do
     get '/users/sign_out' => 'devise/sessions#destroy'
+    match '/user/confirmation' => 'confirmations#update', :via => :patch, :as => :update_user_confirmation
   end
   resources :rotations do
     member do
@@ -54,11 +55,17 @@ match 'payments/charge', to: 'payments#charge', via: :post
     end
     collection do
       get :newdata
+      get :mastercalendar
     end
   end
   resources :agendas, only: [:create, :destroy, :update] do
     member do
       get :editdata
+    end
+  end
+  resources :trainers, only: [:setschedule] do
+    member do
+      patch :setschedule
     end
   end
   resources :exercises do

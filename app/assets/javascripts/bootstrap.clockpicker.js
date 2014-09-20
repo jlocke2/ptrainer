@@ -99,6 +99,8 @@
 			self = this,
 			timer;
 
+		
+
 		this.id = uniqueId('cp');
 		this.element = element;
 		this.options = options;
@@ -463,15 +465,13 @@
 			];
 		}
 		this.hours = + value[0] || 0;
-		this.minutes = + value[1] || 0;
 		this.spanHours.html(leadingZero(this.hours));
-		this.spanMinutes.html(leadingZero(this.minutes));
-		var hr88 = Date.prototype.getHours()
-		if (hr88 <= 11) {
-			this.spanAmPm.html(" AM");
-		} else {
-			this.spanAmPm.html(" PM");
-		};
+		console.log(value[1]);
+		var split2 = value[1].split(' ');
+		this.spanAmPm.html(' ' + split2[1]);
+		this.amOrPm = split2[1];
+		this.minutes = split2[0];
+		this.spanMinutes.html(this.minutes);
 		
 
 		// Toggle to hours view
@@ -682,7 +682,7 @@
 		raiseCallback(this.options.beforeDone);
 		this.hide();
 		var last = this.input.prop('value'),
-			value = leadingZero(this.hours) + ':' + leadingZero(this.minutes);
+			value = this.hours + ':' + leadingZero(this.minutes);
 		if  (this.options.twelvehour) {
 			value = value + ' ' + this.amOrPm;
 		}

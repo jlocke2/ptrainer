@@ -23,7 +23,7 @@
 									   <div class="form-group" style="margin-bottom:0px">
 									    <%= f.label :exercise, :class => "col-md-2 control-label" %>
                       <div class="col-md-8 ui-select" style="padding-left: 0px;max-width: 400px;left: 14px;">
-									    <%= f.collection_select :exercise_id, current_user.exercises, :id, :name, {prompt: true}, {:class => "form-control", :style => "padding-left: 12px;width: 107%;"} %>
+									    <%= f.collection_select :exercise_id, current_user.rolable.exercises, :id, :name, {prompt: true}, {:class => "form-control", :style => "padding-left: 12px;width: 107%;"} %>
                       </div>
 									  </div>
                     <br />
