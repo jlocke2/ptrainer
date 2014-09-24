@@ -1,7 +1,12 @@
 <div id="pad-wrapper" class="users-list">
             <div class="row header">
+              <% if current_user.rolable_type == "Trainer" %>
                 <h3>Progress for <%= @client.name.capitalize %></h3><br><br>
                 <%= link_to "Return To Client Profile", client_path(@client) %>
+                <% else %>
+                  <h3>View Your Progress</h3><br><br>
+                  <%= link_to "Return To Your Profile", edit_user_registration_path %>
+                <% end %>
                 <div class="col-md-10 col-sm-12 col-xs-12 pull-right keep-open" id="hapit">                    
                     <!-- custom popup filter -->
                     <!-- styles are located in css/elements.css -->
@@ -18,12 +23,19 @@
                     </a>
                     <div class="dropdown-menu" style = "padding: 10px 20px;">
                      <div>
-
+                      <% if current_user.rolable_type == "Trainer" %>
                         <% if current_user.rolable.exercises.any? %>
                         <%= render 'progform' if signed_in? %>
                         <% else %>
                         <p>You must have existing exercises before checking their progress.  Click <%= link_to "exercises", exercises_path %> to create your first exercise.</p>
                         <% end %>
+                      <% else %>
+                        <% if current_user.rolable.trainer.exercises.any? %>
+                        <%= render 'progformclient' if signed_in? %>
+                        <% else %>
+                        <p>You must have existing exercises before checking their progress.  Click <%= link_to "exercises", exercises_path %> to create your first exercise.</p>
+                        <% end %>
+                      <% end %>
 
                         </div>
                       </div>

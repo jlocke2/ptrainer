@@ -6,6 +6,8 @@ class Trainer < ActiveRecord::Base
 	  has_many :exercises, dependent: :destroy
 	  has_many :workouts, dependent: :destroy
 	  has_many :availables, dependent: :destroy
+	  has_many :unavailables, dependent: :destroy
+	  has_many :requests, dependent: :destroy
 
 	  after_create :add_available
 

@@ -463,15 +463,25 @@
 				now.getHours(),
 				now.getMinutes()
 			];
-		}
-		this.hours = + value[0] || 0;
+			this.hours = + value[0] || 0;
+		this.minutes = + value[1] || 0;
 		this.spanHours.html(leadingZero(this.hours));
-		console.log(value[1]);
-		var split2 = value[1].split(' ');
-		this.spanAmPm.html(' ' + split2[1]);
-		this.amOrPm = split2[1];
-		this.minutes = split2[0];
-		this.spanMinutes.html(this.minutes);
+		this.spanMinutes.html(leadingZero(this.minutes));
+		$('.clockpicker-span-am-pm').empty().append(' PM');
+		this.amOrPm = "PM";
+		} else {
+			this.hours = + value[0] || 0;
+			this.spanHours.html(leadingZero(this.hours));
+			console.log(value[1]);
+			var split2 = value[1].split(' ');
+			this.spanAmPm.html(' ' + split2[1]);
+			this.amOrPm = split2[1];
+			this.minutes = split2[0];
+			this.spanMinutes.html(this.minutes);
+		};
+		
+
+
 		
 
 		// Toggle to hours view

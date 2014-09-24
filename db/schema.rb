@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140918180251) do
+ActiveRecord::Schema.define(version: 20140924183457) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,6 +38,8 @@ ActiveRecord::Schema.define(version: 20140918180251) do
     t.datetime "updated_at"
     t.integer  "trainer_id"
     t.integer  "client_id"
+    t.string   "allowjoin"
+    t.string   "maxjoin"
   end
 
   create_table "availables", force: true do |t|
@@ -92,6 +94,15 @@ ActiveRecord::Schema.define(version: 20140918180251) do
     t.datetime "updated_at"
   end
 
+  create_table "requests", force: true do |t|
+    t.datetime "start_at"
+    t.datetime "end_at"
+    t.integer  "trainer_id"
+    t.integer  "client_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "rotations", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -105,6 +116,14 @@ ActiveRecord::Schema.define(version: 20140918180251) do
 
   create_table "trainers", force: true do |t|
     t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "unavailables", force: true do |t|
+    t.datetime "start_at"
+    t.datetime "end_at"
+    t.integer  "trainer_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

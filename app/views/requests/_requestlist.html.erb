@@ -1,0 +1,53 @@
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-hover" style="margin-bottom:0px;">
+
+<tbody>
+
+<% if @requests.any? %>
+
+
+<% @requests.each do |request| %>
+<% 		@name = Client.find(request.client_id).name
+		 @start = request.start_at.strftime("%b %e, %l:%m %p")
+		 @end = request.end_at.strftime("%l:%m %p") %>
+
+  <tr>
+
+    <td style="width: 100px; display: inline-block;">
+    	
+    	<%= @name %><br>
+    	<%= @start %> 
+    </td>
+
+    <td>
+    	<% @id = request.id %>
+    	<%= render "confirmform" %>
+    </td>
+
+    <td>
+    	<% @id = request.id %>
+    	<%= render "declineform" %>
+    </td>
+  
+
+    
+
+   
+
+    
+
+  </tr>
+
+<% end %>
+
+</table>
+
+
+ 
+
+<% else %>
+
+<p>Hooray! No current requests!</p>
+
+<% end %>

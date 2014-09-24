@@ -1,0 +1,7 @@
+
+
+                      
+                      <%= content_tag :div, :class => " alert alert-success" do %>
+                      		Request confirmed!  We will email <%= Client.find(@request.client_id).name %> for you!
+                    <% end %>
+                

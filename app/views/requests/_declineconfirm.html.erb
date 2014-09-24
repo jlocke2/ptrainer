@@ -1,0 +1,7 @@
+
+
+                      
+                      <%= content_tag :div, :class => " alert alert-danger" do %>
+                      		Request declined!  We will email <%= Client.find(@request.client_id).name %> for you!
+                    <% end %>
+                

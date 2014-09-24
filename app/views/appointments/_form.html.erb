@@ -14,15 +14,42 @@
     </div>
   <% end %>
 
+  <div class="form-group">
+    <label class="col-md-2 control-label" style="max-width:200px;"></label>
+                <div class='input-groupst date col-md-8' >
+                    <%= select_tag "type", "<option value='1'>Session or Class</option><option value='2'>Unavailable Time</option>".html_safe, prompt: "What would you like to add?", class: "btn btn-default btn-sizers", style: "color: #333333; background-color: #ebebeb; border-color: #adadad;text-indent: 20px;height:34px;"%>
+                    
+            </div>
+    </div>
+
+
+  <div class="form-group" id="canadd" style="display:none;">
+    <label class="col-md-2 control-label" style="max-width:200px;"></label>
+                <div class='input-groupst date col-md-8' >
+                    <%= select_tag "canadd2", "<option value='1'>Yes</option><option value='2'>No</option>".html_safe, prompt: "Can clients join this session?", class: "btn btn-default btn-sizers", style: "color: #333333; background-color: #ebebeb; border-color: #adadad;text-indent: 20px;height:34px;"%>
+                    
+            </div>
+    </div>
+
+
+
+    <div class="form-group" id="totaladd" style="display:none;">
+    <label class="col-md-2 control-label" style="max-width:200px;"></label>
+                <div class='input-groupst date col-md-8' >
+                    <%= select_tag "totaladd2", "<option value='1'>1</option><option value='2'>2</option><option value='3'>3</option><option value='4'>4</option><option value='5'>5</option><option value='6'>6</option><option value='7'>7</option><option value='8'>8</option><option value='9'>9</option><option value='10'>10</option><option value='11'>11</option><option value='12'>12</option><option value='13'>13</option><option value='14'>14</option><option value='15'>15</option><option value='16'>16</option><option value='17'>17</option><option value='18'>18</option><option value='19'>19</option><option value='20'>20</option>".html_safe, prompt: "Total # allowed in session?", class: "btn btn-default btn-sizers", style: "color: #333333; background-color: #ebebeb; border-color: #adadad;text-indent: 20px;height:34px;"%>
+                    
+            </div>
+    </div>
+
   
 
-   <div class="form-group">
+   <div class="form-group" id="clientchoose" style="display:none;">
     <%= f.label :client, "Clients", :class => "col-md-2 control-label", :style => "text-align:center;" %>
       <%= f.collection_select :client_id, current_user.rolable.clients.order_by_name, :id, :name, {:required => true}, :style => "padding-left: 15px; width:107%;", :multiple => "multiple" %>
   
   </div>
 
- <div class="form-group">
+ <div class="form-group timechoose" style="display:none;">
     <label class="col-md-2 control-label" style="max-width:200px;">Date</label>
                 <div class='input-groupst date col-md-8' >
                     <input type='text' class="form-control" id='datetimepicker3' style="border-radius: 5px; cursor: pointer;" readonly />
@@ -32,7 +59,7 @@
 
  
 
-  <div class="form-group">
+  <div class="form-group timechoose" style="display:none;">
     <label class="col-md-2 control-label" style="max-width:200px;">Start Time</label>
                 <div class='input-groupst date col-md-8' >
                     <input type='text' class="form-control" id='datetimepicker1' style="border-radius: 5px; cursor: pointer; " readonly />
@@ -47,7 +74,7 @@
     </div>
   </div>
 
-  <div class="form-group">
+  <div class="form-group timechoose" style="display:none;">
     <label class="col-md-2 control-label" style="max-width:200px;">End Time</label>
                 <div class='input-groupst date col-md-8'>
                     <input type='text' class="form-control" id='datetimepicker2' style="border-radius: 5px; cursor: pointer;" readonly />
@@ -61,16 +88,16 @@
     </div>
   </div>
 
-  <div class="form-group">
+  <div class="form-group" id="notechoose" style="display:none;">
     <%= f.label :description,"Notes", :class => "col-md-2 control-label", :style => "border-radius: 5px;" %>
     <div class="col-md-8">
       <%= f.text_area :description, :style => "width: 235px; border-radius: 5px;" %>
     </div>
   </div>
 
-  <div class="form-group">
+  <div class="form-group" id="submitchoose" style="display:none;">
       <div class="col-md-offset-2 col-md-8">
-        <%= f.submit "Create appointment", class: "btn mybtn btn-large btn-primary" %>
+        <%= f.submit "Add To Schedule", class: "btn mybtn btn-large btn-primary" %>
       </div>
   </div>
 <% end %>
@@ -85,6 +112,44 @@ $(document).ready(function() {
                   enableCaseInsensitiveFiltering: true,
                   filterPlaceholder: 'Search',
               });
+  $('body').off('change','#type');
+  $('body').on('change','#type', function(){
+    var val = $(this).val();
+    if (val == "1") {
+      $('.timechoose').css('display', '');
+      $('#clientchoose').css('display', '');
+      $('#submitchoose').css('display', '');
+      $('#canadd').css('display', '');
+      $('#totaladd').css('display', 'none');
+    } else if (val == "2"){
+      $('.timechoose').css('display', '');
+      $('#clientchoose').css('display', 'none');
+      $('#submitchoose').css('display', '');
+      $('#canadd').css('display', 'none');
+      $('#totaladd').css('display', 'none');
+
+    } else {
+      $('.timechoose').css('display', 'none');
+      $('#clientchoose').css('display', 'none');
+      $('#submitchoose').css('display', 'none');
+      $('#canadd').css('display', 'none');
+      $('#totaladd').css('display', 'none');
+    };
+
+  });
+
+  $('body').off('change','#canadd2');
+  $('body').on('change','#canadd2', function(){
+    var val = $(this).val();
+    console.log(val);
+    if (val == "1") {
+      $('#totaladd').css('display', '');
+    } else {
+       $('#totaladd').css('display', 'none');
+    };
+  });
+
+
 });
 
 </script>

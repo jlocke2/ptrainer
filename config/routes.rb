@@ -12,6 +12,7 @@ match 'payments', to: 'payments#index', via: :get
 match 'payments/verify', to: 'payments#verify', via: :post
 match 'payments/verify', to: 'payments#verify', via: :get
 match 'payments/charge', to: 'payments#charge', via: :post
+#match 'requests', to: 'clients#requests', via: :get
 
 
 
@@ -50,12 +51,18 @@ match 'payments/charge', to: 'payments#charge', via: :post
     member do
       post :move
       post :resize
+      post :join
       get :workouts
       get :editordata
     end
     collection do
       get :newdata
       get :mastercalendar
+    end
+  end
+  resources :unavailables do
+    member do
+      get :editordata
     end
   end
   resources :agendas, only: [:create, :destroy, :update] do
@@ -66,6 +73,16 @@ match 'payments/charge', to: 'payments#charge', via: :post
   resources :trainers, only: [:setschedule] do
     member do
       patch :setschedule
+    end
+  end
+  resources :requests do
+    collection do
+      get :newform
+      get :requestlist
+    end
+    member do
+      post :confirm
+      get :formsforpop
     end
   end
   resources :exercises do

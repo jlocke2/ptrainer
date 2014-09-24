@@ -1,7 +1,7 @@
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="z-index:10000;">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
+    <div class="navbar-header" style="width:100%;">
       <button type="button" class="navbar-toggle" data-toggle="collapse" id="menu-toggler">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
@@ -9,16 +9,31 @@
         <span class="icon-bar"></span>
       </button>
       <a class="navbar-brand" href="<%= root_path %>"></a>
-    </div>
-
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <!-- 'Sticky' (non-collapsing) right-side menu item(s) -->
+           
+           <div class="collapse navbar-collapse pull-right" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
+            <!-- This works well for static text, like a username -->
+      
+
         <li><%= link_to "My Profile", edit_user_registration_path %></li>
         <li><%= link_to("Sign Out", destroy_user_session_path, :method => :delete)  %></li>
         
       </ul>
     </div><!-- /.navbar-collapse -->
+    <% if current_user.rolable_type == "Trainer" %>
+     <ul class="nav navbar-nav pull-right">
+            <li><i class="icon-warning-sign" style="color: #999999; font-size: 18px; position: relative; top: 16px;z-index:22;margin-right: 14px;cursor: pointer;"></i></li>
+          </ul>
+    <% end %>
+    </div>
+
+ 
+        
+
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+   
   </div><!-- /.container-fluid -->
 </nav>
 

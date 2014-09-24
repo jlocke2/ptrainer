@@ -1,5 +1,3 @@
-$("#new_agendars").html("<%= escape_javascript(render('appointments/form')) %>");
-$("#calendar").fullCalendar("refetchEvents");
 $('#hapit').removeClass('open');
 $(document).ready(function() {
               window.prettyPrint() && prettyPrint();
@@ -8,7 +6,7 @@ $(document).ready(function() {
               });
 });
 window.scrollTo(0, 0);
-$("#flashtest").html("<%= escape_javascript(render('appointments/successapt')) %>");
+$("#flashtest").html("<%= escape_javascript(render('requests/successapt')) %>");
 $(".alert-success").delay(3000).fadeOut(1400);
 
 

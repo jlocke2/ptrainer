@@ -48,6 +48,72 @@
       
     </div>
     <%= render 'layouts/footer' %>
+
+
+
+  <script type="text/javascript">
+$('document').ready(function(){
+    <% if current_user.rolable_type == "Trainer" %>
+    <% countrequest = current_user.rolable.requests.size %>
+    <% if countrequest != 0 %>
+    $('.icon-warning-sign').parents('li').append('<span class="count">' + <%= countrequest %> + '</span>');
+    <% end %>
+    <% end %>
+
+    $('body').on('click', '.icon-warning-sign', function(){
+            $.when($.ajax({
+                      url: "/requests/requestlist",
+                      success: function(data) {
+                        $("#request_list").html(data["form"]);
+                         }})).then( finishrequestlist());
+
+            function finishrequestlist() {
+          $('.fc-cell-overlay').popover('destroy');
+        $('.fc-event').popover('destroy');
+
+            $('.icon-warning-sign').popover({
+              title: "Current Requests",
+              width: 500,
+              animation: false,
+              trigger: 'manual',
+              container: 'body',
+              placement: 'bottom',
+              content: "<div id='request_list'></div>",
+              html: true,
+              template: '<div class="popover" style="width:500px" role="tooltip"><div class="arrow"></div><h3 class="popover-title" style="text-align:center;"></h3><div class="popover-content"></div></div>'
+            }).popover('show');
+        }
+});
+
+
+
+$("body").on("click", function (e) {
+
+    if ($(e.target).is(".icon-warning-sign")) {
+        e.stopPropagation();
+    } else if ($(e.target).is(".popover")) {
+        e.stopPropagation();
+    } else {
+      $('.icon-warning-sign').popover('destroy');
+    }
+
+
+
+});
+
+
+
+});
+
+
+
+
+</script>
+
   </body>
 
+
+
+
 </html>
+

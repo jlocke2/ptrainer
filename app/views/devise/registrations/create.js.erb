@@ -4,6 +4,7 @@
 $("#new_person").html("<%= escape_javascript(render('clients/form')) %>");
 $("#clchart").html("<%= escape_javascript(render('clients/clientchart')) %>");
 $('#hapit').removeClass('open');
+window.scrollTo(0, 0);
 $("#flashtest").html("<%= escape_javascript(render('clients/flashsuccess')) %>");
 $(".alert-success").delay(1000).fadeOut(1400);
 $(document).ready(ready);

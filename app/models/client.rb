@@ -4,6 +4,7 @@ class Client < ActiveRecord::Base
 
 	has_many :meetups, dependent: :destroy
 	has_many :appointments, through: :meetups
+	has_many :requests, dependent: :destroy
 
 
 

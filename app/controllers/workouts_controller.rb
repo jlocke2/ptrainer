@@ -201,7 +201,7 @@ private
 
     def require_permission
       if current_user.rolable_type == "Client" 
-        if current_user.rolable.trainer.id != @workout.trainer.user.id
+        if current_user.rolable.trainer.id != @workout.trainer.id
           redirect_to root_path
           #Or do something else here
         end

@@ -1,5 +1,5 @@
 class AppointmentsController < ApplicationController
-  before_action :set_appointment, only: [:show, :edit, :update, :destroy, :move, :resize, :workouts, :editordata]
+  before_action :set_appointment, only: [:show, :edit, :update, :destroy, :move, :resize, :workouts, :editordata, :join]
   before_filter :authenticate_user!
   before_filter :require_permission, except: [:new, :create, :index, :newdata, :mastercalendar]
 
@@ -23,6 +23,95 @@ class AppointmentsController < ApplicationController
           appointments << {:id => other.id, :title => "Time Already Taken"  , :start => other.start_at, :end => other.end_at, :class => "unavailable"}
         end
         end
+      end
+
+      if current_user.rolable_type == "Trainer"
+      else
+        @otherreqs = Request.where(trainer_id: current_user.rolable.trainer.id).where.not('client_id = ?', current_user.rolable.id)
+        if @otherreqs.any?
+         @otherreqs.each do |other|
+          appointments << {:id => other.id, :title => "Time Already Requested"  , :start => other.start_at, :end => other.end_at, :class => "unavailable"}
+        end
+        end
+      end
+
+
+
+
+      if current_user.rolable_type == "Trainer"
+          @unavailables = current_user.rolable.unavailables
+        else
+          @unavailables = current_user.rolable.trainer.unavailables
+        end
+        if @unavailables.any?
+         @unavailables.each do |unavailable|
+          appointments << {:id => unavailable.id, :title => "Unavailable Time"  , :start => unavailable.start_at, :end => unavailable.end_at, :class => "gone"}
+        end
+      end
+
+
+
+
+
+
+
+        if current_user.rolable_type == "Trainer"
+          @requests = Request.where(trainer_id: current_user.rolable.id)
+        else
+          @requests = Request.where(client_id: current_user.rolable.id)
+        end
+        if @requests.any?
+         @requests.each do |request|
+          @name = Client.find(request.client_id).name
+          appointments << {:id => request.id, :title => "Appointment Request"  , :start => request.start_at, :end => request.end_at, :class => "requested", :name => @name}
+        end
+      end
+
+
+
+       if current_user.rolable_type == "Trainer"
+        else
+          @opentimes = Appointment.includes(:meetups).where('appointments.trainer_id = ? AND meetups.client_id != ? AND appointments.allowjoin = ?',  current_user.rolable.trainer.id, current_user.rolable.id, 1.to_s).references(:meetups)
+          
+          if @opentimes.any?
+            @opentimes.each do |opentime|
+          meets = Meetup.where(appointment_id: opentime)
+        if meets.any?
+          if meets.count > 1
+           first = meets.first.client_id
+           allp = []
+           meets.each do |meet|
+           @name = Client.find(meet.client_id).name
+           allp << @name
+           end
+           num = meets.count
+           num1 = num-1
+           count = Client.find(first).name + " + " + num1.to_s + " more"
+         else
+          first = meets.first.client_id
+          count = Client.find(first).name
+          allp = Client.find(first).name
+        end
+       else
+        count = "no"
+      end
+
+
+      if opentime.maxjoin.to_i > meets.size
+         
+          appointments << {:id => opentime.id, :title => opentime.name || "Available Group Time"  , :start => opentime.start_at, :end => opentime.end_at, :class => "opentime", :allp => allp}
+        else
+          appointments << {:id => opentime.id, :title => "Unavailable Time"  , :start => opentime.start_at, :end => opentime.end_at, :class => "gone"}
+        end
+        end
+
+
+
+
+
+
+        end
+        
       end
 
     
@@ -120,7 +209,41 @@ class AppointmentsController < ApplicationController
   # POST /appointments.json
   def create
 
-    @appointment = current_user.rolable.appointments.build(appointment_params)
+    if params[:type] == "2"
+
+
+      @appointment = current_user.rolable.unavailables.build(unavailable_params)
+
+      respond_to do |format|
+      if @appointment.save
+        format.html { redirect_to root_path, success: 'Unavailable time was successfully created.' }
+        format.js {render :partial => 'unavailable_create.js.erb'}
+      else
+        format.html { render action: 'new' }
+        format.js { render :partial => 'fail_create.js.erb' }
+      end
+    end
+
+
+
+
+
+    else
+
+
+
+       @appointment = current_user.rolable.appointments.build(appointment_params)
+        if params[:canadd2] == "1"
+          @appointment.allowjoin = "1"
+          if params[:totaladd2] != ""
+             @appointment.maxjoin = params[:totaladd2]
+           else
+            @appointment.maxjoin = "0"
+          end
+        else
+          @appointment.allowjoin = "0"
+          @appointment.maxjoin = "0"
+      end
 
     respond_to do |format|
       if @appointment.save
@@ -145,6 +268,16 @@ class AppointmentsController < ApplicationController
         format.js { render :partial => 'fail_create.js.erb' }
       end
     end
+
+
+
+
+
+
+      
+    end
+
+   
   end
 
   # PATCH/PUT /appointments/1
@@ -220,6 +353,23 @@ class AppointmentsController < ApplicationController
    end
 
 
+  def join
+    @appointment = Appointment.find(params[:id])
+    @meetup = Meetup.new
+    @meetup.appointment_id = @appointment.id
+    @meetup.client_id = current_user.rolable.id
+    respond_to do |format|
+      if @meetup.save
+        format.html { redirect_to root_path, success: 'Group sessions was successfully joined.' }
+        format.js {render :partial => 'join_group.js.erb'}
+      else
+        format.html { render action: 'new' }
+        format.js { render :partial => 'fail_create.js.erb' }
+      end
+    end
+  end
+
+
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -232,15 +382,27 @@ class AppointmentsController < ApplicationController
       params.require(:appointment).permit(:name, :description, :start_at, :end_at)
     end
 
+    def unavailable_params
+      params.require(:appointment).permit(:start_at, :end_at)
+    end
+
+
     def workout_params
       params.require(:appointment).permit(:name, :appointment_id)
     end
 
-    def require_permission
-  	  if current_user.id != @appointment.trainer.user.id
-  	    redirect_to root_path
-  	    #Or do something else here
-  	  end
+     def require_permission
+      if current_user.rolable_type == "Client" 
+        if current_user.rolable.trainer.id != @appointment.trainer.id
+          redirect_to root_path
+          #Or do something else here
+        end
+      else
+        if current_user.id != @appointment.trainer.user.id
+          redirect_to root_path
+          #Or do something else here
+        end
+      end
     end
 
 
