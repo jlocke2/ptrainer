@@ -1,5 +1,5 @@
 class AppointmentsController < ApplicationController
-  before_action :set_appointment, only: [:show, :edit, :update, :destroy, :move, :resize, :workouts, :editordata, :join]
+  before_action :set_appointment, only: [:show, :edit, :update, :destroy, :move, :resize, :workouts, :editordata, :join, :clientremove]
   before_filter :authenticate_user!
   before_filter :require_permission, except: [:new, :create, :index, :newdata, :mastercalendar]
 
@@ -17,13 +17,41 @@ class AppointmentsController < ApplicationController
 
       if current_user.rolable_type == "Trainer"
       else
-        @others = current_user.rolable.trainer.appointments.includes(:meetups).where.not('meetups.client_id = ?', current_user.id).references(:meetups)
+        @others = current_user.rolable.trainer.appointments.includes(:meetups).where('meetups.client_id != ?', current_user.rolable.id).references(:meetups)
         if @others.any?
+
+
+
+
+     
+
+
+
          @others.each do |other|
+
+               meets = Meetup.where(appointment_id: other)
+        if meets.any?
+          
+        meets.each do |meet|
+          @matches = []
+          if meet.client_id == current_user.rolable.id
+            @matches << "yes"
+          end
+        end
+       else
+        count = "no"
+      end
+
+
+
+
+      if @matches.count > 0
+
           appointments << {:id => other.id, :title => "Time Already Taken"  , :start => other.start_at, :end => other.end_at, :class => "unavailable"}
         end
         end
       end
+    end
 
       if current_user.rolable_type == "Trainer"
       else
@@ -72,7 +100,7 @@ class AppointmentsController < ApplicationController
        if current_user.rolable_type == "Trainer"
         else
           @opentimes = Appointment.includes(:meetups).where('appointments.trainer_id = ? AND meetups.client_id != ? AND appointments.allowjoin = ?',  current_user.rolable.trainer.id, current_user.rolable.id, 1.to_s).references(:meetups)
-          
+
           if @opentimes.any?
             @opentimes.each do |opentime|
           meets = Meetup.where(appointment_id: opentime)
@@ -92,16 +120,24 @@ class AppointmentsController < ApplicationController
           count = Client.find(first).name
           allp = Client.find(first).name
         end
+        meets.each do |meet|
+          @matches = []
+          if meet.client_id == current_user.rolable.id
+            @matches << "yes"
+          end
+        end
        else
         count = "no"
       end
 
-
+      if @matches.count > 0
+      else
       if opentime.maxjoin.to_i > meets.size
-         
+
           appointments << {:id => opentime.id, :title => opentime.name || "Available Group Time"  , :start => opentime.start_at, :end => opentime.end_at, :class => "opentime", :allp => allp}
         else
           appointments << {:id => opentime.id, :title => "Unavailable Time"  , :start => opentime.start_at, :end => opentime.end_at, :class => "gone"}
+        end
         end
         end
 
@@ -283,6 +319,17 @@ class AppointmentsController < ApplicationController
   # PATCH/PUT /appointments/1
   # PATCH/PUT /appointments/1.json
   def update
+    if params[:canadd2] == "1"
+          @appointment.allowjoin = "1"
+          if params[:totaladd2] != ""
+             @appointment.maxjoin = params[:totaladd2]
+           else
+            @appointment.maxjoin = "0"
+          end
+        else
+          @appointment.allowjoin = "0"
+          @appointment.maxjoin = "0"
+      end
     respond_to do |format|
       if @appointment.update_attributes(appointment_params)
         clients = params[:appointment][:client_id]
@@ -343,9 +390,24 @@ class AppointmentsController < ApplicationController
       format.json { head :no_content }
       format.js
     end
-      
+  end
 
 
+  def clientremove
+    @client = current_user.rolable.id
+    if @appointment.meetups.count == 1
+      @appointment.destroy
+      respond_to do |format|
+        format.html { redirect_to :back }
+        format.js {render :partial => 'removeclient.js.erb'}
+      end
+    else
+      @appointment.meetups.find_by(client_id: @client).destroy
+      respond_to do |format|
+        format.html { redirect_to :back }
+        format.js {render :partial => 'removeclient.js.erb'}
+      end
+    end
   end
 
   def workouts

@@ -11,6 +11,31 @@
     </div>
   <% end %>
 
+
+
+
+
+  <div class="form-group" id="canadd3">
+    <label class="col-md-2 control-label" style="max-width:200px;"></label>
+                <div class='input-groupst date col-md-8' >
+                    <%= select_tag "canadd2", options_for_select([ ["Yes","1"], ["No","2"]], "#{@appointment.allowjoin}"), prompt: "Can clients join this session?", class: "btn btn-default btn-sizers", style: "color: #333333; background-color: #ebebeb; border-color: #adadad;height:34px;width:212px;margin-left:-24px;"%>
+                    
+            </div>
+    </div>
+
+
+
+    <div class="form-group" id="totaladd3">
+    <label class="col-md-2 control-label" style="max-width:200px;"></label>
+                <div class='input-groupst date col-md-8' >
+                    <%= select_tag "totaladd2", options_for_select([ "1", "2", "3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","10"], "#{@appointment.maxjoin}"), prompt: "Total # allowed in session?", class: "btn btn-default btn-sizers", style: "color: #333333; background-color: #ebebeb; border-color: #adadad;height:34px;width:212px;margin-left:-24px;"%>
+                    
+            </div>
+    </div>
+
+
+
+
   <div class="form-group">
     <%= f.label :client, "Clients", :class => "col-md-2 control-label", :style => "text-align:center;margin-right:34px;" %>
       <%= f.collection_select :client_id, current_user.rolable.clients, :id, :name, {:required => true}, :class=> "multisel2", :style => "padding-left: 15px; width:107%;", :multiple => "multiple", :id => "clientschg" %>

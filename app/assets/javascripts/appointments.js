@@ -759,7 +759,7 @@ function settime() {
       "<a class='btn-sm mybtn btn-small btn-primary' style='width: 94px; margin-right: 48px; padding-left: 20px; padding-right: 10px; margin-left: 3px;display:inline-block;' href = 'javascript:void(0);' onclick ='editItun(" + event.id + ")'>Edit Time</a>" +
       "<a class='btn-sm mybtn btn-small btn-danger' style='width: 94px; padding-left: 26px; padding-right: 17px;display:inline-block;' href = 'javascript:void(0);' onclick ='deleteItun(" + event.id + ", " + false + ")'>Cancel</a></div>",
       html: true,
-      template: '<div class="popover" style="width:500px" role="tooltip"><div class="arrow"></div><h3 class="popover-title" style="text-align:center; "></h3><div class="popover-content"></div></div>'
+      template: '<div class="popover" style="width:500px" role="tooltip"><div class="arrow arrowhide"></div><h3 class="popover-title" style="text-align:center; "></h3><div class="popover-content"></div></div>'
     });
 
       } else {
@@ -778,13 +778,14 @@ function settime() {
       "</span></div><div class='field' style='margin-bottom:-5px;'> Who: <span class='who'>" + allp + "</span></div>" + "<br />" + 
       "<a class='btn-sm mybtn btn-small btn-success' style='width: 194px; padding-left: 40px; padding-right: 17px;display:inline-block;margin-left:26px;' href = 'javascript:void(0);' onclick ='joinIt(" + event.id + ", " + false + ")'>Join Group Session</a></div>",
       html: true,
-      template: '<div class="popover" style="width:500px" role="tooltip"><div class="arrow"></div><h3 class="popover-title" style="text-align:center; "></h3><div class="popover-content"></div></div>'
+      template: '<div class="popover" style="width:500px" role="tooltip"><div class="arrow arrowhide"></div><h3 class="popover-title" style="text-align:center; "></h3><div class="popover-content"></div></div>'
     });
 
       } else {
 
       };
     } else {
+      if (rolable.type == "Trainer"){
       $(".fc-event").popover({
       title: "Appointment with " + title,
       width: 500,
@@ -798,8 +799,24 @@ function settime() {
       "<a class='btn-sm mybtn btn-small btn-success' style='width: 96px; margin-right: 15px; padding-left: 12px; padding-right: 12px;' href = 'javascript:void(0);' onclick ='viewIt(" + event.id + ")'>Workout</a>" + 
       "<a class='btn-sm mybtn btn-small btn-danger' style='width: 30%; padding-left: 17px; padding-right: 17px;' href = 'javascript:void(0);' onclick ='deleteIt(" + event.id + ", " + false + ")'>Cancel</a></div>",
       html: true,
-      template: '<div class="popover" style="width:500px" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
+      template: '<div class="popover" style="width:500px" role="tooltip"><div class="arrow arrowhide"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
     });
+    } else {
+      $(".fc-event").popover({
+      title: "Scheduled Appointment",
+      width: 500,
+      animation: false,
+      trigger: 'manual',
+      container: 'body',
+      placement: 'top',
+      content: "<div id='edit_appointment_description2'></div><div id='hidepop'><div class='field'> When: <span class='date'>" + splits[0] + " " + splits[1] + " " + splits[2] + " at " + timesplit[0] + ":" + timesplit[1] + " " + fintime +
+      "</span></div>" + "<br />" + 
+      "<a class='btn-sm mybtn btn-small btn-success' style='width: 114px; margin-right: 15px; padding-left: 20px; padding-right: 12px; display: inline-block;' href = 'javascript:void(0);' onclick ='viewIt(" + event.id + ")'>View Workout</a>" + 
+      "<a class='btn-sm mybtn btn-small btn-danger' style='width: 114px; padding-left: 40px; padding-right: 17px; display: inline-block;' href = 'javascript:void(0);' onclick ='deleteItclient(" + event.id + ", " + false + ")'>Cancel</a></div>",
+      html: true,
+      template: '<div class="popover" style="width:500px" role="tooltip"><div class="arrow arrowhide"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
+    });
+    }
     };
     
 
@@ -908,7 +925,7 @@ function settime() {
 
                       $('.multisel2').siblings('.btn-group').children('.multiselect').css('width', '182px').css('left', '-15px');
                       $('#hidepop').css('display', 'none');
-                      $('.arrow').css('display', 'none');
+                      $('.arrowhide').css('display', 'none');
 
                       if (data["id"] != null ) {$('.multisel2').multiselect('select', data["id"])};
 
@@ -1122,7 +1139,7 @@ function settime() {
 
                       $('.multisel2').siblings('.btn-group').children('.multiselect').css('width', '182px').css('left', '-15px');
                       $('#hidepop2').css('display', 'none');
-                      $('.arrow').css('display', 'none');
+                      $('.arrowhide').css('display', 'none');
 
                       if (data["id"] != null ) {$('.multisel2').multiselect('select', data["id"])};
 
@@ -1279,6 +1296,15 @@ function settime() {
       dataType: "script",
       type: "delete",
       url: "/unavailables/" + event_id,
+      success: refetch_events_and_close_dialog
+    });
+  },this.deleteItclient = function(event_id, delete_all) {
+    $('.fc-cell-overlay').popover('destroy');
+    $('.fc-event').popover('destroy');
+    $.ajax({
+      dataType: "script",
+      type: "post",
+      url: "/appointments/" + event_id + "/clientremove",
       success: refetch_events_and_close_dialog
     });
   },this.joinIt = function(event_id) {

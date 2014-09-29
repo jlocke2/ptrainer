@@ -54,6 +54,7 @@ match 'payments/charge', to: 'payments#charge', via: :post
       post :join
       get :workouts
       get :editordata
+      post :clientremove
     end
     collection do
       get :newdata
