@@ -1,0 +1,75 @@
+<% if current_user.rolable_type == "Client" %>
+<% @appointments = current_user.rolable.appointments.order(start_at: :desc) %>
+<% end %>
+
+ <!-- Users table -->
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+
+  <th class="col-md-2">
+    <span class="line"></span>Start
+  </th>
+  <th class="col-md-2">
+    <span class="line"></span>Workout
+  </th>
+  
+  <th class="col-md-3">
+    <span class="line"></span>Results
+  </th>
+  <th class="col-md-3">
+    <span class="line"></span>Remove
+  </th>
+</tr>
+</thead>
+<% @appointments.each do |appointment| %>
+
+
+
+
+  <tr>
+
+    <td>
+      <%= appointment.start_at.strftime("%D   %I:%M%P") %>
+    </td>
+
+
+    <td> 
+         
+
+       
+
+               <%= link_to 'View Workout', workout_path(appointment.workout.id) %>
+
+            
+
+
+
+      
+    </td>
+
+
+    <td>
+      
+      <% @id = Workout.find_by(appointment_id: appointment.id).id %>
+      <%= link_to 'View Results', results_workout_path(@id) %>
+
+      
+
+    <td>
+      <% @id = Appointment.find(appointment.id).id %>
+      <% @clientid = params[:id] %>
+      <%= link_to 'Remove From Appointment', removefromapt_appointments_path(@id, @clientid), :method => :post, :remote => true%>
+    </td>
+
+  </tr>
+</tbody>
+<% end %>
+
+</table>
+ 
+
+
+</div>

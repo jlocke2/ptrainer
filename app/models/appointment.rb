@@ -38,20 +38,21 @@ validate :check_times2
 
       @attends.each do |attend|
 
-        if Client.find(attend).email =~ /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/
+        if Client.find(attend).user.email =~ /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/
 
         mandrill = Mandrill::API.new 'gdATMo6lVK4YKoTdolhuBQ'
           message = {"html"=>" <p>Hey #{Client.find(attend).name}!  Hope you are having a great day!</p>
   <p>Just wanted to remind you of our upcoming appointment on #{appointment.start_at.strftime("%A %D")} at #{appointment.start_at.strftime("%I:%M%P")}</p>
   <p>Look forward to seeing you then!</p>
   <p>Thanks</p>
-  <p>#{Client.find(attend).user.email}</p>",
+  <p>#{Client.find(attend).trainer.name}</p>
+  <p>#{Client.find(attend).trainer.user.email}</p>",
            "text"=>"",
            "subject"=>"Upcoming Workout Reminder",
-           "from_email"=>"#{Client.find(attend).user.email}",
+           "from_email"=>"reminder@personaltrainerlabs.com",
            "from_name"=>"",
            "to"=>
-              [{"email"=>"#{Client.find(attend).email}",
+              [{"email"=>"#{Client.find(attend).user.email}",
                   "name"=>"#{Client.find(attend).email}",
                   "type"=>"to"}],
            "headers"=>{"Reply-To"=>"#{Client.find(attend).user.email}"},

@@ -13,6 +13,7 @@ match 'payments/verify', to: 'payments#verify', via: :post
 match 'payments/verify', to: 'payments#verify', via: :get
 match 'payments/charge', to: 'payments#charge', via: :post
 #match 'requests', to: 'clients#requests', via: :get
+match "appointments/:id/:clientid/removefromapt", to: "appointments#removefromapt", via: :post, as: "removefromapt_appointments"
 
 
 

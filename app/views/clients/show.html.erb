@@ -1,18 +1,18 @@
 <div id="pad-wrapper" class="user-profile">
             <!-- header -->
-            <div class="row header">
+            <div class="row header" style="margin-bottom: 46px;">
                 <div class="col-md-8" id="nameemail">
                     <%= render 'nameemail' %>
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-12" style="padding-top: 16px;">
                 <a class="btn-flat icon pull-right delete-user deleteMe" data-toggle="tooltip" title="Delete Client" data-placement="top" data-confirm="You sure?" data-method="delete" rel="nofollow" href="<%= client_path %>">
                     <i class="icon-trash"></i>
                 </a>
 
 
 
-                 <a href="<%= progress_client_path(@client) %>" class="btn-flat icon large pull-left edit" id="spacer">
+                 <a href="<%= progress_client_path(@client) %>" class="btn-flat icon large pull-left edit" id="spacer" >
                         View Client Progress
                     </a>
                     

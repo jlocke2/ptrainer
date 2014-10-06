@@ -16,9 +16,9 @@
 
 
   <div class="form-group" id="canadd3">
-    <label class="col-md-2 control-label" style="max-width:200px;"></label>
+    <label class="col-md-2 control-label" style="width: 100%; text-align: center;">Can clients joing this session?</label>
                 <div class='input-groupst date col-md-8' >
-                    <%= select_tag "canadd2", options_for_select([ ["Yes","1"], ["No","2"]], "#{@appointment.allowjoin}"), prompt: "Can clients join this session?", class: "btn btn-default btn-sizers", style: "color: #333333; background-color: #ebebeb; border-color: #adadad;height:34px;width:212px;margin-left:-24px;"%>
+                    <%= select_tag "canadd2", options_for_select([ ["Yes","1"], ["No","2"]], "#{@appointment.allowjoin}"), prompt: " ", class: "btn btn-default btn-sizers", style: "color: #333333; background-color: #ebebeb; border-color: #adadad;height:34px;width: 244px; margin-left: 2px; min-width: 244px;text-indent: 88px;"%>
                     
             </div>
     </div>
@@ -26,9 +26,9 @@
 
 
     <div class="form-group" id="totaladd3">
-    <label class="col-md-2 control-label" style="max-width:200px;"></label>
+    <label class="col-md-2 control-label" style="width: 100%; text-align: center;">Total # allowed in session?</label>
                 <div class='input-groupst date col-md-8' >
-                    <%= select_tag "totaladd2", options_for_select([ "1", "2", "3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","10"], "#{@appointment.maxjoin}"), prompt: "Total # allowed in session?", class: "btn btn-default btn-sizers", style: "color: #333333; background-color: #ebebeb; border-color: #adadad;height:34px;width:212px;margin-left:-24px;"%>
+                    <%= select_tag "totaladd2", options_for_select([ "1", "2", "3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","10"], "#{@appointment.maxjoin}"), prompt: " ", class: "btn btn-default btn-sizers", style: "color: #333333; background-color: #ebebeb; border-color: #adadad;height:34px;width: 244px; margin-left: 2px; min-width: 244px;text-indent: 100px;"%>
                     
             </div>
     </div>
@@ -37,16 +37,16 @@
 
 
   <div class="form-group">
-    <%= f.label :client, "Clients", :class => "col-md-2 control-label", :style => "text-align:center;margin-right:34px;" %>
-      <%= f.collection_select :client_id, current_user.rolable.clients, :id, :name, {:required => true}, :class=> "multisel2", :style => "padding-left: 15px; width:107%;", :multiple => "multiple", :id => "clientschg" %>
+    <%= f.label :client, "Clients", :class => "col-md-2 control-label", :style => "text-align:center;margin-right:34px;width:100%;" %>
+      <%= f.collection_select :client_id, current_user.rolable.clients, :id, :name, {:required => true}, :class=> "multisel2", :style => "width: 244px; left: 16px;", :multiple => "multiple", :id => "clientschg" %>
   
   </div>
   
 
  <div class="form-group">
-    <label class="col-md-2 control-label" style="max-width:200px;">Date</label>
+    <label class="col-md-2 control-label" style="width: 100%;text-align: center;">Date</label>
                 <div class='input-group date col-md-8' >
-                    <input type='text' class="form-control" id='datetimepicker9' style="border-radius: 5px; cursor: pointer; left:20px" readonly />
+                    <input type='text' class="form-control" id='datetimepicker9' style="border-radius: 5px; cursor: pointer; left: 16px; width: 244px; text-align: center;" readonly />
                     
             </div>
     </div>
@@ -54,9 +54,9 @@
  
 
   <div class="form-group">
-    <label class="col-md-2 control-label" style="max-width:200px;">Start Time</label>
+    <label class="col-md-2 control-label" style="width:100%; text-align: center;">Start Time</label>
                 <div class='input-group date col-md-8' >
-                    <input type='text' class="form-control" id='datetimepicker7' style="border-radius: 5px; cursor: pointer; left:20px;" readonly />
+                    <input type='text' class="form-control" id='datetimepicker7' style="border-radius: 5px; cursor: pointer; left: 16px; width: 244px; text-align: center;" readonly />
                     
             </div>
     </div>
@@ -69,9 +69,9 @@
   </div>
 
   <div class="form-group">
-    <label class="col-md-2 control-label" style="max-width:200px;">End Time</label>
+    <label class="col-md-2 control-label" style="width:100%;text-align: center;">End Time</label>
                 <div class='input-group date col-md-8'>
-                    <input type='text' class="form-control" id='datetimepicker8' style="border-radius: 5px; cursor: pointer; left:20px" readonly />
+                    <input type='text' class="form-control" id='datetimepicker8' style="border-radius: 5px; cursor: pointer; left: 16px; width: 244px; text-align: center;" readonly />
             </div>
     </div>
 
@@ -90,8 +90,8 @@
   </div>
 
   <div class="form-group">
-      <div class="col-md-offset-2 col-md-8 attachs">
-        <%= f.submit "Save Changes", class: "btn mybtn btn-large btn-primary", style: "left:30px;position:relative;" %>
+      <div class="col-md-offset-2 col-md-8 attachs" style="width: 100%; text-align: center;margin-left:0px;">
+        <%= f.submit "Save Changes", class: "btn mybtn btn-large btn-primary", style: "position:relative;" %>
       </div>
   </div>
 <% end %>

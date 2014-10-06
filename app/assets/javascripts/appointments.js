@@ -249,7 +249,7 @@ $(document).ready(function() {
                                           filterPlaceholder: 'Search',
                                       });
                                    $(document).ready(function(){
-                                    $('.multisel').siblings('.btn-group').children('.multiselect').css('width', '153px').css('left', '14px');
+                                    $('.multisel').siblings('.btn-group').children('.multiselect').css('width', '244px').css('left', '16px');
                                     
                                   });
 
@@ -452,7 +452,7 @@ function finishrequestform() {
                                           filterPlaceholder: 'Search',
                                       });
                                    $(document).ready(function(){
-                                    $('.multisel').siblings('.btn-group').children('.multiselect').css('width', '153px').css('left', '14px');
+                                    $('.multisel').siblings('.btn-group').children('.multiselect').css('width', '244px').css('left', '16px');
                                     
                                   });
 
@@ -649,7 +649,7 @@ function settime() {
              var fintime = "AM"
             };
 
-
+            if (event.end != null ) {
             ends = event.end.toString();
             var splitsend = ends.split(" ");
             var timesplitend = splitsend[4].split(":");
@@ -662,6 +662,7 @@ function settime() {
                   }else {
                    var fintimeend = "AM"
                   };
+                };
 
 
 
@@ -799,7 +800,7 @@ function settime() {
       "<a class='btn-sm mybtn btn-small btn-success' style='width: 96px; margin-right: 15px; padding-left: 12px; padding-right: 12px;' href = 'javascript:void(0);' onclick ='viewIt(" + event.id + ")'>Workout</a>" + 
       "<a class='btn-sm mybtn btn-small btn-danger' style='width: 30%; padding-left: 17px; padding-right: 17px;' href = 'javascript:void(0);' onclick ='deleteIt(" + event.id + ", " + false + ")'>Cancel</a></div>",
       html: true,
-      template: '<div class="popover" style="width:500px" role="tooltip"><div class="arrow arrowhide"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
+      template: '<div class="popover" style="width:500px" role="tooltip"><div class="arrow arrowhide"></div><h3 class="popover-title" style="text-align:center; "></h3><div class="popover-content"></div></div>'
     });
     } else {
       $(".fc-event").popover({
@@ -814,7 +815,7 @@ function settime() {
       "<a class='btn-sm mybtn btn-small btn-success' style='width: 114px; margin-right: 15px; padding-left: 20px; padding-right: 12px; display: inline-block;' href = 'javascript:void(0);' onclick ='viewIt(" + event.id + ")'>View Workout</a>" + 
       "<a class='btn-sm mybtn btn-small btn-danger' style='width: 114px; padding-left: 40px; padding-right: 17px; display: inline-block;' href = 'javascript:void(0);' onclick ='deleteItclient(" + event.id + ", " + false + ")'>Cancel</a></div>",
       html: true,
-      template: '<div class="popover" style="width:500px" role="tooltip"><div class="arrow arrowhide"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
+      template: '<div class="popover" style="width:500px" role="tooltip"><div class="arrow arrowhide"></div><h3 class="popover-title" style="text-align:center; "></h3><div class="popover-content"></div></div>'
     });
     }
     };
@@ -923,7 +924,7 @@ function settime() {
                               $popup.click(function () { return false; });
                           });;
 
-                      $('.multisel2').siblings('.btn-group').children('.multiselect').css('width', '182px').css('left', '-15px');
+                      $('.multisel2').siblings('.btn-group').children('.multiselect').css('width', '244px').css('left', '16px');
                       $('#hidepop').css('display', 'none');
                       $('.arrowhide').css('display', 'none');
 

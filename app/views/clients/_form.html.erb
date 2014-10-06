@@ -16,16 +16,16 @@
                           <% end %>
 
                            <div class="form-group">
-                              <%= label_tag :name,nil, :class => "col-md-2 control-label" %>
-                              <div class="col-md-8">
+                              <%= label_tag :name,nil, :class => "col-md-2 col-xs-2 control-label" %>
+                              <div class="col-md-9 col-md-offset-1 col-xs-offset-1 col-xs-9">
                               <%= text_field_tag :name, nil, :class => "form-control", :placeholder => "Name" %>
                             </div>
                         </div>
 
 
                           <div class="form-group">
-                              <%= f.label :email, :class => "col-md-2 control-label" %>
-                              <div class="col-md-8">
+                              <%= f.label :email, :class => "col-xs-2 col-md-2 control-label" %>
+                              <div class="col-md-9 col-md-offset-1 col-xs-offset-1 col-xs-9">
                               <%= f.email_field :email, :class => "form-control", :placeholder => "E-mail address" %>
                             </div>
                         </div>
@@ -37,23 +37,23 @@
                        
 
                         <div class="form-group">
-                              <%= label_tag :age,nil, :class => "col-md-2 control-label" %>
-                              <div class="col-md-8">
+                              <%= label_tag :age,nil, :class => "col-md-2 col-xs-2 control-label" %>
+                              <div class="col-md-9 col-md-offset-1 col-xs-offset-1 col-xs-9">
                               <%= number_field_tag :age,nil, :class => "form-control", :placeholder => "Age" %>
                             </div>
                         </div>
 
                         <div class="form-group">
-                              <%= label_tag :gender,nil, :class => "col-md-2 control-label" %>
-                              <div class="col-md-8">
+                              <%= label_tag :gender,nil, :class => "col-md-2 col-xs-2 control-label" %>
+                              <div class="col-md-9 col-md-offset-1 col-xs-offset-1 col-xs-9">
                               <%= text_field_tag :gender,nil, :class => "form-control", :placeholder => "Gender" %>
                             </div>
                         </div>
 
 
                         <div class="form-group">
-                              <%= label_tag :phone,nil, :class => "col-md-2 control-label" %>
-                              <div class="col-md-8">
+                              <%= label_tag :phone,nil, :class => "col-md-2 col-xs-2 control-label" %>
+                              <div class="col-md-9 col-md-offset-1 col-xs-offset-1 col-xs-9">
                               <%= phone_field_tag :phone,nil, :class => "form-control", :placeholder => "Phone" %>
                             </div>
                         </div>
@@ -63,7 +63,7 @@
                         <%= hidden_field_tag 'trainerid', current_user.rolable.id %>
 
                         <div class="form-group">
-                            <div class="col-md-offset-2 col-md-8">
+                            <div class="col-md-offset-4 col-md-8 col-xs-offset-4 col-xs-8">
                               <%= f.submit "Create my client", class: "btn mybtn btn-large btn-primary" %>
                             </div>
                         </div>

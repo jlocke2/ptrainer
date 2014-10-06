@@ -229,20 +229,20 @@ textarea::-webkit-input-placeholder {
 @media (max-width: 480px) {
 .btn-sizers{
 	left: 0px;
-	min-width: 322px;
+	min-width: 244px;
 }
 }
 @media (min-width: 481px) and (max-width: 978px) {
 .btn-sizers{
 	left: 0px;
-	min-width: 368px;
+	min-width: 244px;
 }
 }
 
 @media (min-width: 979px) {
 .btn-sizers{
-	width: 235px;
-	left: -34px;
+	width: 244px;
+	left: 0px;
 }
 }
 

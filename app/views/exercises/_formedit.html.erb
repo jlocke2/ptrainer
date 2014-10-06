@@ -13,34 +13,34 @@
                       <% end %>
 
                         <div class="form-group">
-                              <%= f.label :name, :class => "col-md-2 control-label" %>
+                              <%= f.label :name, :class => "control-label", :style => "width:100%; text-align:center;" %>
                               <div class="col-md-8">
-                              <%= f.text_field :name, :class => "form-control", :placeholder => "Name" %>
+                              <%= f.text_field :name, :class => "form-control", :placeholder => " ", :style => "border-color: #d0dde9;width:286px;text-align:center;" %>
                             </div>
                         </div>
 
 
                          <div class="form-group">
                             <% the_array2 = ["Reps", "Distance", "Time"] %>
-                            <%= label_tag :exercise, "Measuring", :class => "col-md-2 control-label" %>
-                            <div class="col-md-8 ui-select" id="oder" style="max-width:302px;">
-                            <%= f.select :measure, options_for_select(the_array2.map { |value| [ value, value ] }), {:prompt => "Must Choose One"}, {:class => "form-control", :style => "padding-left: 12px; width: 107%;"} %>
+                            <%= label_tag :exercise, "Measuring", :class => "control-label", :style => "width:100%; text-align:center;" %>
+                            <div class="col-md-8 ui-select" id="oder" style="min-width:286px; width:286px;">
+                            <%= f.select :measure, options_for_select(the_array2.map { |value| [ value, value ] }), {:prompt => "Must Choose One"}, {:class => "form-control", :style => "padding-left: 12px; width: 107%; text-indent:72px;"} %>
                           </div>
                         </div>
 
                         
 
                         <div class="form-group">
-                              <%= f.label :description, :class => "col-md-2 control-label" %>
+                              <%= f.label :description, :class => "control-label", :style => "width:100%; text-align:center;" %>
                               <div class="col-md-8">
-                              <%= f.text_field :description, :class => "form-control", :placeholder => "Description" %>
+                              <%= f.text_field :description, :class => "form-control", :placeholder => " ", :style => "border-color: #d0dde9;width:286px; text-align: center;" %>
                             </div>
                         </div>
 
                        
 
                         <div class="form-group">
-                            <div class="col-md-offset-2 col-md-8">
+                            <div style="width:100%; text-align:center;">
                               <%= f.submit "Edit My Exercise", class: "btn mybtn btn-large btn-primary" %>
                             </div>
                         </div>

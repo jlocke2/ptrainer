@@ -16,15 +16,24 @@
 
 </div>
 
-        <div id="pad-wrapper" class="users-list">
-            <div class="row header">
-                <h3>My Clients</h3>
+        <div id="pad-wrapper" class="users-list" style="margin-top: 20px;">
+            <div class="row header" style="margin-bottom:20px;">
+                <h3 style="margin-bottom: 10px; margin-left: 26px; width:114px; display:inline;">My Clients
+
+
+
+
+                </h3>
           
                 
-                <div class="col-md-10 col-sm-12 col-xs-12 pull-right" id="hapit">                    
+                <div class="col-md-10 col-sm-12 col-xs-12 pull-right" id="hapit" style="width:160px;">                    
                     <!-- custom popup filter -->
                     <!-- styles are located in css/elements.css -->
                     <!-- script that enables this dropdown is located in js/theme.js -->
+
+
+                    <div style="display:none;">
+
                     <div class="ui-dropdown">
                         <div class="head" data-toggle="tooltip" title="Click me!">
                             Find a client
@@ -58,16 +67,18 @@
                             </div>
                         </div>
 
+                      </div><!--  Closing out display none for find and all  -->
 
 
-
-                    
-
-                    <a href="#" class="btn-flat success pull-right dropdown-toggle" data-toggle="dropdown" id="spacer">
+                        <a href="#" class="btn-flat success pull-right dropdown-toggle" data-toggle="dropdown" id="spacer" style="margin:0;">
                         <span>&#43;</span>
                         NEW CLIENT
                     </a>
-                    <div class="dropdown-menu" id="hundreder" style = "padding: 15px; padding-bottom: 0px;">
+                    
+                    
+
+                    
+                    <div class="dropdown-menu" id="hundreder" style = "padding: 15px; padding-bottom: 0px; width:318px;">
                      <div>
                         <%= render 'form' if signed_in? %>
                         </div>

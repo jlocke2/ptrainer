@@ -1,0 +1,6 @@
+<% @client = Client.find(params[:clientid]) %>
+<% @appointments = @client.appointments.order(start_at: :desc) %>
+$("#addaptschart").html("<%= escape_javascript(render('appointments/aptschart')) %>");
+$("#flashtest").html("<%= escape_javascript(render('appointments/flashremoveapt')) %>");
+window.scrollTo(0, 0);
+$(".alert-success").delay(3500).fadeOut(1400);

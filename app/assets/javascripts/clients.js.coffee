@@ -20,7 +20,7 @@ $.rails.showConfirmDialog = (link) ->
 								<i class="icon-ban-circle"></i>
 							</div>
 							<div class="modal-body">
-					         <p style="text-align:center;">Are you sure you want to delete?</p>
+					         <p style="text-align:center;">Are you sure?</p>
 					       </div>
 							<div class="modal-footer">
 					         <a data-dismiss="modal" class="btn">Cancel</a>
