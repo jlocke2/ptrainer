@@ -26,7 +26,7 @@ class RotationsController < ApplicationController
         respond_to do |format|
         if @rotation.update_attributes(rotation_params)
           format.html { redirect_to :back, flash[:success] = "Result Entered" }
-          format.js
+          format.js 
         else
           format.html { redirect_to :back, flash[:danger] = "Result Not Entered" }
           format.js {}
@@ -52,6 +52,59 @@ class RotationsController < ApplicationController
     render :json => { :form => render_to_string(:partial => 'resultsform') }
 
   end
+
+  def submitresults
+     
+   @rotation = Rotation.find(params[:id])
+   @appointment = @rotation.agenda.workout.appointment
+   @meetups = @appointment.meetups
+   @clients = []
+   @meetups.each do |meet|
+    @clients << meet.client_id
+   end
+
+
+   if params[:client] == "0"
+      @clients.each do |client|
+     if @rotation.results.find_by(client_id: client.to_s).present?
+      @result = @rotation.results.find_by(client_id: client.to_s)
+      @result.weightdone = params[:rotation][:weightdone]
+      @result.repsdone = params[:rotation][:amountdone]
+      @result.save
+    else #connected to if.exists?
+      @result = @rotation.results.build(result_params)
+      @result.client_id = client.to_s
+      @result.repsdone = params[:rotation][:amountdone]
+      @result.save
+     end #closes if.exists?
+  end #closes .each do
+    respond_to do |format|
+              format.js {render 'update.js.erb'}
+          end #closes respond_to
+   else #connected to if params[:client]
+    if @rotation.results.find_by(client_id: params[:client]).present?
+      @result = @rotation.results.find_by(client_id: params[:client])
+      @result.weightdone = params[:rotation][:weightdone]
+      @result.repsdone = params[:rotation][:amountdone]
+      respond_to do |format|
+             if @result.save
+              format.js {render 'update.js.erb'}
+             end #closes if .save
+          end #closes respond_to
+    else #connected to .exists?
+    @result.results.build(result_params)
+    @result.client_id = params[:client]
+    @result.repsdone = params[:rotation][:amountdone]
+    respond_to do |format|
+           if @result.save
+            format.js {render 'update.js.erb'}
+           end #closes out if .save
+        end #closes out respond_to
+      end #closes out exists?
+    end #closes out params[:client]
+
+
+end #closes out def
 
 
 
@@ -86,6 +139,10 @@ class RotationsController < ApplicationController
 
     def rotation_params
   	  params.require(:rotation).permit(:amount, :exwt, :unit, :amountdone, :weightdone)
+    end
+
+    def result_params
+      params.require(:rotation).permit(:weightdone)
     end
 
 

@@ -1,24 +1,48 @@
-<%= form_for(Rotation.find(@rotation), url: rotation_path, method: :patch, html: { :class => "form-horizontal" }, remote: true) do |f| %>
+<%= form_for(Rotation.find(@rotation), url: submitresults_rotation_path, method: :patch, html: { :class => "form-horizontal" }, remote: true) do |f| %>
 
 <% @newrotation =  Rotation.find(@rotation) %>
+
+<% @meetups = @newrotation.agenda.workout.appointment.meetups %>
+<% 
+@clients = []
+@ids = []
+
+@meetups.each do |meet|
+  @clients << Client.find(meet.client_id)
+
+end
+   %>
+
+
+
+
+
+
+                              <div class="form-group unvis">
+                                <%= label_tag :client, nil, {:class => "col-md-2 control-label", :style => "width: 100%; text-align: center;"} %>
+                                <div class='input-groupst date col-md-8' >
+                                                          
+                                <%= select_tag :client,  content_tag(:option,'All Clients',:value=>"0")+options_from_collection_for_select(@clients, 'id','name'), { :class => "btn btn-default btn-sizers", :style => "color: #333333; background-color: #ebebeb; border-color: #adadad;text-indent: 84px;height:34px;"} %>
+                                </div>
+                              </div>
 
 
   
                               <div class="form-group">
-                                <%= f.label :amountdone, "Amount", :class => "col-md-2 control-label", :id => "amount_lab" %>
-                                    <div class="col-md-8">
-                                    <%= f.text_field :amountdone, :class => "form-control", :style => "width: 153px; margin-left: 12px;", :placeholder => "Amount Completed" %>
+                                <%= f.label :amountdone, "Amount", :class => "col-md-2 control-label", :style => "width: 100%;text-align: center;", :id => "amount_lab" %>
+                                    <div class="input-group date col-md-8">
+                                    <%= f.text_field :amountdone, :class => "form-control", :style => "border-radius: 5px; left: 16px; width: 244px; text-align: center;", :placeholder => "Amount Completed" %>
                                   </div>
                               </div>
 
 
                               <div class="form-group unvis">
-                                <%= f.label :unit, :class => "col-md-2 control-label" %>
-                                <div class="col-md-8 ui-select" id="oder" style="max-width:619px; width: 153px; margin-left: 12px !important;">
+                                <%= f.label :unit, :class => "col-md-2 control-label", :style => "width: 100%; text-align: center;" %>
+                                <div class='input-groupst date col-md-8' id="oder" style="padding-left:15px; left:0px;">
                              
                                   <% @formlist = ["seconds","minutes","hours","inches","feet","meters","miles","reps"] %>
                              
-                                <%= f.select :unit, @formlist.map { |value| [ value, value ] }, {:placeholder => "Unit"}, {:class => "form-control", :style => "padding-left: 12px; width: 153px;"} %>
+                                <%= f.select :unit, @formlist.map { |value| [ value, value ] }, {:placeholder => "Unit"}, {:class => "btn btn-default btn-sizers", :style => "color: #333333; background-color: #ebebeb; border-color: #adadad;text-indent: 84px;height:34px;"} %>
                                 </div>
                               </div>
 
@@ -27,9 +51,9 @@
                               <% if @newrotation.exwt != "" %>
 
                               <div class="form-group">
-                                <%= f.label :weightdone, "Weight Added", :class => "col-md-2 control-label", :id => "amount_lab" %>
-                                    <div class="col-md-8">
-                                    <%= f.text_field :weightdone, :class => "form-control", :style => "width: 153px;margin-left: 12px;", :placeholder => "Pounds" %>
+                                <%= f.label :weightdone, "Weight Added", :class => "col-md-2 control-label", :style => "width: 100%;text-align: center;", :id => "amount_lab" %>
+                                    <div class="input-group date col-md-8">
+                                    <%= f.text_field :weightdone, :class => "form-control", :style => "border-radius: 5px; left: 16px; width: 244px; text-align: center;", :placeholder => "Pounds" %>
                                   </div>
                               </div>
 
@@ -41,8 +65,8 @@
 
 
                                <div class="form-group" style="display:none;">
-                                <%= f.label :amount, :class => "col-md-2 control-label", :id => "amount_lab" %>
-                                  <div class="col-md-8">
+                                <%= f.label :amount, :class => "control-label", :id => "amount_lab" %>
+                                  <div class="">
                                   <%= f.text_field :amount, :class => "form-control place_text", :style => "margin-left: 12px;", :placeholder => "Amount" %>
                                 </div>
                               </div>
@@ -53,8 +77,8 @@
  
 
                               <div class="form-group mkvis" style="display:none;">
-                                  <%= f.label :exwt, "Weight Added", :class => "col-md-2 control-label" %>
-                                  <div class="col-md-8">
+                                  <%= f.label :exwt, "Weight Added", :class => "control-label" %>
+                                  <div class="">
                                   <%= f.text_field :exwt, :class => "form-control", :style => "margin-left: 12px;", :placeholder => "Weight Added" %>
                                 </div>
                               </div>
@@ -64,8 +88,8 @@
                        
 
                         <div class="form-group">
-                            <div class="col-md-offset-2 col-md-8 sticker3">
-                              <%= f.submit "Enter Results", class: "btn mybtn btn-large btn-primary", style: "margin-left: 32px;" %>
+                            <div class="col-md-12 sticker3" style="text-align:center;">
+                              <%= f.submit "Enter Results", class: "btn mybtn btn-large btn-primary", style: "" %>
                             </div>
                         </div>
                               <% end %>

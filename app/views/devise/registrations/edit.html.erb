@@ -211,8 +211,8 @@ $('.datetimepicker1').clockpicker({
 
 <div id="pad-wrapper" class="user-profile">
             <!-- header -->
-            <div class="row header">
-                <div class="col-md-6">
+            <div class="row header" style="margin-bottom: 46px;">
+                <div class="col-md-8">
                   <div id="nameemail2">
                     <%= render 'nameemail2' %>
                   </div>
@@ -221,14 +221,14 @@ $('.datetimepicker1').clockpicker({
 
                 <% @clientprog = current_user.rolable %>
 
-                <div class="col-md-6">
+                <div class="col-md-12" style="padding-top: 16px;">
                 <a class="btn-flat icon pull-right delete-user deleteMe" data-toggle="tooltip" title="Delete My Account" data-placement="top" data-confirm="You sure?" data-method="delete" rel="nofollow" href="<%= client_path(@clientprog) %>">
                     <i class="icon-trash"></i>
                 </a>
 
                 
 
-                 <a href="<%= progress_client_path(@clientprog) %>" class="btn-flat icon large pull-left edit" id="spacer" style="float: right !important; margin-left: 12px;">
+                 <a href="<%= progress_client_path(@clientprog) %>" class="btn-flat icon large pull-left edit" id="spacer">
                         View My Progress
                     </a>
                     

@@ -1,13 +1,23 @@
-<div id="pad-wrapper" class="users-list">
+<div id="pad-wrapper" class="users-list" style="margin-top:30px;">
             <div class="row header">
-              <% if current_user.rolable_type == "Trainer" %>
-                <h3>Progress for <%= @client.name.capitalize %></h3><br><br>
-                <%= link_to "Return To Client Profile", client_path(@client) %>
+              <div class="col-md-9 col-sm-7 col-xs-12" style="margin-bottom:30px;">
+
+                 <% if current_user.rolable_type == "Trainer" %>
+                <h3 style="margin-bottom:0px;">Progress for <%= @client.name.capitalize %></h3>
+                <div style="clear:both;">
+                  <%= link_to "Return To Client Profile", client_path(@client) %>
+                </div>
                 <% else %>
-                  <h3>View Your Progress</h3><br><br>
-                  <%= link_to "Return To Your Profile", edit_user_registration_path %>
+                  <h3 style="margin-bottom:0px;">View Your Progress</h3>
+                  <div style="clear:both;">
+                     <%= link_to "Return To Your Profile", edit_user_registration_path %>
+                  </div>
+                 
                 <% end %>
-                <div class="col-md-10 col-sm-12 col-xs-12 pull-right keep-open" id="hapit">                    
+
+              </div>
+             
+                <div class="col-md-3 col-sm-5 col-xs-12  keep-open" id="hapit">                    
                     <!-- custom popup filter -->
                     <!-- styles are located in css/elements.css -->
                     <!-- script that enables this dropdown is located in js/theme.js -->
@@ -17,11 +27,7 @@
 
                     
 
-                    <a href="#" class="btn-flat success pull-right dropdown-toggle" data-toggle="dropdown" id="spacer">
-                        <span>&#43;</span>
-                        Exercise
-                    </a>
-                    <div class="dropdown-menu" style = "padding: 10px 20px;">
+                    
                      <div>
                       <% if current_user.rolable_type == "Trainer" %>
                         <% if current_user.rolable.exercises.any? %>
@@ -37,7 +43,6 @@
                         <% end %>
                       <% end %>
 
-                        </div>
                       </div>
                 </div>
             </div>

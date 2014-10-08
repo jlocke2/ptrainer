@@ -27,6 +27,7 @@ match "appointments/:id/:clientid/removefromapt", to: "appointments#removefromap
     member do
         get :editdata
         get :enterresults
+        patch :submitresults
       end
       collection do
         get :newrotate
@@ -99,6 +100,7 @@ match "appointments/:id/:clientid/removefromapt", to: "appointments#removefromap
     end
     member do
       get :results
+      patch :results
       post :email
     end
   end

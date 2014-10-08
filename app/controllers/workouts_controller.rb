@@ -28,18 +28,44 @@ class WorkoutsController < ApplicationController
   end
 
   def results
+
+    if request.patch?
+       @workout = Workout.find(params[:id])
+    @exercises = @workout.agendas
+    @id = @workout.client_id
+    @appointment = @workout.appointment
+    @meetups = @appointment.meetups
+      @attends = []
+      @clients = []
+      @meetups.each do |meetup|
+        @name = Client.find(meetup.client_id).name
+        @attends << @name
+        @clients << Client.find(meetup.client_id)
+        @last = @attends.last
+      end
+      @id = params[:clientid].to_s
+      respond_to do |format|
+          format.js
+        
+      end
+    else
+
     @workout = Workout.find(params[:id])
     @exercises = @workout.agendas
     @id = @workout.client_id
     @appointment = @workout.appointment
     @meetups = @appointment.meetups
       @attends = []
+      @clients = []
       @meetups.each do |meetup|
         @name = Client.find(meetup.client_id).name
         @attends << @name
+        @clients << Client.find(meetup.client_id)
         @last = @attends.last
-      end
 
+
+      end
+    end
   end
 
   def email

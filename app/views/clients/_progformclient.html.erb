@@ -1,8 +1,8 @@
 <%= form_for(current_user, url: progress_client_path(@client), remote: true) do |f| %>
   <div class="field">
-    <%= f.label :exercise %><br />
-    <%= f.collection_select :id, current_user.rolable.trainer.exercises, :id, :name, {:include_blank => 'Which exercise do you want to see?', :selected => 0} %>
+    <%= f.label :exercise, "See Progress of an Exercise" %><br />
+    <%= f.collection_select :id, current_user.rolable.trainer.exercises, :id, :name, {:include_blank => 'Choose One', :selected => 0}, {:style => "width:225px;"} %>
   </div>
   <br>
-  <%= f.submit "View Progress", class: "btn mybtn btn-md btn-primary", id: "chartbtn" %>
+  <%= f.submit "View Progress", class: "btn mybtn btn-md btn-primary", id: "chartbtn", :style => "width:225px;" %>
 <% end %>

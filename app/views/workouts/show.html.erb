@@ -393,9 +393,9 @@ $('body').on('click', '.editrotate', function(e){
                         });
 
 
+rolable = { type: "<%= escape_javascript(current_user.rolable_type) %>" }
 
-
-
+  if (rolable.type == "Trainer"){
 
     $('body').off('click', '.editrotateresults');
     $('body').on('click', '.editrotateresults', function(e){
@@ -439,7 +439,7 @@ $('body').on('click', '.editrotate', function(e){
                             });
 
 
-
+   };
 
 
 

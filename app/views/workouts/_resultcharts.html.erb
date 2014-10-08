@@ -1,0 +1,92 @@
+<% if @exercises.any? %>
+
+<% @exercises.each do |exercise| %>
+<%  @rotations = exercise.rotations.sort_by {|x| x.created_at} %>
+ <!-- Users table -->
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-hover">
+        	<h3 style="margin-bottom:0px;"><%= exercise.exercise.name.capitalize %></h3>
+            <thead>
+                <tr>
+
+  <th class="col-md-2">
+    <span class="line"></span>Set #
+  </th>
+  <th class="col-md-3">
+    <span class="line"></span>Goal
+  </th>
+  
+  <th class="col-md-3">
+    <span class="line"></span>Amount Done
+  </th>
+  
+</tr>
+</thead>
+<% @rotations.each_with_index do |rotation, index| %>
+
+
+
+
+  <tr>
+
+    <td>
+      <%= index+1 %>
+    </td>
+
+
+    <td> 
+      <% if rotation.amount.present? %>
+         <%= rotation.amount %> <%= rotation.unit %> <% if rotation.exwt.present? %>
+      with <%= rotation.exwt %> Pounds
+      <% end %>
+      <% else %>
+      <p>No Result Entered</p>
+      <% end %>
+    </td>
+
+
+    <td>
+      <% if current_user.rolable_type == "Client" %>
+      <% if rotation.results.find_by(client_id: current_user.rolable.id.to_s).repsdone.present? %>
+      <%= rotation.results.find_by(client_id: current_user.rolable.id.to_s).repsdone %> <%= rotation.unit %> <% if rotation.results.find_by(client_id: current_user.rolable.id.to_s).weightdone.present? %>
+      with <%= rotation.results.find_by(client_id: current_user.rolable.id.to_s).weightdone %> Pounds
+      <% end %>
+      <% else %>
+      No Result Entered
+      <% end %>
+      <% else %> <!--  user type switch to trainer -->
+      <% if @id.present? %>
+
+      <% if rotation.results.find_by(client_id: @id).present? %>
+      <%= rotation.results.find_by(client_id: @id).repsdone %> <%= rotation.unit %> <% if rotation.results.find_by(client_id: @id).weightdone != "" %>
+      with <%= rotation.results.find_by(client_id: @id).weightdone %> Pounds
+      <% end %>
+      <% else %>
+      No Result Entered
+      <% end %>
+
+      <% else %>
+
+      Choose Client To See Results
+      
+      <% end %>
+      <% end %>
+    </td>
+
+  </tr>
+</tbody>
+<% end %>
+
+</table>
+ 
+<% end %>
+<br>
+<% else %>
+
+<p>no results yet</p>
+
+<% end %>
+</div>
+ 
+</div>

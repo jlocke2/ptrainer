@@ -1,7 +1,11 @@
 
         <div id="pad-wrapper" class="users-list">
             <div class="row header">
-               <div style=""><h3 style=" margin-bottom: 0px;"><% unless @appointment.present?%><%= link_to @client.name, client_path(@client) %><% else %>Workout for 
+               <div class="col-md-9 col-sm-12" style="margin-bottom:34px;">
+
+
+                <% if current_user.rolable_type == "Trainer" %>
+                <h3 style=" margin-bottom: 0px;"><% unless @appointment.present?%><%= link_to @client.name, client_path(@client) %><% else %>Workout for 
 
 
                <% if @attends.length == 1 %>
@@ -32,89 +36,45 @@
               <% end %>
 
 
-              <% end %> </h3><br><br>
+              <% end %> </h3>
+
+              <% else %>
+              <h3 style=" margin-bottom: 0px;">Your Workout Results</h3>
+              <% end %>
+              <div style="clear:both;">
                 <span class="subtext" style="color: #999999;"><%= @appointment.start_at.strftime("%D  %I:%M%P")%>  - <%= @appointment.end_at.strftime("%I:%M%P") %></span>
+                 <p><%= link_to "Return To Workout", workout_path(@workout) %></p>
+                </div>
               </div>
-                <p><%= link_to "Return To Workout", workout_path(@workout) %></p>
-              </div>
+              
+               
+
+             
             
+            <% if current_user.rolable_type == "Trainer" %>
+
+              <div class="col-md-3 col-sm-12" style="">
+               <%= form_for(Workout.find(params[:id]), url: results_workout_path(params[:id]), method: :patch, html: { :class => "form-horizontal", :style =>";" }, remote: true) do |f| %>
+              <div class="field">
+                <%= label_tag :exercise,'View Results For Which Client?' %><br />
+                <%= select_tag :clientid, content_tag(:option,'Choose A Client',:value=>"0")+options_from_collection_for_select(@clients, 'id','name'), {:style => "width:180px;"} %>
+              </div>
+              <br>
+              <%= f.submit "View Results", class: "btn mybtn btn-md btn-primary", id: "chartbtn", :style => "width:180px;" %>
+            <% end %>
+          </div>
+
+          <% end %>
+
+  </div>
+
+
                 
-
-
-<% if @exercises.any? %>
-
-<% @exercises.each do |exercise| %>
-<%  @rotations = exercise.rotations.sort_by {|x| x.created_at} %>
- <!-- Users table -->
-<div class="row">
-    <div class="col-md-12">
-        <table class="table table-hover">
-        	<h3><%= exercise.exercise.name.capitalize %></h3>
-            <thead>
-                <tr>
-
-  <th class="col-md-2">
-    <span class="line"></span>Set #
-  </th>
-  <th class="col-md-3">
-    <span class="line"></span>Goal
-  </th>
-  
-  <th class="col-md-3">
-    <span class="line"></span>Amount Done
-  </th>
-  
-</tr>
-</thead>
-<% @rotations.each_with_index do |rotation, index| %>
-
-
-
-
-  <tr>
-
-    <td>
-      <%= index+1 %>
-    </td>
-
-
-    <td> 
-      <% if rotation.amount.present? %>
-         <%= rotation.amount %> <%= rotation.unit %> <% if rotation.exwt.present? %>
-      with <%= rotation.exwt %> Pounds
-      <% end %>
-      <% else %>
-      <p>No Result Entered</p>
-      <% end %>
-    </td>
-
-
-    <td>
-      <% if rotation.amountdone.present? %>
-      <%= rotation.amountdone %> <%= rotation.unit %> <% if rotation.weightdone.present? %>
-      with <%= rotation.weightdone %> Pounds
-      <% end %>
-      <% else %>
-      No Result Entered
-      <% end %>
-    </td>
-
-  </tr>
-</tbody>
-<% end %>
-
-</table>
- 
-<% end %>
-<br>
-<% else %>
-
-<p>no results yet</p>
-
-<% end %>
+<div id="resultchart" style="clear:both">
+  <%= render "resultcharts" %>
 </div>
- 
-</div>
+
+
 
 
 
