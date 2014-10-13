@@ -100,10 +100,10 @@ class AppointmentsController < ApplicationController
        if current_user.rolable_type == "Trainer"
         else
           @opentimes = Appointment.includes(:meetups).where('appointments.trainer_id = ? AND meetups.client_id != ? AND appointments.allowjoin = ?',  current_user.rolable.trainer.id, current_user.rolable.id, 1.to_s).references(:meetups)
-
+          @matches = []
           if @opentimes.any?
             @opentimes.each do |opentime|
-          meets = Meetup.where(appointment_id: opentime)
+          meets = Meetup.where(appointment_id: opentime.id)
         if meets.any?
           if meets.count > 1
            first = meets.first.client_id
@@ -121,7 +121,7 @@ class AppointmentsController < ApplicationController
           allp = Client.find(first).name
         end
         meets.each do |meet|
-          @matches = []
+          
           if meet.client_id == current_user.rolable.id
             @matches << "yes"
           end
@@ -135,10 +135,14 @@ class AppointmentsController < ApplicationController
       if opentime.maxjoin.to_i > meets.size
 
           appointments << {:id => opentime.id, :title => opentime.name || "Available Group Time"  , :start => opentime.start_at, :end => opentime.end_at, :class => "opentime", :allp => allp}
+          @matches.clear
         else
           appointments << {:id => opentime.id, :title => "Unavailable Time"  , :start => opentime.start_at, :end => opentime.end_at, :class => "gone"}
+          @matches.clear
         end
+        @matches.clear
         end
+        @matches.clear
         end
 
 

@@ -1,12 +1,12 @@
 <p>Greetings <%= @resource.rolable.name %>!</p>
 
-<p>Your trainer, <%= @resource.rolable.trainer.name %>, has decided to use Personal Trainer Labs, a software that makes it painless to manage his business.</p>
+<p>Your trainer, <%= @resource.rolable.trainer.name %>, has decided to use Personal Trainer Labs, a software that makes it painless to manage their business.</p>
 
-<p>Thanks to your trainer signing up to use the software.  You get access for absolutely free.  You will be able to instantly request available appointment times, see all your scheduled wokouts, track your progress on each exercise you have done, automatically pay your trainer after each session, and many more right from the palm of your hand. </p>
+<p>Thanks to your trainer signing up to use the software, you get access for absolutely free.  You will be able to instantly request available appointment times, see all your scheduled wokouts, track your progress on each exercise you have done, automatically pay your trainer after each session, and many more things right from the palm of your hand. </p>
 
 <p>Click on the link below to confirm your account and to get started!</p>
 
 <p><%= link_to 'Confirm my account', confirmation_url(@resource, :confirmation_token => @token) %></p>
 
 <p>Thanks!</p>
-<p>Team at Personal Trainer Labs</p>
+<p>Personal Trainer Labs Team</p>
