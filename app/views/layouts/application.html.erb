@@ -9,6 +9,10 @@
     <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
     
     <%= csrf_meta_tags %>
+
+    <script type="text/javascript" src="https://js.balancedpayments.com/1.1/balanced.js"></script>
+
+    <% Balanced.configure('ak-test-18Ax0g5fdxBzAfPT7ToH9DMlvOxQBEzre') %>
     
     <meta name="viewport" content="width=device-width, initial-scale=1">
 

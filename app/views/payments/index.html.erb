@@ -1,0 +1,22 @@
+<div id="flashtest">
+
+</div>
+
+<% if current_user.rolable_type == "Client" %>
+<div id="seewhat">
+
+	<%= render 'showthem' %>
+
+</div>
+<% else %>
+	
+	<div id="seewhattrainer">
+
+		<%= render 'showthetrainer' %>
+
+	</div>
+
+<% end %>
+
+
+

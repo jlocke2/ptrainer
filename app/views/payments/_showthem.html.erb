@@ -1,0 +1,79 @@
+<% if current_user.rolable.card_href != "" %>
+<p><%= button_to "Remove My Card", payments_delete_client_card_path, method: :post, remote: true, class: "btn mybtn btn-large btn-primary deleteMe" %></p>
+display different plans and prices for trainer here
+    <% unless current_user.rolable.trainer.default_price.blank? %>
+    <%= current_user.rolable.trainer.default_price %>
+    <% else %>
+
+        <%= form_tag payments_path(current_user.rolable.id), remote: true, method: :post do %>
+          <%= text_field_tag :default_price, nil %>
+
+          <%= submit_tag "Add Default Price", class: "btn mybtn btn-large btn-primary" %>
+        <% end %>
+
+    <% end %>
+
+<% else %>
+<form role="form">
+  <div>
+    <label>Name on Card</label>
+    <input type="text" id="cc-name" autocomplete="off" placeholder="John Doe" />
+  </div>
+  <div>
+    <label>Card Number</label>
+    <input type="text" id="cc-number" autocomplete="off" placeholder="4111111111111111" maxlength="16" />
+  </div>
+  <div>
+    <label>Expiration</label>
+    <input type="text" id="cc-ex-month" autocomplete="off" placeholder="01" maxlength="2" />
+    <input type="text" id="cc-ex-year" autocomplete="off" placeholder="2013" maxlength="4" />
+  </div>
+  <div>
+    <label>Card Verification Code (CVV)</label>
+    <input type="text" id="ex-cvv" autocomplete="off" placeholder="453" maxlength="4" />
+  </div>
+  <div>
+    <label>Postal Code</label>
+    <input type="text" id="postal-code" autocomplete="off" placeholder="453" />
+  </div>
+
+  <a id="cc-submit">Tokenize</a>
+</form>
+<% end %>
+
+<script type="text/javascript">
+function handleResponse(response) {
+  if (response.status_code === 201) {
+    var fundingInstrument = response.cards != null ? response.cards[0] : response.bank_accounts[0];
+    // Call your backend
+    jQuery.post("<%= payments_verify_client_card_path %>", {
+      uri: fundingInstrument.href
+    }, function(r) {
+      // Check your backend response
+      if (r.status === 201) {
+        // Your successful logic here from backend
+      } else {
+      // Your failure logic here from backend
+      }
+    });
+  } else {
+    // Failed to tokenize, your error logic here
+  }
+}
+$('#cc-submit').click(function (e) {
+  e.preventDefault();
+
+  var payload = {
+    name: $('#cc-name').val(),
+    number: $('#cc-number').val(),
+    expiration_month: $('#cc-ex-month').val(),
+    expiration_year: $('#cc-ex-year').val(),
+    cvv: $('#ex-cvv').val(),
+    address: {
+      postal_code: $('#postal-code').val()
+    }
+  };
+    // Create credit card
+  balanced.card.create(payload, handleResponse);
+});
+</script>

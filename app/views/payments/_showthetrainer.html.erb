@@ -1,0 +1,64 @@
+<% if current_user.rolable.bank_href != "" %>
+<p><%= button_to "Remove My Bank Account", payments_delete_trainer_bank_path, method: :post, remote: true, class: "btn mybtn btn-large btn-primary deleteMe" %></p>
+display different plans and prices for trainer and ability to create them here
+
+<%= form_tag plan_path, remote: true, method: :post do %>
+<%= text_field_tag :name, nil %>
+<%= text_field_tag :amount, nil %>
+
+<%= submit_tag "Add Plan", class: "btn mybtn btn-large btn-primary" %>
+<% end %>
+
+<% else %>
+<form role="form">
+  <div>
+    <label>Account Holder's Name</label>
+    <input type="text" id="ba-name" autocomplete="off" placeholder="John Doe" />
+  </div>
+  <div>
+    <label>Routing Number</label>
+    <input type="text" id="ba-routing" autocomplete="off" placeholder="322271627" />
+  </div>
+  <div>
+    <label>Account Number</label>
+    <input type="text" id="ba-number" autocomplete="off" placeholder="9900000000" />
+  </div>
+  <a id="ba-submit">Tokenize</a>
+</form>
+
+<% end %>
+
+<script type="text/javascript">
+
+function handleResponse(response) {
+  if (response.status_code === 201) {
+    var fundingInstrument = response.cards != null ? response.cards[0] : response.bank_accounts[0];
+    // Call your backend
+    jQuery.post("<%= payments_verify_trainer_bank_path %>", {
+      uri: fundingInstrument.href
+    }, function(r) {
+      // Check your backend response
+      if (r.status === 201) {
+        // Your successful logic here from backend
+      } else {
+      // Your failure logic here from backend
+      }
+    });
+  } else {
+    // Failed to tokenize, your error logic here
+  }
+}
+
+$('#ba-submit').click(function (e) {
+  e.preventDefault();
+
+  var payload = {
+    name: $('#ba-name').val(),
+    routing_number: $('#ba-routing').val(),
+    account_number: $('#ba-number').val()
+  };
+
+  // Create bank account
+  balanced.bankAccount.create(payload, handleResponse);
+});
+</script>

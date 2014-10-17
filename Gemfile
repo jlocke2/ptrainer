@@ -22,6 +22,7 @@ gem 'bootstrap3-datetimepicker-rails', '3.0.0'
 gem 'bootstrap-datepicker-rails'
 gem 'validates_overlap'
 gem 'ice_cube'
+gem 'balanced'
 
 gem'capistrano','~>3.1.0'
  #railsspecificcapistranofunctions

@@ -18,6 +18,45 @@ class Appointment < ActiveRecord::Base
   validates :start_at, :end_at, :overlap => {:scope => "trainer_id", :exclude_edges => ["start_at", "end_at"]}
 
 validate :check_times2
+
+order = merchant.create_order
+
+
+ def self.orders_create_and_payout
+
+  # create and save order
+  order = merchant.create_order
+  order.description = 'Item description'
+  order.meta = {
+    'item_url' => 'https://neatitems.com/12342134123'
+  }
+  order.save
+   # save order_href associate to meetup in case of refund order.href should work
+
+   #debit buyer/client and add to order
+     debit = order.debit_from(
+      :source => card,
+      :appears_on_statement_as => 'Pay Your Personal Trainer',
+      :amount => 10000 #in cents
+    )
+
+    #credit the merchat/trainer from order
+    order.credit_to(
+      :destination => bank_account,
+      :amount => 8000 #in cents
+    )
+
+    #credit rest to marketplace/my bank account
+    marketplace_bank_account = Balanced::Marketplace.mine.owner_customer.bank_accounts.first
+    order.credit_to(
+        :destination => marketplace_bank_account,
+        :amount => 2000 #in cents
+    )
+ end
+
+ def self.delete_orders
+   # after expiration of refund periond ~30days delete order_href from db
+ end
   
 
    

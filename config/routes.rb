@@ -12,6 +12,10 @@ match 'payments', to: 'payments#index', via: :get
 match 'payments/verify', to: 'payments#verify', via: :post
 match 'payments/verify', to: 'payments#verify', via: :get
 match 'payments/charge', to: 'payments#charge', via: :post
+match 'payments/verify_client_card', to: 'payments#verify_client_card', via: :post
+match 'payments/verify_trainer_bank', to: 'payments#verify_trainer_bank', via: :post
+match 'payments/delete_client_card', to: 'payments#delete_client_card', via: :post
+match 'payments/delete_trainer_bank', to: 'payments#delete_trainer_bank', via: :post
 #match 'requests', to: 'clients#requests', via: :get
 match "appointments/:id/:clientid/removefromapt", to: "appointments#removefromapt", via: :post, as: "removefromapt_appointments"
 
