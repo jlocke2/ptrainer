@@ -1,20 +1,82 @@
 <% if current_user.rolable.bank_href != "" %>
 <p><%= button_to "Remove My Bank Account", payments_delete_trainer_bank_path, method: :post, remote: true, class: "btn mybtn btn-large btn-primary deleteMe" %></p>
-display different plans and prices for trainer and ability to create them here
 
-<%= form_tag plan_path, remote: true, method: :post do %>
-<%= text_field_tag :name, nil %>
-<%= text_field_tag :amount, nil %>
+<!-- tentative form to add plans -->
 
-<%= submit_tag "Add Plan", class: "btn mybtn btn-large btn-primary" %>
+<% if false %>
+
+<%= form_tag plans_path(current_user.rolable.id), remote: true, method: :post do %>
+  <%= text_field_tag :name, nil %>
+  <%= text_field_tag :amount, nil %>
+
+  <%= submit_tag "Add Plan", class: "btn mybtn btn-large btn-primary" %>
 <% end %>
 
+<% end %>
+
+<!-- end tentative form to add plans-->
+
+
+ <% unless current_user.rolable.default_price.blank? %>
+
+
+    <% @cost = current_user.rolable.default_price.to_f/100 %>
+    <%= number_to_currency(@cost) %>
+     <%= form_tag payments_add_default_price_path, remote: true, method: :post do %>
+          <%= text_field_tag :default_price, nil %>
+
+          <%= submit_tag "Add Default Price", class: "btn mybtn btn-large btn-primary" %>
+        <% end %>
+    <% else %>
+
+        <%= form_tag payments_add_default_price_path, remote: true, method: :post do %>
+          <%= text_field_tag :default_price, nil %>
+
+          <%= submit_tag "Add Default Price", class: "btn mybtn btn-large btn-primary" %>
+        <% end %>
+
+    <% end %>
+
+
+
+
 <% else %>
+
+<h2>To get started, we need just a few details from you.</h2>
+<p>After that, when you make a sale on Personal Trainer Labs, we'll deposit the funds directly to your bank account.  Typically, the funds will be available the next business day, excluding bank observed holidays.</p>
+
 <form role="form">
+  <h2>About You</h2>
   <div>
     <label>Account Holder's Name</label>
     <input type="text" id="ba-name" autocomplete="off" placeholder="John Doe" />
   </div>
+  <div>
+    <label>Date of Birth</label>
+    <input type="text" id="date-of-birth-month" autocomplete="off" placeholder="" /> /
+    <input type="text" id="date-of-birth-year" autocomplete="off" placeholder="" />
+  </div>
+  <div>
+    <label>Last Four of SSN</label>
+    <input type="text" id="L4-SSN" autocomplete="off" placeholder="John Doe" />
+  </div>
+  <div>
+    <label>Street Address</label>
+    <input type="text" id="St-Addr" autocomplete="off" placeholder="John Doe" />
+  </div>
+  <div>
+    <label>Country Code</label>
+    <input type="text" id="C-Code" autocomplete="off" placeholder="John Doe" />
+  </div>
+  <div>
+    <label>Postal Code</label>
+    <input type="text" id="postal_code" autocomplete="off" placeholder="John Doe" />
+  </div>
+  <div>
+    <label>Phone Number</label>
+    <input type="text" id="Phone-Num" autocomplete="off" placeholder="John Doe" />
+  </div>
+  <h2>Bank Account Information</h2>
   <div>
     <label>Routing Number</label>
     <input type="text" id="ba-routing" autocomplete="off" placeholder="322271627" />
@@ -31,11 +93,20 @@ display different plans and prices for trainer and ability to create them here
 <script type="text/javascript">
 
 function handleResponse(response) {
-  if (response.status_code === 201) {
+  if (response.status_code == 201) {
+    console.log(response)
     var fundingInstrument = response.cards != null ? response.cards[0] : response.bank_accounts[0];
     // Call your backend
     jQuery.post("<%= payments_verify_trainer_bank_path %>", {
-      uri: fundingInstrument.href
+      uri: fundingInstrument.href,
+      last4ssn: $('#L4-SSN').val(),
+      phonenum: $('#Phone-Num').val(),
+      doby: $('#date-of-birth-year').val(),
+      dobm: $('#date-of-birth-month').val(),
+      postal_code: $('#postal_code').val(),
+      country_code: $('#C-Code').val(),
+      street_address: $('#St-Addr').val(),
+      holder_name: $('#ba-name').val(),
     }, function(r) {
       // Check your backend response
       if (r.status === 201) {
@@ -46,6 +117,18 @@ function handleResponse(response) {
     });
   } else {
     // Failed to tokenize, your error logic here
+    
+    var myStringArray = response.errors;
+    var arrayLength = myStringArray.length;
+    for (var i = 0; i < arrayLength; i++) {
+        var descrip = myStringArray[i].description.split(" - ")
+        console.log(descrip[1]);
+
+        //Do something
+        
+    }
+    console.log(response)
+    jQuery.post("<%= payments_form_validation_path %>");
   }
 }
 
@@ -55,8 +138,9 @@ $('#ba-submit').click(function (e) {
   var payload = {
     name: $('#ba-name').val(),
     routing_number: $('#ba-routing').val(),
-    account_number: $('#ba-number').val()
+    account_number: $('#ba-number').val(),
   };
+
 
   // Create bank account
   balanced.bankAccount.create(payload, handleResponse);

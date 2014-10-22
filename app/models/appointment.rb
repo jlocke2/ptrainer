@@ -19,39 +19,74 @@ class Appointment < ActiveRecord::Base
 
 validate :check_times2
 
-order = merchant.create_order
 
 
  def self.orders_create_and_payout
 
-  # create and save order
-  order = merchant.create_order
-  order.description = 'Item description'
-  order.meta = {
-    'item_url' => 'https://neatitems.com/12342134123'
-  }
-  order.save
-   # save order_href associate to meetup in case of refund order.href should work
+  appointments = Appointment.where([" ? < start_at AND start_at < ?", Time.current.advance(minutes: -960), Time.current.advance(minutes: 480) ])
+      appointments.each do |appointment|
 
-   #debit buyer/client and add to order
-     debit = order.debit_from(
-      :source => card,
-      :appears_on_statement_as => 'Pay Your Personal Trainer',
-      :amount => 10000 #in cents
-    )
+        @trainer = appointment.trainer
+        # fetch trainer from Balanced
+        @merchant = Balanced::Customer.fetch(@trainer.customer_href)
+        @default_price = @trainer.default_price
+        @client_amount = @default_price * 0.967 - 55
+        @our_amount = @default_price - @client_amount
 
-    #credit the merchat/trainer from order
-    order.credit_to(
-      :destination => bank_account,
-      :amount => 8000 #in cents
-    )
+        @meetups = appointment.meetups
 
-    #credit rest to marketplace/my bank account
-    marketplace_bank_account = Balanced::Marketplace.mine.owner_customer.bank_accounts.first
-    order.credit_to(
-        :destination => marketplace_bank_account,
-        :amount => 2000 #in cents
-    )
+        @attends = []
+          @meetups.each do |meetup|
+            @name = Client.find(meetup.client_id)
+            @attends << @name
+          end
+
+      if @merchant.merchant_status == "underwritten"
+
+      @attends.each do |attend|
+
+         
+
+         # create and save order
+        order = @merchant.create_order
+        order.description = 'Item description'
+        order.save
+
+
+          # save order_href associate to meetup in case of refund order.href should work
+
+          #debit buyer/client and add to order
+         card = Balanced::Card.fetch(attend.card_href)
+         debit = order.debit_from(
+          :source => card,
+          :appears_on_statement_as => 'Personal_Training',
+          :amount => @default_price # in cents
+        )
+
+
+           
+           # credit the merchat/trainer from order
+          bank_account = Balanced::BankAccount.fetch(@trainer.bank_href)
+          order.credit_to(
+            :destination => bank_account,
+            :amount => @client_amount # in cents
+          )
+
+           
+           # credit rest to marketplace/my bank account
+          marketplace_bank_account = Balanced::Marketplace.mine.owner_customer.bank_accounts.first
+          order.credit_to(
+              :destination => marketplace_bank_account,
+              :amount => @our_amount # in cents
+          )
+
+  end # @attends.each
+
+  end # if underwritten
+
+  end # end appointments.each
+
+
  end
 
  def self.delete_orders

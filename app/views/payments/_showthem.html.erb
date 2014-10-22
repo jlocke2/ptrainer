@@ -1,15 +1,11 @@
 <% if current_user.rolable.card_href != "" %>
 <p><%= button_to "Remove My Card", payments_delete_client_card_path, method: :post, remote: true, class: "btn mybtn btn-large btn-primary deleteMe" %></p>
-display different plans and prices for trainer here
     <% unless current_user.rolable.trainer.default_price.blank? %>
-    <%= current_user.rolable.trainer.default_price %>
+    <% @cost = current_user.rolable.trainer.default_price.to_f/100 %>
+    <%= number_to_currency(@cost) %>
     <% else %>
 
-        <%= form_tag payments_path(current_user.rolable.id), remote: true, method: :post do %>
-          <%= text_field_tag :default_price, nil %>
-
-          <%= submit_tag "Add Default Price", class: "btn mybtn btn-large btn-primary" %>
-        <% end %>
+        No current price listed
 
     <% end %>
 
