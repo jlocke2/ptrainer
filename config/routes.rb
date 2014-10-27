@@ -18,6 +18,7 @@ match 'payments/delete_client_card', to: 'payments#delete_client_card', via: :po
 match 'payments/delete_trainer_bank', to: 'payments#delete_trainer_bank', via: :post
 match 'payments/add_default_price', to: 'payments#add_default_price', via: :post
 match 'payments/form_validation', to: 'payments#form_validation', via: :post
+match 'payments/account_not_matching', to: 'payments#account_not_matching', via: :post
 #match 'requests', to: 'clients#requests', via: :get
 match "appointments/:id/:clientid/removefromapt", to: "appointments#removefromapt", via: :post, as: "removefromapt_appointments"
 

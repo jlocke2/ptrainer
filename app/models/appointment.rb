@@ -27,6 +27,7 @@ validate :check_times2
       appointments.each do |appointment|
 
         @trainer = appointment.trainer
+        if @trainer.bank_href != ""
         # fetch trainer from Balanced
         @merchant = Balanced::Customer.fetch(@trainer.customer_href)
         @default_price = @trainer.default_price
@@ -44,6 +45,8 @@ validate :check_times2
       if @merchant.merchant_status == "underwritten"
 
       @attends.each do |attend|
+
+        if attend.card_href != ""
 
          
 
@@ -80,12 +83,17 @@ validate :check_times2
               :amount => @our_amount # in cents
           )
 
+  end # if attend != ""
+
   end # @attends.each
 
   end # if underwritten
 
+  end # if bank_href != ""
+
   end # end appointments.each
 
+  # add else statements for each one
 
  end
 

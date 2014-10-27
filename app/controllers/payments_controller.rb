@@ -124,7 +124,25 @@ class PaymentsController < ApplicationController
 
 	end
 
+	def account_not_matching
+
+		respond_to do |format|
+		        format.js { render :partial => 'account_not_matching.js.erb' }
+		 end
+
+		
+	end
+
 	def index
+		
+	end
+
+	def callback_balanced
+
+		if event.type == "credit.failed"
+			# do something
+			logger.info "processing callback from Balanced"
+		end
 		
 	end
 
