@@ -1,4 +1,5 @@
 class PaymentsController < ApplicationController
+	before_filter :authenticate_user!
 	rescue_from Balanced::BadRequest, with: :bad_form_info
 
 
