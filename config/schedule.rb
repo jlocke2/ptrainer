@@ -37,7 +37,7 @@ every '1 1 1 * *' do
   command "/bin/bash /usr/local/bin/tarsnap-archive.sh monthly"
 end
 
-every 1.day, :at => '12:45 pm' do
+every 1.day, :at => '12:55 pm' do
   set :job_template, 'bash -lc ":job" '
   command "cd /home/deploy/apps/ptrainer_production/current && RAILS_ENV=production bin/rails runner 'Appointment.orders_create_and_payout'"
 end
