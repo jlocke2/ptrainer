@@ -23,6 +23,9 @@ validate :check_times2
 
  def self.orders_create_and_payout
 
+  require 'balanced'
+  Balanced.configure('ak-test-18Ax0g5fdxBzAfPT7ToH9DMlvOxQBEzre')
+
   no_card = []
   appointments = Appointment.where([" ? < start_at AND start_at < ?", Time.current.advance(minutes: -960), Time.current.advance(minutes: 480) ])
       appointments.each do |appointment|
@@ -102,6 +105,7 @@ validate :check_times2
 
   # add some sort of notification for attends in no_card array
 
+require 'mandrill'
   mandrill = Mandrill::API.new 'gdATMo6lVK4YKoTdolhuBQ'
           message = {"html"=>" <p>Payment Schedule is working!</p>",
            "text"=>"",
