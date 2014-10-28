@@ -35,7 +35,8 @@ validate :check_times2
         # fetch trainer from Balanced
         @merchant = Balanced::Customer.fetch(@trainer.customer_href)
         @default_price = @trainer.default_price
-        @client_amount = @default_price * 0.967 - 55
+        @client_amount_1 = @default_price * 0.967 - 55
+        @client_amount = @client_amount_1.to_i
         @our_amount = @default_price - @client_amount
 
         @meetups = appointment.meetups
