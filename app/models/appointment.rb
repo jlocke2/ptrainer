@@ -23,6 +23,7 @@ validate :check_times2
 
  def self.orders_create_and_payout
 
+  no_card = []
   appointments = Appointment.where([" ? < start_at AND start_at < ?", Time.current.advance(minutes: -960), Time.current.advance(minutes: 480) ])
       appointments.each do |appointment|
 
@@ -83,6 +84,10 @@ validate :check_times2
               :amount => @our_amount # in cents
           )
 
+  else # if attend != ""
+
+    no_card << attend
+
   end # if attend != ""
 
   end # @attends.each
@@ -94,6 +99,38 @@ validate :check_times2
   end # end appointments.each
 
   # add else statements for each one
+
+  # add some sort of notification for attends in no_card array
+
+  mandrill = Mandrill::API.new 'gdATMo6lVK4YKoTdolhuBQ'
+          message = {"html"=>" <p>Payment Schedule is working!</p>",
+           "text"=>"",
+           "subject"=>"Payment Schedule",
+           "from_email"=>"reminder@personaltrainerlabs.com",
+           "from_name"=>"",
+           "to"=>
+              [{"email"=>"alan@provivify.com",
+                  "name"=>"",
+                  "type"=>"to"}],
+           "headers"=>{"Reply-To"=>""},
+           "important"=>false,
+           "track_opens"=>nil,
+           "track_clicks"=>nil,
+           "auto_text"=>nil,
+           "auto_html"=>nil,
+           "inline_css"=>nil,
+           "url_strip_qs"=>nil,
+           "preserve_recipients"=>nil,
+           "view_content_link"=>nil,
+           "bcc_address"=>"",
+           "tracking_domain"=>nil,
+           "signing_domain"=>nil,
+           "return_path_domain"=>nil,}
+           
+          async = false
+          ip_pool = "Main Pool"
+          send_at = ""
+          result = mandrill.messages.send message, async, ip_pool, send_at
 
  end
 
@@ -161,15 +198,17 @@ validate :check_times2
               #     "reject_reason"=>"hard-bounce",
               #     "_id"=>"abc123abc123abc123abc123abc123"}]
 
-end
+
+
+              end # if Client.email
   
 
-        end
+        end # @attends.each
 
 
       
-  end
-end
+  end # appointments.each
+end # def self.perform
 
      
   
