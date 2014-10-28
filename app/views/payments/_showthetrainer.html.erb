@@ -1,5 +1,4 @@
-<% if current_user.rolable.bank_href != "" %>
-
+<% unless current_user.rolable.bank_href.blank? %>
 
 <!-- tentative form to add plans -->
 
@@ -37,6 +36,10 @@
             <%= submit_tag "Change Default Price", class: "btn mybtn btn-large btn-primary" %>
           <% end %>
       <% else %>
+
+      <div style="border-bottom: dotted 1px lightgray; padding-bottom: 22px; margin-bottom: 15px;">
+
+      <h5 style="padding-bottom:6px;">Set Price Per Session</h5>
 
           <%= form_tag payments_add_default_price_path, remote: true, method: :post do %>
             <div class="price">
