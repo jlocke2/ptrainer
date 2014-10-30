@@ -170,7 +170,7 @@ class PaymentsController < ApplicationController
            "from_email"=>"notification@personaltrainerlabs.com",
            "from_name"=>"",
            "to"=>
-              [{"email"=>"#{@client.email}",
+              [{"email"=>"#{@client.user.email}",
                   "name"=>"",
                   "type"=>"to"}],
            "headers"=>{"Reply-To"=>""},
