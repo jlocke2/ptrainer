@@ -100,6 +100,14 @@ validate :check_times2
 
   end # if bank_href != ""
 
+
+
+
+
+
+    no_card.clear
+
+
   end # end appointments.each
 
   # add else statements for each one
@@ -141,6 +149,10 @@ require 'mandrill'
 
  def self.delete_orders
    # after expiration of refund periond ~30days delete order_href from db
+ end
+
+ def self.weekly_review_for_trainer
+    # do something with saved info from week of sessions paid/unpaid   
  end
   
 

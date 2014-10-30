@@ -1,6 +1,7 @@
 class PaymentsController < ApplicationController
-	before_filter :authenticate_user!
+	before_filter :authenticate_user!, except: [:callback_balanced]
 	rescue_from Balanced::BadRequest, with: :bad_form_info
+	skip_before_action :verify_authenticity_token, only: [:callback_balanced]
 
 
 
@@ -140,9 +141,59 @@ class PaymentsController < ApplicationController
 
 	def callback_balanced
 
-		if event.type == "credit.failed"
+		response = JSON.parse(request.body.read)
+
+		if response["events"][0]["type"] == "credit.failed"
 			# do something
-			logger.info "processing callback from Balanced"
+			
+
+			@customer = response["events"][0]["entity"]["credits"][0]["links"]["customer"]
+
+			@customer2 = "/customers/" + @customer
+
+			@client = Trainer.find_by(customer_href: @customer2)
+
+
+			
+
+			require 'mandrill'
+  mandrill = Mandrill::API.new 'gdATMo6lVK4YKoTdolhuBQ'
+          message = {"html"=>" <p>An error occured while trying to transfer funds to your bank account.</p>
+          	<p>All transactions that we were unable to transfer to your account have been reverted back to your clients.</p>
+           <p> Please, verify that the account number and all other information
+          	you entered for your bank account is accurate.  If you are sure all information is correct, please email us at support@personaltrainerlabs.com and we will be
+          	glad to assist you!</p>
+          	<p>Thanks</p>
+          	<p>Personal Trainer Labs Team</p>",
+           "text"=>"",
+           "subject"=>"Payment Failure with Personal Trainer Labs!",
+           "from_email"=>"notification@personaltrainerlabs.com",
+           "from_name"=>"",
+           "to"=>
+              [{"email"=>"#{@client.email}",
+                  "name"=>"",
+                  "type"=>"to"}],
+           "headers"=>{"Reply-To"=>""},
+           "important"=>false,
+           "track_opens"=>nil,
+           "track_clicks"=>nil,
+           "auto_text"=>nil,
+           "auto_html"=>nil,
+           "inline_css"=>nil,
+           "url_strip_qs"=>nil,
+           "preserve_recipients"=>nil,
+           "view_content_link"=>nil,
+           "bcc_address"=>"",
+           "tracking_domain"=>nil,
+           "signing_domain"=>nil,
+           "return_path_domain"=>nil,}
+           
+          async = false
+          ip_pool = "Main Pool"
+          send_at = ""
+          result = mandrill.messages.send message, async, ip_pool, send_at
+			
+
 		end
 		
 	end
