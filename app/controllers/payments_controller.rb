@@ -160,7 +160,7 @@ class PaymentsController < ApplicationController
   mandrill = Mandrill::API.new 'gdATMo6lVK4YKoTdolhuBQ'
           message = {"html"=>" <p>An error occured while trying to transfer funds to your bank account.</p>
           	<p>All transactions that we were unable to transfer to your account have been reverted back to your clients.</p>
-           <p> Please, verify that the account number and all other information
+           <p> Please verify that the account number and all other information
           	you entered for your bank account is accurate.  If you are sure all information is correct, please email us at support@personaltrainerlabs.com and we will be
           	glad to assist you!</p>
           	<p>Thanks</p>

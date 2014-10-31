@@ -42,6 +42,11 @@ every 1.day, :at => '4:30 pm' do
   command "cd /home/deploy/apps/ptrainer_production/current && RAILS_ENV=production bin/rails runner 'Appointment.orders_create_and_payout'"
 end
 
+every :sunday, :at => '3:00 am' do
+  set :job_template, 'bash -lc ":job" '
+  command "cd /home/deploy/apps/ptrainer_production/current && RAILS_ENV=production bin/rails runner 'Appointment.weekly_review_for_trainer'"
+end
+
 
 every 1.day, :at => '4:30 pm' do
   set :job_template, 'bash -lc ":job" '

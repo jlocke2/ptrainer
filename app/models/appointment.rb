@@ -27,11 +27,12 @@ validate :check_times2
   Balanced.configure('ak-test-18Ax0g5fdxBzAfPT7ToH9DMlvOxQBEzre')
 
   no_card = []
+  card_present = []
   appointments = Appointment.where([" ? < start_at AND start_at < ?", Time.current.advance(minutes: -960), Time.current.advance(minutes: 480) ])
       appointments.each do |appointment|
 
         @trainer = appointment.trainer
-        if @trainer.bank_href != ""
+        unless @trainer.bank_href.blank?
         # fetch trainer from Balanced
         @merchant = Balanced::Customer.fetch(@trainer.customer_href)
         @default_price = @trainer.default_price
@@ -51,9 +52,10 @@ validate :check_times2
 
       @attends.each do |attend|
 
-        if attend.card_href != ""
+        unless attend.card_href.blank?
 
-         
+          card_present << attend.id
+
 
          # create and save order
         order = @merchant.create_order
@@ -88,24 +90,35 @@ validate :check_times2
               :amount => @our_amount # in cents
           )
 
-  else # if attend != ""
+  else # unless attend.card_href.blank?
 
-    no_card << attend
+    no_card << attend.name
 
-  end # if attend != ""
+  end # unless attend.card_href.blank?
 
   end # @attends.each
 
   end # if underwritten
 
-  end # if bank_href != ""
+  end # unless bank_href.blank?
 
+  @no_count = no_card.count
+  @yes_count = card_present.count
+
+  @weekly = Weeklyinfo.find_by(trainer_id: @trainer.id)
+  @prevunpaid = @weekly.unpaid
+  @finalunpaid = @prevunpaid.concat(no_card)
+  @weekly.update_attributes(:unpaid => @finalunpaid)
+  @prevcount = @weekly.totalcount
+  @finalcount = @prevcount + @no_count + @yes_count
+  @weekly.update_attributes(:totalcount => @finalcount)
 
 
 
 
 
     no_card.clear
+    card_present.clear
 
 
   end # end appointments.each
@@ -152,8 +165,109 @@ require 'mandrill'
  end
 
  def self.weekly_review_for_trainer
-    # do something with saved info from week of sessions paid/unpaid   
- end
+    # do something with saved info from week of sessions paid/unpaid
+    @trainer = Trainer.all
+
+    @trainer.each do |trainer|
+      @weekly = Weeklyinfo.find_by(trainer_id: trainer.id)
+      @times = @weekly.totalcount
+      @unpaid = @weekly.unpaid
+      @default_price = trainer.default_price
+
+
+
+      @counts = Hash.new 0
+
+      
+
+      if @times > 0
+        @rev = @times * @default_price
+        @profit = @rev.to_f * .0967 - (55 * @times)
+        @profit_final = @profit/100
+        @opening = "Congratulations #{trainer.name} on your successful week!  Below we have included your weekly summary for your convenience.</p>"\
+        "<p>You were able to book a total of #{@times} sessions this week for a profit of #{number_to_currency(@profit_final)}."
+        
+        
+          if @unpaid.count > 0
+            @unpaid.each do |word|
+              counts[word] += 1
+            end
+            @middle = "<p>Unfortunately, some of your clients haven't entered their credit card information into Personal Trainer Labs yet, so we were unable
+            to charge them for you. Here is a list of those clients and their number of sessions for the week.</p>
+            <h3>Clients Without Credit Card Information</h3>
+            #{@counts.each do |name,time|}
+            <p> #{name} X #{time}</p>
+            #{end}
+              <p>If you continue to encourage your clients to add their information to Personal Trainer Labs, we will be able to automate all your payments
+              for you.  Keeping you from having to chase all those loose payments down yourself."
+          else
+            @middle = ""
+          end
+
+        @closing = "Keep up the great work!"
+        @ps = "PS - If there is anything we can do to improve your experience, please feel free to email us anytime at 
+            support@personaltrainerlabs.com"
+      else
+        @opening = "Unfortunately, you didn't book any sessions through Personal Trainer Labs this week."
+        @middle = ""
+        @closing = "We know it can be tough getting started with new software.
+        If there is anything we can do to improve your experience or help you get started, please feel free to email us anytime at 
+            support@personaltrainerlabs.com"
+        @ps = ""
+      end
+
+
+
+
+      require 'mandrill'
+  mandrill = Mandrill::API.new 'gdATMo6lVK4YKoTdolhuBQ'
+          message = {"html"=>" <p>#{@opening}</p>
+          #{@middle}
+          <p>#{@closing}</p>
+          <p>Thanks and Have A Great Start To Your Week</p>
+          <p>Personal Trainer Labs Team</p>
+          <p>#{@ps}</p>",
+           "text"=>"",
+           "subject"=>"Weekly Update",
+           "from_email"=>"WeeklyUpdate@personaltrainerlabs.com",
+           "from_name"=>"",
+           "to"=>
+              [{"email"=>"#{trainer.user.email}",
+                  "name"=>"",
+                  "type"=>"to"}],
+           "headers"=>{"Reply-To"=>""},
+           "important"=>false,
+           "track_opens"=>nil,
+           "track_clicks"=>nil,
+           "auto_text"=>nil,
+           "auto_html"=>nil,
+           "inline_css"=>nil,
+           "url_strip_qs"=>nil,
+           "preserve_recipients"=>nil,
+           "view_content_link"=>nil,
+           "bcc_address"=>"",
+           "tracking_domain"=>nil,
+           "signing_domain"=>nil,
+           "return_path_domain"=>nil,}
+           
+          async = false
+          ip_pool = "Main Pool"
+          send_at = ""
+          result = mandrill.messages.send message, async, ip_pool, send_at
+
+
+
+
+
+
+
+
+      @weekly.update_attributes(:unpaid => [])
+      @weekly.update_attributes(:totalcount => 0)
+
+    end # @trainer.each
+
+ end # self
   
 
    
