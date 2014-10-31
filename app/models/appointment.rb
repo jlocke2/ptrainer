@@ -187,9 +187,9 @@ require 'mandrill'
         @rev = @times * @default_price
         @profit = @rev.to_f * 0.967 - (55 * @times)
         @profit_final = @profit/100
-        @currency = number_to_currency(@profit_final)
+        @currency = @profit_final
         @opening = "Congratulations #{trainer.name} on your successful week!  Below we have included your weekly summary for your convenience.</p>"\
-        "<p>You were able to book a total of #{@times} sessions this week for a profit of #{@currency}."
+        "<p>You were able to book a total of #{@times} sessions this week for a profit of #{number_to_currency(@currency)}."
         
         
           if @unpaid.count > 0
