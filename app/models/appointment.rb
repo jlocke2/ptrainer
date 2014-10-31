@@ -208,7 +208,7 @@ require 'mandrill'
               <p>If you continue to encourage your clients to add their information to Personal Trainer Labs, we will be able to automate all your payments
               for you.  Keeping you from having to chase all those loose payments down yourself."
           else
-            @middle = "testing purposes"
+            @middle = "#{@unpaid}"
           end
 
         @closing = "Keep up the great work!"
