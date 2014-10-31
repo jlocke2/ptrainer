@@ -179,7 +179,7 @@ require 'mandrill'
 
 
 
-      @counts = Hash.new 0
+      
 
       
 
@@ -193,6 +193,7 @@ require 'mandrill'
         
         
           if @unpaid.count > 0
+            @counts = Hash.new 0
             @unpaid.each do |word|
               @counts[word] += 1
             end
@@ -207,7 +208,7 @@ require 'mandrill'
               <p>If you continue to encourage your clients to add their information to Personal Trainer Labs, we will be able to automate all your payments
               for you.  Keeping you from having to chase all those loose payments down yourself."
           else
-            @middle = ""
+            @middle = "testing purposes"
           end
 
         @closing = "Keep up the great work!"
