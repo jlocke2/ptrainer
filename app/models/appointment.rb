@@ -105,6 +105,8 @@ validate :check_times2
   @no_count = no_card.count
   @yes_count = card_present.count
 
+
+
   @weekly = Weeklyinfo.find_by(trainer_id: @trainer.id)
   @prevunpaid = @weekly.unpaid
   @finalunpaid = @prevunpaid.concat(no_card)
