@@ -200,16 +200,17 @@ require 'mandrill'
             end
             @string = ""
             @counts.each do |name,time|
-            @string.concat("<p> #{name} X#{time}</p>")
+            @string.concat("<p> #{name} X #{time}</p>")
             end
             @middle = "<p>Unfortunately, some of your clients haven't entered their credit card information into Personal Trainer Labs yet, so we were unable
-            to charge them for you. Here is a list of those clients and their number of sessions for the week.</p>
+            to charge them for you.</p>
+            <p> Here is a list of those clients and their number of sessions for the week.</p>
             <h3>Clients Without Credit Card Information</h3>
             #{@string}
               <p>If you continue to encourage your clients to add their information to Personal Trainer Labs, we will be able to automate all your payments
               for you.  Keeping you from having to chase all those loose payments down yourself."
           else
-            @middle = "#{@unpaid}"
+            @middle = ""
           end
 
         @closing = "Keep up the great work!"
