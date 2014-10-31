@@ -194,11 +194,11 @@ require 'mandrill'
         
           if @unpaid.count > 0
             @unpaid.each do |word|
-              counts[word] += 1
+              @counts[word] += 1
             end
             @string = ""
             @counts.each do |name,time|
-            @string.concat("<p> #{name} X  #{time}</p>")
+            @string.concat("<p> #{name} X#{time}</p>")
             end
             @middle = "<p>Unfortunately, some of your clients haven't entered their credit card information into Personal Trainer Labs yet, so we were unable
             to charge them for you. Here is a list of those clients and their number of sessions for the week.</p>
