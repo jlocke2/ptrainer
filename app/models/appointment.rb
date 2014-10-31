@@ -2,6 +2,7 @@ class Appointment < ActiveRecord::Base
 
 
   include ActionView::Helpers::DateHelper
+  include ActionView::Helpers::NumberHelper
 
 		belongs_to :trainer
 
@@ -186,8 +187,9 @@ require 'mandrill'
         @rev = @times * @default_price
         @profit = @rev.to_f * 0.0967 - (55 * @times)
         @profit_final = @profit/100
+        @currency = number_to_currency(@profit_final)
         @opening = "Congratulations #{trainer.name} on your successful week!  Below we have included your weekly summary for your convenience.</p>"\
-        "<p>You were able to book a total of #{@times} sessions this week for a profit of #{number_to_currency(@profit_final)}."
+        "<p>You were able to book a total of #{@times} sessions this week for a profit of #{}."
         
         
           if @unpaid.count > 0
