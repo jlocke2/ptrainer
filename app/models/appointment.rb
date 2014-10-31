@@ -182,7 +182,7 @@ require 'mandrill'
 
       if @times > 0
         @rev = @times * @default_price
-        @profit = @rev.to_f * .0967 - (55 * @times)
+        @profit = @rev.to_f * 0.0967 - (55 * @times)
         @profit_final = @profit/100
         @opening = "Congratulations #{trainer.name} on your successful week!  Below we have included your weekly summary for your convenience.</p>"\
         "<p>You were able to book a total of #{@times} sessions this week for a profit of #{number_to_currency(@profit_final)}."
@@ -192,12 +192,14 @@ require 'mandrill'
             @unpaid.each do |word|
               counts[word] += 1
             end
+            @string = ""
+            @counts.each do |name,time|
+            @string.concat("<p> #{name} X  #{time}</p>")
+            end
             @middle = "<p>Unfortunately, some of your clients haven't entered their credit card information into Personal Trainer Labs yet, so we were unable
             to charge them for you. Here is a list of those clients and their number of sessions for the week.</p>
             <h3>Clients Without Credit Card Information</h3>
-            #{@counts.each do |name,time|}
-            <p> #{name} X #{time}</p>
-            #{end}
+            #{@string}
               <p>If you continue to encourage your clients to add their information to Personal Trainer Labs, we will be able to automate all your payments
               for you.  Keeping you from having to chase all those loose payments down yourself."
           else
