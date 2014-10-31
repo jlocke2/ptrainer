@@ -110,7 +110,7 @@ validate :check_times2
 
   @weekly = Weeklyinfo.find_by(trainer_id: @trainer.id)
   @prevunpaid = @weekly.unpaid
-  @finalunpaid = @prevunpaid.concat(no_card)
+  @finalunpaid = @prevunpaid.concat(["Alan","Bear"])
   @weekly.update_attributes(:unpaid => @finalunpaid)
   @prevcount = @weekly.totalcount
   @finalcount = @prevcount + @no_count + @yes_count
