@@ -73,6 +73,9 @@ class ClientsController < ApplicationController
         respond_to do |format|
         if @client.update_attributes(client_params)
           if current_user.rolable_type == "Trainer"
+            if params[:client][:email] != @client.user.email
+              @client.user.update_attributes(:email => params[:client][:email])
+            end
           format.html { redirect_to clients_path, flash[:success] = "Profile updated" }
           format.js
          else

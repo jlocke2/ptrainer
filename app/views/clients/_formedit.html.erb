@@ -24,7 +24,7 @@
                         <div class="form-group">
                               <%= f.label :email, :class => "col-md-2 control-label" %>
                               <div class="col-md-8">
-                              <%= f.email_field :email, :class => "form-control", :placeholder => "Email" %>
+                              <%= f.email_field :email, :class => "form-control", :placeholder => "Email", :value => @client.user.email %>
                             </div>
                         </div>
 

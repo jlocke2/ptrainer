@@ -52,7 +52,7 @@
     <td><%= link_to 'View Progress', progress_client_path(client), :class => "link" %></td>
 
     <td class="align-right">
-    	<%= client.phone %>
+    	<%= number_to_phone(client.phone, area_code: true) %>
     </td>
 
   </tr>

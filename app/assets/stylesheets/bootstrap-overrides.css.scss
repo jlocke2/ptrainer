@@ -271,8 +271,14 @@ textarea::-webkit-input-placeholder {
 }
 
 
-
-
+#gc-number-0{
+	color: rgb(66, 139, 202);
+	text-decoration: none;
+}
+#gc-number-0:hover, #gc-number-0:focus {
+	color: #2a6496;
+	text-decoration: underline;
+}
 
 
 

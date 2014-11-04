@@ -16,7 +16,7 @@
 
 
   <div class="form-group" id="canadd3">
-    <label class="col-md-2 control-label" style="width: 100%; text-align: center;">Can clients joing this session?</label>
+    <label class="col-md-2 control-label" style="width: 100%; text-align: center;">Can clients join this session?</label>
                 <div class='input-groupst date col-md-8' >
                     <%= select_tag "canadd2", options_for_select([ ["Yes","1"], ["No","2"]], "#{@appointment.allowjoin}"), prompt: " ", class: "btn btn-default btn-sizers", style: "color: #333333; background-color: #ebebeb; border-color: #adadad;height:34px;width: 244px; margin-left: 2px; min-width: 244px;text-indent: 88px;"%>
                     

@@ -52,7 +52,15 @@
 
 <div class="row">
 <div id="prog">
-<%= render "prog" %>
+  <% if current_user.rolable_type == "Trainer" %>
+    <% if current_user.rolable.exercises.any? %>
+      <%= render "prog" %>
+    <% end %>
+  <% else %>
+    <% if current_user.rolable.trainer.exercises.any? %>
+      <%= render "prog" %>
+    <% end %>
+  <% end %>
 </div>
 </div>
  
