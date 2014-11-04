@@ -25,11 +25,11 @@ validate :check_times2
  def self.orders_create_and_payout
 
   require 'balanced'
-  Balanced.configure('ak-test-18Ax0g5fdxBzAfPT7ToH9DMlvOxQBEzre')
+  Balanced.configure('ak-prod-1SQgWAby3UrMCmtAvpLCYuUY8s1uOH4GT')
 
   no_card = []
   card_present = []
-  appointments = Appointment.where([" ? < start_at AND start_at < ?", Time.current.advance(minutes: -960), Time.current.advance(minutes: 480) ])
+  appointments = Appointment.where([" ? < start_at AND start_at < ?", Time.current.advance(minutes: -1445), Time.current.advance(minutes: -4) ])
       appointments.each do |appointment|
 
         @trainer = appointment.trainer
