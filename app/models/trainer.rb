@@ -12,6 +12,7 @@ class Trainer < ActiveRecord::Base
 
 	  after_create :add_available
 	  after_create :add_weekly_unpaid
+	  after_create :add_default_exercises
 
 	  accepts_nested_attributes_for :availables, allow_destroy: true, update_only: true
 
@@ -28,6 +29,14 @@ class Trainer < ActiveRecord::Base
 
 	    def add_weekly_unpaid
 	    	self.weeklyinfos.create({:totalcount => 0, :unpaid => []})
+	    end
+
+	    def add_default_exercises
+	      self.exercises.create({:name => 'Push Up', :measure => 'Reps'})
+	      self.exercises.create({:name => 'Squat', :measure => 'Reps'})
+	      self.exercises.create({:name => 'Bench Press', :measure => 'Reps'})
+	      self.exercises.create({:name => 'Pull Up', :measure => 'Reps'})
+	      self.exercises.create({:name => 'Sit Up', :measure => 'Reps'})
 	    end
 
 end

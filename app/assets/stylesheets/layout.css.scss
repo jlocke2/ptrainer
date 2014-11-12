@@ -541,10 +541,10 @@ footer {
     float: left; } }
 
 .popover.top {
-  z-index: 10000 !important;
+  z-index: 11000 !important;
 }
 .popover {
-  z-index: 10100 !important;
+  z-index: 11000 !important;
 }
 @-moz-document url-prefix() {
     fieldset {

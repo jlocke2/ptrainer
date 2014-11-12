@@ -22,6 +22,7 @@ match 'payments/account_not_matching', to: 'payments#account_not_matching', via:
 match 'payments/callback_balanced', to: 'payments#callback_balanced', via: :post
 #match 'requests', to: 'clients#requests', via: :get
 match "appointments/:id/:clientid/removefromapt", to: "appointments#removefromapt", via: :post, as: "removefromapt_appointments"
+match "appointments/toured", to: "appointments#toured", via: :post
 
 
 

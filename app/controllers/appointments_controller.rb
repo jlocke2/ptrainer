@@ -1,7 +1,7 @@
 class AppointmentsController < ApplicationController
   before_action :set_appointment, only: [:show, :edit, :update, :destroy, :move, :resize, :workouts, :editordata, :join, :clientremove]
   before_filter :authenticate_user!
-  before_filter :require_permission, except: [:new, :create, :index, :newdata, :mastercalendar, :removefromapt]
+  before_filter :require_permission, except: [:new, :create, :index, :newdata, :mastercalendar, :removefromapt, :toured]
 
 
   # GET /appointments
@@ -490,6 +490,12 @@ class AppointmentsController < ApplicationController
   def workouts
       @workouts = Workout.where(appointment_id: params[:id])
    end
+
+  def toured
+    @value = params[:value]
+    current_user.rolable.update_attributes(:tour => @value)
+
+  end
 
 
   def join

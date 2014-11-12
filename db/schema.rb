@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141031160541) do
+ActiveRecord::Schema.define(version: 20141112213758) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,6 +71,7 @@ ActiveRecord::Schema.define(version: 20141031160541) do
     t.integer  "row_order"
     t.string   "customer_href"
     t.string   "card_href"
+    t.string   "tour"
   end
 
   create_table "exercises", force: true do |t|
@@ -133,6 +134,7 @@ ActiveRecord::Schema.define(version: 20141031160541) do
     t.string   "customer_href"
     t.string   "bank_href"
     t.integer  "default_price"
+    t.string   "tour"
   end
 
   create_table "unavailables", force: true do |t|
