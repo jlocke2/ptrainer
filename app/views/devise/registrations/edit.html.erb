@@ -87,6 +87,17 @@
                             </div>
                         </div>
                               <% end %>
+
+
+
+                              <div style="border-top: dotted 1px lightgray; padding-top: 18px; margin-top: 18px;">
+                                <h3>Restart Tour Of Software</h3>
+                                <a id="restarttour" class="btn btn-large btn-primary">Restart Tour</a>
+                              </div>
+
+
+
+
                             </div>
 
 
@@ -200,6 +211,17 @@ $('.datetimepicker1').clockpicker({
            donetext: "Done",
           });
           
+</script>
+
+<script type="text/javascript">
+$(document).on('ready', function(){
+  $('body').off('click','#restarttour');
+  $('body').on('click','#restarttour',function(e){
+    e.preventDefault
+    $.post("/appointments/toured", { value: "0"});
+    window.location.href = window.location.origin;
+  });
+});
 </script>
 
 <% else %>
@@ -319,6 +341,10 @@ $('.datetimepicker1').clockpicker({
                             <%= render 'edituserinfo' %>
                         </div>
 
+                         <div style="border-top: dotted 1px lightgray; padding-top: 18px; margin-top: 18px;">
+                                <h3 style="padding-bottom: 6px;">Restart Tour Of Software</h3>
+                                <a id="restarttour" class="btn btn-large btn-primary">Restart Tour</a>
+                              </div>
 
                     </div>
                 </div>
@@ -338,6 +364,17 @@ $('.datetimepicker1').clockpicker({
     });
  });
   </script>
+
+  <script type="text/javascript">
+$(document).on('ready', function(){
+  $('body').off('click','#restarttour');
+  $('body').on('click','#restarttour',function(e){
+    e.preventDefault
+    $.post("/appointments/toured", { value: "0"});
+    window.location.href = window.location.origin;
+  });
+});
+</script>
 
 
 <% end %>
