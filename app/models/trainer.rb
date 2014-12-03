@@ -13,6 +13,7 @@ class Trainer < ActiveRecord::Base
 	  after_create :add_available
 	  after_create :add_weekly_unpaid
 	  after_create :add_default_exercises
+	  after_create :set_toured
 
 	  accepts_nested_attributes_for :availables, allow_destroy: true, update_only: true
 
@@ -37,6 +38,10 @@ class Trainer < ActiveRecord::Base
 	      self.exercises.create({:name => 'Bench Press', :measure => 'Reps'})
 	      self.exercises.create({:name => 'Pull Up', :measure => 'Reps'})
 	      self.exercises.create({:name => 'Sit Up', :measure => 'Reps'})
+	    end
+
+	    def set_toured
+	    	self.update_attributes(:tour => "0")
 	    end
 
 end

@@ -49,6 +49,33 @@
      
        
       <%= yield %>
+
+      <!-- Modal -->
+<div class="modal fade" id="homescreen" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content" style="top: 50px; max-width: 450px;">
+      <div class="modal-header" style="padding-bottom: 10px; padding-top: 10px;">
+        <h4 class="modal-title" id="myModalLabel" style="text-align: center;">Add Personal Trainer Labs To Your Home Screen</h4>
+      </div>
+      <div class="modal-body" style="padding-bottom: 6px;">
+        <h5 style="margin-bottom: 12px;">You can have Personal Trainer Labs appear on your device's home screen just like all of your other apps!</h5>
+        <p style="margin-bottom: 0px;"><b><u>For iPhones / iPads</u></b></p>
+        <ol>
+          <li>Tap the <%= image_tag("action-icon-ios7.png", style: "height: 24px; padding-bottom: 6px; padding-left: 4px; padding-right: 4px;") %> icon</li>
+          <li>Click <strong>Add to Home Screen</strong></li>
+        </ol>
+        <p style="margin-bottom: 0px;"><b><u>For Android Devices</u></b></p>
+        <ol>
+          <li style="padding-bottom: 6px;">Open the browser option menu<br><small>(The menu can be accessed by tapping the top right menu icon)</small></li>
+          <li>Click <strong>Add to Home Screen</strong></li>
+        </ol>
+      </div>
+      <div class="modal-footer" style="border-top: none; padding-top: 0px;">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
       
     </div>
     <%= render 'layouts/footer' %>
@@ -132,13 +159,39 @@ $(document).ready(function(){
     // Instance the tour
     toured = { type: "<%= escape_javascript(current_user.rolable.tour) %>" };
     rolable = { type: "<%= escape_javascript(current_user.rolable_type) %>" };
+    console.log(WURFL);
     if (toured.type === "1") {
-      } else {
+
+      if (WURFL.is_mobile) {
+
+        $('#homescreen').modal('show');
+
+        $('#homescreen').on('hide.bs.modal', function (e) {
+            $.post("/appointments/toured", { value: "2"})
+          });
+
+      };
+
+
+         
+
+   
+
+      } else if (toured.type === "0" || toured.type === "3") {
+
+          if (toured.type === "0"){
+              var setval = "1"
+            } else {
+              var setval = "2"
+            };
+
         if (rolable.type === "Trainer") {
+        
+              
               var tour = new Tour({
                 name: "welcomeTrainer",
                 debug: true,
-                onEnd: function () { $.post("/appointments/toured", { value: "1"})},
+                onEnd: function () { $.post("/appointments/toured", { value: setval})},
                 steps: [
 
 
@@ -219,7 +272,7 @@ $(document).ready(function(){
                   var tour = new Tour({
                 name: "welcomeClient",
                 debug: true,
-                onEnd: function () { $.post("/appointments/toured", { value: "1"})},
+                onEnd: function () { $.post("/appointments/toured", { value: setval})},
                 steps: [
 
 

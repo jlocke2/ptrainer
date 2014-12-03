@@ -11,6 +11,8 @@ class Client < ActiveRecord::Base
 
 	has_many :notes, dependent: :destroy
 
+	after_create :set_toured
+
 	validates :name, presence: true
 
 	 scope :order_by_name, -> { order('LOWER(name)') }
@@ -39,6 +41,12 @@ class Client < ActiveRecord::Base
 	  else raise "Unknown file type: #{file.original_filename}"
 	  end
 	end
+
+	 private
+
+	 	def set_toured
+	    	self.update_attributes(:tour => "0")
+	    end
 end
 
 

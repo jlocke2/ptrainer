@@ -218,7 +218,13 @@ $(document).on('ready', function(){
   $('body').off('click','#restarttour');
   $('body').on('click','#restarttour',function(e){
     e.preventDefault
-    $.post("/appointments/toured", { value: "0"});
+    toured2 = { type: "<%= escape_javascript(current_user.rolable.tour) %>" };
+    if (toured2.type === "2"){
+      $.post("/appointments/toured", { value: "3"});
+    } else {
+      $.post("/appointments/toured", { value: "0"});
+    };
+    
     window.location.href = window.location.origin;
   });
 });
@@ -370,7 +376,14 @@ $(document).on('ready', function(){
   $('body').off('click','#restarttour');
   $('body').on('click','#restarttour',function(e){
     e.preventDefault
-    $.post("/appointments/toured", { value: "0"});
+
+    toured2 = { type: "<%= escape_javascript(current_user.rolable.tour) %>" };
+    if (toured2.type === "2"){
+      $.post("/appointments/toured", { value: "3"});
+    } else {
+      $.post("/appointments/toured", { value: "0"});
+    };
+    
     window.location.href = window.location.origin;
   });
 });
