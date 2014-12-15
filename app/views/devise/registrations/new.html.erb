@@ -9,7 +9,7 @@
 
         <div class="box">
             <div class="content-wrap">
-                <h6>Sign up</h6>
+                <h6>Create Your Account</h6>
                 
 
 
@@ -31,13 +31,13 @@
                     <% end %>
                   <% end %>
 
-                  <div><%= text_field_tag :name, nil, :placeholder => "Name", :autofocus => true, :class => "form-control" %></div>
+                  <div style="margin-bottom: 30px;"><%= text_field_tag :name, nil, :placeholder => "Name", :autofocus => true, :class => "form-control" %></div>
 
-                <div><%= f.email_field :email, :class => "form-control", :placeholder => "E-mail address" %></div>
+                <div style="margin-bottom: 30px;"><%= f.email_field :email, :class => "form-control", :placeholder => "E-mail address" %></div>
 
 				<div><%= f.password_field :password, :class => "form-control", :placeholder => "Your password" %></div>
 
-				<div><%= f.password_field :password_confirmation, :class => "form-control", :placeholder => "Confirm Your password" %></div>
+				<div style="margin-bottom: 30px;"><%= f.password_field :password_confirmation, :class => "form-control", :placeholder => "Confirm Your password" %></div>
 
 
                   <%= hidden_field_tag 'user_type', 'trainer' %>
@@ -46,6 +46,13 @@
 				<% end %>
 
             </div>
+
+            <div style="padding-top: 24px; border-top: 1px solid #d6d3d3; margin-top: 24px;">
+
+              <p style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; width: 70%; margin: 0 auto;">By creating an account you agree to our <a href="#">Terms Of Use</a> and <a href="#">Privacy Policy</a>.</p>
+
+            </div>
+
         </div>
 
   
