@@ -1,87 +1,108 @@
 source 'https://rubygems.org'
-ruby '2.0.0'
-#ruby-gemset=railstutorial_rails_4_0
+ruby '2.1.4'
 
-gem 'rails', '4.0.2'
-gem 'bootstrap-sass', '3.2.0'
-gem 'bcrypt-ruby', '3.1.2'
-gem 'faker', '1.1.2'
-gem 'will_paginate', '3.0.4'
-gem 'bootstrap-will_paginate', '0.0.9'
-gem 'devise', '3.2.2'
-gem 'fullcalendar-rails', '1.6.4.0'
-gem 'html5_validators', '1.1.2'
-gem 'jquery-turbolinks', '2.0.2'
-gem 'chart-js-rails', '0.0.6'
-gem "ransack", '1.1.0'
-gem 'ranked-model', '0.4.0'
-gem 'roo', '1.13.2'
-gem 'nested_form_fields', '0.5.0'
-gem 'momentjs-rails', '2.5.1'
-gem 'bootstrap3-datetimepicker-rails', '3.0.0'
-gem 'bootstrap-datepicker-rails'
-gem 'validates_overlap'
+# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
+gem 'rails', '4.2.0'
+
+# Bootstrap
+gem 'bootstrap-sass'
+
+# Use SCSS for stylesheets
+gem 'sass-rails', '~> 5.0'
+
+# Use CoffeeScript for .coffee assets and views
+gem 'coffee-rails', '~> 4.1.0'
+
+# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
+gem 'turbolinks'
+# Help jQuery work with TurboLinks
+gem 'jquery-turbolinks'
+
+# Use jquery as the JavaScript library
+gem 'jquery-rails'
+# Help jQuery work with TurboLinks
+gem 'jquery-turbolinks'
+
+# Use Uglifier as compressor for JavaScript assets
+gem 'uglifier', '>= 1.3.0'
+
+# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
+gem 'jbuilder', '~> 2.0'
+
+# Use ActiveModel has_secure_password
+gem 'bcrypt', '~> 3.1.7'
+
+# Use Puma as the app server
+gem 'puma'
+gem 'resque', "~> 1.22.0", :require => "resque/server"
+gem 'redis'
+
+# User authentication
+gem 'devise'
+gem "devise-async"
+gem 'omniauth'
+gem 'omniauth-twitter'
+gem 'omniauth-facebook'
+
+# Pagination
+gem 'kaminari'
+
+# Sending Mass Emails
+gem 'mandrill-api'
+
+# DB For Heroku
+gem 'pg'
+
+# Easy recurring events scheduling
 gem 'ice_cube'
-gem 'balanced'
 
-gem'capistrano','~>3.1.0'
- #railsspecificcapistranofunctions
-gem'capistrano-rails','~>1.1.0'
- #integratebundlerwithcapistrano 
-gem'capistrano-bundler' 
- #ifyouareusingRbenv
-gem'capistrano-rbenv',"~>2.0"
+# Calendar Building
+gem 'fullcalendar-rails'
 
-gem 'pg', '0.15.1'
-gem 'unicorn', '4.8.2'
-gem 'mandrill-api', '1.0.51'
-gem 'sidekiq', '3.0.2'
-gem 'capistrano-sidekiq' , github: 'seuros/capistrano-sidekiq'
-gem 'whenever', :require => false
+# Chart js
+gem 'chart-js-rails'
+
+# Search Forms
+gem "ransack"
+
+# Rank and Sort Rows
+gem 'ranked-model'
+
+# Form Fields
+gem 'nested_form_fields'
+
+# Date Time Picker
+gem 'bootstrap3-datetimepicker-rails'
+gem 'bootstrap-datepicker-rails'
+
+# Prevents overlap of appointments
+gem 'validates_overlap'
+
+
+
 
 
 group :development, :test do
-  gem 'rspec-rails', '2.13.1'
+  # Catches mail in test and dev
   gem  'mailcatcher'
-  # The following optional lines are part of the advanced setup.
-  # gem 'guard-rspec', '2.5.0'
-  # gem 'spork-rails', '4.0.0'
-  # gem 'guard-spork', '1.5.0'
-  # gem 'childprocess', '0.3.6'
+
+  # Easily create fake data for development
+  gem 'faker'
 end
 
 group :test do
   gem 'selenium-webdriver', '2.35.1'
   gem 'capybara', '2.1.0'
-  gem 'factory_girl_rails', '4.2.0'
-  gem 'cucumber-rails', '1.4.0', :require => false
   gem 'database_cleaner', github: 'bmabey/database_cleaner'
 
-  # Uncomment this line on OS X.
-  # gem 'growl', '1.0.3'
-
-  # Uncomment these lines on Linux.
-  # gem 'libnotify', '0.8.0'
-
-  # Uncomment these lines on Windows.
-  # gem 'rb-notifu', '0.0.4'
-  # gem 'win32console', '1.3.2'
-  # gem 'wdm', '0.1.0'
 end
 
-gem 'sass-rails', '4.0.2'
-gem 'uglifier', '2.1.1'
-gem 'coffee-rails', '4.0.1'
-gem 'jquery-rails', '3.0.4'
-gem 'jquery-ui-rails', '4.2.0'
-gem 'turbolinks', '2.2.1'
-gem 'jbuilder', '1.0.2'
 
 group :doc do
   gem 'sdoc', '0.3.20', require: false
 end
 
 group :production do
-  gem 'rails_12factor', '0.0.2'
+  gem 'rails_12factor'
 end
 

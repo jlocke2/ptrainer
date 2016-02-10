@@ -6,4 +6,5 @@ current coding style to others.
 If you have any questions, feel free to contact me.
 
 Thanks
+
 Alan
