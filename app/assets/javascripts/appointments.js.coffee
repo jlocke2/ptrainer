@@ -8,10 +8,6 @@
 
 $(document).ready ->
 
-  
-
-  
-
   date = new Date()
   d = date.getDate()
   m = date.getMonth()
