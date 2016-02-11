@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160211091356) do
+ActiveRecord::Schema.define(version: 20160211210421) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,22 +29,6 @@ ActiveRecord::Schema.define(version: 20160211091356) do
     t.string   "maxjoin"
   end
 
-  create_table "clients", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "trainer_id"
-    t.integer  "age"
-    t.string   "gender"
-    t.string   "email"
-    t.string   "phone"
-    t.text     "notes"
-    t.integer  "row_order"
-    t.string   "customer_href"
-    t.string   "card_href"
-    t.string   "tour"
-  end
-
   create_table "exercises", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
@@ -54,15 +38,27 @@ ActiveRecord::Schema.define(version: 20160211091356) do
     t.string   "measure"
   end
 
-  create_table "trainers", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "customer_href"
-    t.string   "bank_href"
-    t.integer  "default_price"
-    t.string   "tour"
+  create_table "relationships", force: :cascade do |t|
+    t.integer  "trainer_id"
+    t.integer  "client_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
+
+  add_index "relationships", ["client_id"], name: "index_relationships_on_client_id", using: :btree
+  add_index "relationships", ["trainer_id", "client_id"], name: "index_relationships_on_trainer_id_and_client_id", unique: true, using: :btree
+  add_index "relationships", ["trainer_id"], name: "index_relationships_on_trainer_id", using: :btree
+
+  create_table "user_appointments", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "appointment_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "user_appointments", ["appointment_id"], name: "index_user_appointments_on_appointment_id", using: :btree
+  add_index "user_appointments", ["user_id", "appointment_id"], name: "index_user_appointments_on_user_id_and_appointment_id", unique: true, using: :btree
+  add_index "user_appointments", ["user_id"], name: "index_user_appointments_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false

@@ -8,58 +8,15 @@ Ptrainer::Application.routes.draw do
   match '/about',   to: 'static_pages#about',   via: 'get'
   match '/contact', to: 'static_pages#contact', via: 'get'
 
-  match 'card', to: 'cards#edit', via: :post
-  match 'payments', to: 'payments#index', via: :get
-  match 'payments/verify', to: 'payments#verify', via: :post
-  match 'payments/verify', to: 'payments#verify', via: :get
-  match 'payments/charge', to: 'payments#charge', via: :post
-  match 'payments/verify_client_card', to: 'payments#verify_client_card', via: :post
-  match 'payments/verify_trainer_bank', to: 'payments#verify_trainer_bank', via: :post
-  match 'payments/delete_client_card', to: 'payments#delete_client_card', via: :post
-  match 'payments/delete_trainer_bank', to: 'payments#delete_trainer_bank', via: :post
-  match 'payments/add_default_price', to: 'payments#add_default_price', via: :post
-  match 'payments/form_validation', to: 'payments#form_validation', via: :post
-  match 'payments/account_not_matching', to: 'payments#account_not_matching', via: :post
-  match 'payments/callback_balanced', to: 'payments#callback_balanced', via: :post
-  #match 'requests', to: 'clients#requests', via: :get
-  match "appointments/:id/:clientid/removefromapt", to: "appointments#removefromapt", via: :post, as: "removefromapt_appointments"
-  match "appointments/toured", to: "appointments#toured", via: :post
-
-
 
   devise_for :users, :controllers => {:registrations => "registrations", :sessions => "sessions", :confirmations => "confirmations"}
-
   devise_scope :user do
     get '/users/sign_out' => 'devise/sessions#destroy'
     match '/user/confirmation' => 'confirmations#update', :via => :patch, :as => :update_user_confirmation
   end
-  resources :rotations do
-    member do
-        get :editdata
-        get :enterresults
-        patch :submitresults
-      end
-      collection do
-        get :newrotate
-      end
-  end
-  resources :notes , :only => [:create]
-  resources :clients do
-    collection { post :search, to: 'clients#index' }
-    collection { get :search, to: 'clients#index' }
-    collection { post :import, to: 'clients#import'}
-    member do
-      get :appointments
-      get :notes
-      get :workouts
-      get :progress
-      patch :progress
-      patch :progcharter
-      get :progcharter
-    end
-    post :sort, on: :collection
-  end
   
+  match "appointments/:id/:clientid/removefromapt", to: "appointments#removefromapt", via: :post, as: "removefromapt_appointments"
+  match "appointments/toured", to: "appointments#toured", via: :post
   resources :appointments do
     member do
       post :move
@@ -74,48 +31,15 @@ Ptrainer::Application.routes.draw do
       get :mastercalendar
     end
   end
-  resources :unavailables do
-    member do
-      get :editordata
-    end
-  end
-  resources :agendas, only: [:create, :destroy, :update] do
-    member do
-      get :editdata
-    end
-  end
-  resources :trainers, only: [:setschedule] do
-    member do
-      patch :setschedule
-    end
-  end
-  resources :requests do
-    collection do
-      get :newform
-      get :requestlist
-    end
-    member do
-      post :confirm
-      get :formsforpop
-    end
-  end
+  
   resources :exercises do
-    collection { post :search, to: 'exercises#index' }
-    collection { get :search, to: 'exercises#index' }
-    collection { get :type, to: 'exercises#type'}
-  end
-  resources :workouts do
     collection do
-      get :trans
-      get :workout_email
-    end
-    member do
-      get :results
-      patch :results
-      post :email
+      post :search, to: 'exercises#index'
+      get :search, to: 'exercises#index'
+      get :type, to: 'exercises#type'
     end
   end
-  resource :calendar, :only => [:show]
-  resources :stats
+
+  resources :workouts
   
 end

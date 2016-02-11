@@ -1,4 +1,5 @@
-module ClientsHelper
+module UsersHelper
+
 	 def resource_name
     :user
   end
@@ -10,4 +11,5 @@ module ClientsHelper
   def devise_mapping
     @devise_mapping ||= Devise.mappings[:user]
   end
+
 end

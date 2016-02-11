@@ -6,8 +6,21 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
 
-  belongs_to :rolable, :polymorphic => true
+  has_many :relationships, foreign_key: "client_id", dependent: :destroy
+  has_many :clients, through: :reverse_relationships, source: :follower
 
+
+  has_many :trainers, through: :relationships, source: :followed
+  has_many :reverse_relationships, foreign_key: "trainer_id",
+                                   class_name:  "Relationship",
+                                   dependent:   :destroy
+
+  has_many :user_appointments, dependent: :destroy                            
+  has_many :appointments, through: :user_appointments
+
+  has_many :exercises, dependent: :destroy
+
+  after_create :add_default_exercises
  
 
   # new function to set the password without knowing the current password used in our confirmation controller. 
@@ -39,7 +52,17 @@ class User < ActiveRecord::Base
 
   def password_match?
     self.password == self.password_confirmation
-end
+  end
+
+  private
+
+    def add_default_exercises
+      self.exercises.create({:name => 'Push Up', :measure => 'Reps'})
+      self.exercises.create({:name => 'Squat', :measure => 'Reps'})
+      self.exercises.create({:name => 'Bench Press', :measure => 'Reps'})
+      self.exercises.create({:name => 'Pull Up', :measure => 'Reps'})
+      self.exercises.create({:name => 'Sit Up', :measure => 'Reps'})
+    end
 
  end
 

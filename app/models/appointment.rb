@@ -1,23 +1,18 @@
 class Appointment < ActiveRecord::Base
 
-
   include ActionView::Helpers::DateHelper
   include ActionView::Helpers::NumberHelper
 
-  belongs_to :trainer
-
-  has_many :clients, through: :meetups
+  has_many :user_appointments, dependent: :destroy                            
+  has_many :users, through: :user_appointments
 
   has_many :workouts, dependent: :destroy
   has_many :exercises, through: :workouts
 
   validates :start_at, presence: true
   validates :end_at, presence: true
-  validates :trainer_id, presence: true
 
-  validates :start_at, :end_at, :overlap => {:scope => "trainer_id", :exclude_edges => ["start_at", "end_at"]}
-
-validate :check_times2
+  validate :check_times
 
 
 
@@ -382,13 +377,12 @@ end # def self.perform
 
   private
 
-      def check_times2
-        if self[:end_at] < self[:start_at]
-          errors[:end_date] << "Error message"
-          return false
-        end
-
+    def check_times
+      if self[:end_at] < self[:start_at]
+        errors[:end_date] << "Error message"
+        return false
       end
+    end
 
 
 end
