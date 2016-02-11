@@ -198,8 +198,7 @@ class AppointmentsController < ApplicationController
   # GET /appointments/1
   # GET /appointments/1.json
   def show
-  	@clientid = @appointment.client_id
-  	@client = Client.find(@clientid)
+  	@client = Client.find(@ppointment.client_id)
   end
 
   # GET /appointments/new

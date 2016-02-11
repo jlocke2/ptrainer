@@ -37,27 +37,6 @@ $(function () {
   });
 
 
-  // skin changer
-  $(".skins-nav .skin").click(function (e) {
-    e.preventDefault();
-    if ($(this).hasClass("selected")) {
-      return;
-    }
-    $(".skins-nav .skin").removeClass("selected");
-    $(this).addClass("selected");
-    
-    if (!$("#skin-file").length) {
-      $("head").append('<link rel="stylesheet" type="text/css" id="skin-file" href="">');
-    }
-    var $skin = $("#skin-file");
-    if ($(this).attr("data-file")) {
-      $skin.attr("href", $(this).data("file"));
-    } else {
-      $skin.attr("href", "");
-    }
-
-  });
-
   // make sidebar links active
   $(document).ready(function(){
     var full_path = location.href.split("/")[3];
@@ -72,9 +51,8 @@ $(function () {
             $this.parent().prepend("<div class=\"pointer\"><div class=\"arrow\"></div><div class=\"arrow_border\"></div></div>");
         }
     });
-})
+  });
 
-  // make workout plan sortable
   
 
   // sidebar menu dropdown toggle
@@ -149,24 +127,24 @@ $(function () {
     	};
   	};
 
-    // instantiate new uiDropdown from above to build the plugins
-  	new uiDropdown();
+  // instantiate new uiDropdown from above to build the plugins
+	new uiDropdown();
 
 
-  	// toggle all checkboxes from a table when header checkbox is clicked
-  	$(".table th input:checkbox").click(function () {
-  		$checks = $(this).closest(".table").find("tbody input:checkbox");
-  		if ($(this).is(":checked")) {
-  			$checks.prop("checked", true);
-  		} else {
-  			$checks.prop("checked", false);
-  		}  		
-  	});
+	// toggle all checkboxes from a table when header checkbox is clicked
+	$(".table th input:checkbox").click(function () {
+		$checks = $(this).closest(".table").find("tbody input:checkbox");
+		if ($(this).is(":checked")) {
+			$checks.prop("checked", true);
+		} else {
+			$checks.prop("checked", false);
+		}  		
+	});
 
-    // quirk to fix dark skin sidebar menu because of B3 border-box
-    if ($("#sidebar-nav").height() > $(".content").height()) {
-      $("html").addClass("small");
-    }
+  // quirk to fix dark skin sidebar menu because of B3 border-box
+  if ($("#sidebar-nav").height() > $(".content").height()) {
+    $("html").addClass("small");
+  }
 
 
 });

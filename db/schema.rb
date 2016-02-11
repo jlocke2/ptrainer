@@ -11,25 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141112213758) do
+ActiveRecord::Schema.define(version: 20160211091356) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "agendas", force: true do |t|
-    t.integer  "workout_id"
-    t.integer  "exercise_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "set"
-    t.integer  "rep"
-    t.string   "weight"
-    t.string   "repdone"
-    t.string   "setdone"
-    t.string   "weightdone"
-  end
-
-  create_table "appointments", force: true do |t|
+  create_table "appointments", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
     t.datetime "start_at"
@@ -42,23 +29,7 @@ ActiveRecord::Schema.define(version: 20141112213758) do
     t.string   "maxjoin"
   end
 
-  create_table "availables", force: true do |t|
-    t.string   "name"
-    t.text     "description"
-    t.string   "start_at"
-    t.string   "end_at"
-    t.string   "day_of_week"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "trainer_id"
-  end
-
-  create_table "cats", force: true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "clients", force: true do |t|
+  create_table "clients", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -74,7 +45,7 @@ ActiveRecord::Schema.define(version: 20141112213758) do
     t.string   "tour"
   end
 
-  create_table "exercises", force: true do |t|
+  create_table "exercises", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
     t.integer  "trainer_id"
@@ -83,51 +54,7 @@ ActiveRecord::Schema.define(version: 20141112213758) do
     t.string   "measure"
   end
 
-  create_table "meetups", force: true do |t|
-    t.integer  "client_id"
-    t.integer  "appointment_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "notes", force: true do |t|
-    t.text     "description"
-    t.integer  "client_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "requests", force: true do |t|
-    t.datetime "start_at"
-    t.datetime "end_at"
-    t.integer  "trainer_id"
-    t.integer  "client_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "results", force: true do |t|
-    t.string   "repsdone"
-    t.string   "weightdone"
-    t.string   "unitdone"
-    t.integer  "rotation_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "client_id"
-  end
-
-  create_table "rotations", force: true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "amount"
-    t.integer  "agenda_id"
-    t.string   "unit"
-    t.string   "exwt"
-    t.string   "amountdone"
-    t.string   "weightdone"
-  end
-
-  create_table "trainers", force: true do |t|
+  create_table "trainers", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -137,15 +64,7 @@ ActiveRecord::Schema.define(version: 20141112213758) do
     t.string   "tour"
   end
 
-  create_table "unavailables", force: true do |t|
-    t.datetime "start_at"
-    t.datetime "end_at"
-    t.integer  "trainer_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "users", force: true do |t|
+  create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
     t.string   "reset_password_token"
@@ -174,21 +93,13 @@ ActiveRecord::Schema.define(version: 20141112213758) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
-  create_table "weeklyinfos", force: true do |t|
-    t.integer  "trainer_id"
-    t.integer  "totalcount"
-    t.text     "unpaid",     default: [], array: true
+  create_table "workouts", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "workouts", force: true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "trainer_id"
-    t.integer  "client_id"
     t.integer  "appointment_id"
+    t.integer  "exercise_id"
+    t.text     "goal"
+    t.text     "completed"
   end
 
 end

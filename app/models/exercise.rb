@@ -1,12 +1,14 @@
 class Exercise < ActiveRecord::Base
-		belongs_to :trainer
-		has_many :agendas
-		has_many :workouts, :through => :agendas
+  
+  belongs_to :trainer
 
-		validates :name, presence: true
-		validates :trainer_id, presence: true
-		validates :measure, presence: true
+  has_many :workouts, dependent: :destroy
+  has_many :appointments, through: :workouts
 
-			 scope :order_by_name, -> { order('LOWER(name)') }
+  validates :name, presence: true
+  validates :trainer_id, presence: true
+  validates :measure, presence: true
+
+  scope :order_by_name, -> { order('LOWER(name)') }
 
 end

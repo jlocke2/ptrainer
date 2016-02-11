@@ -4,17 +4,16 @@ class Appointment < ActiveRecord::Base
   include ActionView::Helpers::DateHelper
   include ActionView::Helpers::NumberHelper
 
-		belongs_to :trainer
+  belongs_to :trainer
 
+  has_many :clients, through: :meetups
 
-    has_many :meetups, dependent: :destroy
-    has_many :clients, through: :meetups
+  has_many :workouts, dependent: :destroy
+  has_many :exercises, through: :workouts
 
-    has_one :workout, dependent: :destroy
-
-        validates :start_at, presence: true
-        validates :end_at, presence: true
-        validates :trainer_id, presence: true
+  validates :start_at, presence: true
+  validates :end_at, presence: true
+  validates :trainer_id, presence: true
 
   validates :start_at, :end_at, :overlap => {:scope => "trainer_id", :exclude_edges => ["start_at", "end_at"]}
 

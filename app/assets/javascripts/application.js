@@ -10,17 +10,18 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require Chart
 //= require jquery
 //= require jquery.turbolinks
-//= require jquery_ujs
-//= require jquery.ui.all
-//= require_tree .
-//= require fullcalendar
-//= require redirect
-//= require bootstrap
-//= require moment
-//= require bootstrap-datetimepicker
-//= require bootstrap-datepicker
-//= require nested_form_fields
 //= require turbolinks
+//= require jquery_ujs
+//= require moment.min.js
+//= require appointments
+//= require appointments2
+//= require bootstrap-datetimepicker
+//= require bootstrap-multiselect
+//= require clients
+//= require formatter
+//= require fullcalendar
+//= require theme
+//= require nested_form_fields
+

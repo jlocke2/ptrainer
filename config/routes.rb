@@ -1,28 +1,29 @@
 Ptrainer::Application.routes.draw do
   authenticated :user do
-  root :to => 'appointments#index', :as => :authenticated_root
-end
-root :to => redirect('/users/sign_in')
+    root :to => 'appointments#index', :as => :authenticated_root
+  end
+  root :to => redirect('/users/sign_in')
+
   match '/help',    to: 'static_pages#help',    via: 'get'
   match '/about',   to: 'static_pages#about',   via: 'get'
   match '/contact', to: 'static_pages#contact', via: 'get'
 
-match 'card', to: 'cards#edit', via: :post
-match 'payments', to: 'payments#index', via: :get
-match 'payments/verify', to: 'payments#verify', via: :post
-match 'payments/verify', to: 'payments#verify', via: :get
-match 'payments/charge', to: 'payments#charge', via: :post
-match 'payments/verify_client_card', to: 'payments#verify_client_card', via: :post
-match 'payments/verify_trainer_bank', to: 'payments#verify_trainer_bank', via: :post
-match 'payments/delete_client_card', to: 'payments#delete_client_card', via: :post
-match 'payments/delete_trainer_bank', to: 'payments#delete_trainer_bank', via: :post
-match 'payments/add_default_price', to: 'payments#add_default_price', via: :post
-match 'payments/form_validation', to: 'payments#form_validation', via: :post
-match 'payments/account_not_matching', to: 'payments#account_not_matching', via: :post
-match 'payments/callback_balanced', to: 'payments#callback_balanced', via: :post
-#match 'requests', to: 'clients#requests', via: :get
-match "appointments/:id/:clientid/removefromapt", to: "appointments#removefromapt", via: :post, as: "removefromapt_appointments"
-match "appointments/toured", to: "appointments#toured", via: :post
+  match 'card', to: 'cards#edit', via: :post
+  match 'payments', to: 'payments#index', via: :get
+  match 'payments/verify', to: 'payments#verify', via: :post
+  match 'payments/verify', to: 'payments#verify', via: :get
+  match 'payments/charge', to: 'payments#charge', via: :post
+  match 'payments/verify_client_card', to: 'payments#verify_client_card', via: :post
+  match 'payments/verify_trainer_bank', to: 'payments#verify_trainer_bank', via: :post
+  match 'payments/delete_client_card', to: 'payments#delete_client_card', via: :post
+  match 'payments/delete_trainer_bank', to: 'payments#delete_trainer_bank', via: :post
+  match 'payments/add_default_price', to: 'payments#add_default_price', via: :post
+  match 'payments/form_validation', to: 'payments#form_validation', via: :post
+  match 'payments/account_not_matching', to: 'payments#account_not_matching', via: :post
+  match 'payments/callback_balanced', to: 'payments#callback_balanced', via: :post
+  #match 'requests', to: 'clients#requests', via: :get
+  match "appointments/:id/:clientid/removefromapt", to: "appointments#removefromapt", via: :post, as: "removefromapt_appointments"
+  match "appointments/toured", to: "appointments#toured", via: :post
 
 
 
@@ -44,9 +45,9 @@ match "appointments/toured", to: "appointments#toured", via: :post
   end
   resources :notes , :only => [:create]
   resources :clients do
-  collection { post :search, to: 'clients#index' }
-  collection { get :search, to: 'clients#index' }
-  collection { post :import, to: 'clients#import'}
+    collection { post :search, to: 'clients#index' }
+    collection { get :search, to: 'clients#index' }
+    collection { post :import, to: 'clients#import'}
     member do
       get :appointments
       get :notes
@@ -58,6 +59,7 @@ match "appointments/toured", to: "appointments#toured", via: :post
     end
     post :sort, on: :collection
   end
+  
   resources :appointments do
     member do
       post :move
@@ -115,58 +117,5 @@ match "appointments/toured", to: "appointments#toured", via: :post
   end
   resource :calendar, :only => [:show]
   resources :stats
-  # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
-
-  # You can have the root of your site routed with "root"
-  # root 'welcome#index'
-
-  # Example of regular route:
-  #   get 'products/:id' => 'catalog#view'
-
-  # Example of named route that can be invoked with purchase_url(id: product.id)
-  #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
-
-  # Example resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
-
-  # Example resource route with options:
-  #   resources :products do
-  #     member do
-  #       get 'short'
-  #       post 'toggle'
-  #     end
-  #
-  #     collection do
-  #       get 'sold'
-  #     end
-  #   end
-
-  # Example resource route with sub-resources:
-  #   resources :products do
-  #     resources :comments, :sales
-  #     resource :seller
-  #   end
-
-  # Example resource route with more complex sub-resources:
-  #   resources :products do
-  #     resources :comments
-  #     resources :sales do
-  #       get 'recent', on: :collection
-  #     end
-  #   end
   
-  # Example resource route with concerns:
-  #   concern :toggleable do
-  #     post 'toggle'
-  #   end
-  #   resources :posts, concerns: :toggleable
-  #   resources :photos, concerns: :toggleable
-
-  # Example resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
 end

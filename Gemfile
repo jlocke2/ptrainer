@@ -15,6 +15,7 @@ gem 'coffee-rails', '~> 4.1.0'
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks', '~> 5.0.0.beta'
+
 # Help jQuery work with TurboLinks
 gem 'jquery-turbolinks'
 
@@ -54,12 +55,6 @@ gem 'pg'
 # Easy recurring events scheduling
 gem 'ice_cube'
 
-# Calendar Building
-gem 'fullcalendar-rails'
-
-# Chart js
-gem 'chart-js-rails'
-
 # Search Forms
 gem "ransack"
 
@@ -69,13 +64,8 @@ gem 'ranked-model'
 # Form Fields
 gem 'nested_form_fields'
 
-# Date Time Picker
-gem 'bootstrap3-datetimepicker-rails'
-gem 'bootstrap-datepicker-rails'
-
 # Prevents overlap of appointments
 gem 'validates_overlap'
-
 
 
 group :development, :test do
