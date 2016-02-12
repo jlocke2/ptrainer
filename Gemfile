@@ -33,15 +33,18 @@ gem 'bcrypt', '~> 3.1.7'
 
 # Use Puma as the app server
 gem 'puma'
-gem 'resque', "~> 1.22.0", :require => "resque/server"
+gem 'resque', '~> 1.22.0', :require => 'resque/server'
 gem 'redis'
 
 # User authentication
 gem 'devise'
-gem "devise-async"
+gem 'devise-async'
 gem 'omniauth'
 gem 'omniauth-twitter'
 gem 'omniauth-facebook'
+
+# User authorization
+gem 'pundit'
 
 # Pagination
 gem 'kaminari'
@@ -56,7 +59,7 @@ gem 'pg'
 gem 'ice_cube'
 
 # Search Forms
-gem "ransack"
+gem 'ransack'
 
 # Rank and Sort Rows
 gem 'ranked-model'

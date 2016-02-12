@@ -1,0 +1,261 @@
+  <script type="text/javascript">
+$('document').ready(function(){
+    <% if current_user.rolable_type == "Trainer" %>
+    <% countrequest = current_user.rolable.requests.size %>
+    <% if countrequest != 0 %>
+    $('.icon-warning-sign').parents('li').append('<span class="count">' + <%= countrequest %> + '</span>');
+    <% end %>
+    <% end %>
+
+    $('body').on('click', '.icon-warning-sign', function(){
+            $.when($.ajax({
+                      url: "/requests/requestlist",
+                      success: function(data) {
+                        $("#request_list").html(data["form"]);
+                         }})).then( finishrequestlist());
+
+            function finishrequestlist() {
+          $('.fc-cell-overlay').popover('destroy');
+        $('.fc-event').popover('destroy');
+
+            $('.icon-warning-sign').popover({
+              title: "Current Requests",
+              width: 500,
+              animation: false,
+              trigger: 'manual',
+              container: 'body',
+              placement: 'bottom',
+              content: "<div id='request_list'></div>",
+              html: true,
+              template: '<div class="popover" style="width:500px" role="tooltip"><div class="arrow"></div><h3 class="popover-title" style="text-align:center;"></h3><div class="popover-content"></div></div>'
+            }).popover('show');
+        }
+});
+
+
+
+$("body").on("click", function (e) {
+
+    if ($(e.target).is(".icon-warning-sign")) {
+        e.stopPropagation();
+    } else if ($(e.target).is(".popover")) {
+        e.stopPropagation();
+    } else {
+      $('.icon-warning-sign').popover('destroy');
+    }
+
+
+
+});
+
+
+
+});
+
+
+
+
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+              window.prettyPrint() && prettyPrint();
+  $('#appointment_client_id').multiselect({
+                  maxHeight: 200,
+                  enableFiltering: true,
+                  enableCaseInsensitiveFiltering: true,
+                  filterPlaceholder: 'Search',
+              });
+});
+$(document).ready(function(){
+    $('.multiselect').css('margin-left', '0px');
+});
+
+$(document).ready(function(){
+    // Instance the tour
+    toured = { type: "<%= escape_javascript(current_user.rolable.tour) %>" };
+    rolable = { type: "<%= escape_javascript(current_user.rolable_type) %>" };
+    console.log(WURFL);
+    if (toured.type === "1") {
+
+      if (WURFL.is_mobile) {
+
+        $('#homescreen').modal('show');
+
+        $('#homescreen').on('hide.bs.modal', function (e) {
+            $.post("/appointments/toured", { value: "2"})
+          });
+
+      };
+
+
+         
+
+   
+
+      } else if (toured.type === "0" || toured.type === "3") {
+
+          if (toured.type === "0"){
+              var setval = "1"
+            } else {
+              var setval = "2"
+            };
+
+        if (rolable.type === "Trainer") {
+        
+              
+              var tour = new Tour({
+                name: "welcomeTrainer",
+                debug: true,
+                onEnd: function () { $.post("/appointments/toured", { value: setval})},
+                steps: [
+
+
+                    {
+                      element: "",
+                      orphan: true,
+                      backdrop: true,
+                      title: "Welcome to Personal Trainer Labs!!",
+                      content: "Our goal is to help you successfully manage and grow your business.<br><br>We take care of the unglamorous yet essential tasks from scheduling appointments, accepting payments, building workouts, and many others, so you can focus on what truly matters!<br><br>Before we turn you loose, let us show you, in 5 short steps, how to take full advantage of everything Personal Trainer Labs has to offer!",
+                      path: "/"
+                    },
+                    {
+                      element: ".calendar-wrapper",
+                      placement: "top",
+                      backdrop: true,
+                      title: "Step 1 of 5",
+                      content: "We start our journey here on the homepage.<br><br>This is where you will add all of your appointments (and unavailable times) to your calendar.  You can do so by clicking the green button above the calendar or the date and time inside the calendar.<br><br>By clicking an appointment already on the calendar, you can edit the time and date, add or remove clients, build the workout, and cancel the appointment.  Oh and don't worry about contacting your clients in the appointment.  They will automatically be notified of all time changes!<br><br>Return to this page anytime by clicking Calendar in the navigation on the left.",
+                      path: "/"
+                    },
+                    {
+                      element: ".users-list",
+                      placement: "top",
+                      backdrop: true,
+                      title: "Step 2 of 5",
+                      content: "Our next stop on our tour is your clients page.<br><br>Here you will find a list of all your clients. You can add new clients by clicking the green button at the top of the page.  There are two essential pieces of information you must add for each client: name and email. This allows us to do two things:  email each client their log-in information (their client account to request appointments and track their progress) and email them a reminder the day before their appointment (reducing No shows).<br><br>By clicking a client's name, you can view their profile, where among other things you can edit their information, view results from individual workouts, see their progress on each exercise, and view a list of their upcoming appointments.<br><br>Return to this page anytime by clicking Clients in the navigation on the left.",
+                      path: "/clients"
+                    },
+                    {
+                      element: ".users-list",
+                      placement: "top",
+                      backdrop: true,
+                      title: "Step 3 of 5",
+                      content: "Now we arrive at your exercises page.<br><br>Here you will find a list of all your added exercises (we added a few standard ones to get your started). You can add new exercises by clicking the green button at the top of the page.  There are two essential pieces of information you must add for each exercise: name and what it measures.<br><br>This will allow you to build workouts for each appointment and enter the workout results afterwards.  You and your clients, then, will be able to easily track their progress (an easy indicator of how valuable your training is to their health goals).<br><br>Return to this page anytime by clicking Exercises in the navigation on the left.",
+                      path: "/exercises"
+                    },
+                    {
+                      element: ".new-user",
+                      placement: "top",
+                      backdrop: true,
+                      title: "Step 4 of 5",
+                      content: "Our second to last stop brings us to your profile.<br><br>Besides being able to edit your log-in information and cancel your account, you need to do one other essential thing here.  Under the Calendar Settings Tab, you can setup your Master Schedule (default times are 6 AM to 8 PM).  By setting your master schedule, the times outside of this range won't be acceible.  Therefore, clients will only be able to request appointments that fall within your Master Schedule time frame.<br><br>Return to this page anytime by clicking My Profile in the navigation on the left.",
+                      path: "/users/edit"
+                    },
+                    {
+                      element: "#pad-wrapper",
+                      placement: "top",
+                      backdrop: true,
+                      title: "Step 5 of 5",
+                      content: "Finally, we have arrived at the last and perhaps most important step of our tour, the payments page.<br><br>This is the page that allows you to automatically accept Credit Card payments from your clients (forget the hassle of chasing down payments or only being able to accept Cash).  Once you add valid banking information (all information is securely verified by a 3rd party to protect us and you against fraud and theft), you will be able to set your prices and start accepting payments from clients.<br><br>Charges will be run at 6:05 PM ET for all appointments from the previous 24 hours, as long as clients have added valid Credit Card information. All payments we process should be in your Bank Account the next business day.<br><br>Remember to remove clients from an appointment by 6:05 PM ET, if they cancel, to prevent any unnecessary charges!<br><br>Return to this page anytime by clicking Payments in the navigation on the left.<br><br>This concludes our tour.  We hope you enjoyed it!<br><br>If you ever have any questions or comments, feel free to contact us anytime at support@personaltrainerlabs.com",
+                      path: "/payments"
+                    },
+
+                  ]});
+
+
+                  // Initialize the tour
+                  tour.init();
+               
+                  // Start the tour
+                  tour.restart(true);
+
+                   $('body').off('click',"button[data-role='next']");
+                   $('body').on('click',"button[data-role='next']", function(){
+                      tour.next();
+                    });
+
+                   $('body').off('click',"button[data-role='prev']");
+                   $('body').on('click',"button[data-role='prev']", function(){
+                      tour.prev();
+                    });
+                   $('body').off('click',"button[data-role='end']");
+                   $('body').on('click',"button[data-role='end']", function(){
+                      tour.end();
+                    });
+
+                } else {
+
+                  var tour = new Tour({
+                name: "welcomeClient",
+                debug: true,
+                onEnd: function () { $.post("/appointments/toured", { value: setval})},
+                steps: [
+
+
+                    {
+                      element: "",
+                      orphan: true,
+                      backdrop: true,
+                      title: "Welcome to Personal Trainer Labs!!",
+                      content: "Our goal is to help your trainer successfully and painlessly manage their business.<br><br>We take care of the unglamorous tasks for your trainer, so they can focus on training you!  Thanks to your trainer you also have Free access to Personal Trainer Labs!<br><br>But before we turn you loose, let us show you in 3 short steps, how to take full advantage of everything Personal Trainer Labs has to offer!",
+                      path: "/"
+                    },
+                    {
+                      element: ".calendar-wrapper",
+                      placement: "top",
+                      backdrop: true,
+                      title: "Step 1 of 3",
+                      content: "We start our journey here on the homepage.<br><br>This is where you will find all of your appointments and your trainer's unavailable times.  You can request an appointment time by clicking the date and time inside the calendar (we will notify you by email when your trainer confirms or declines the request).<br><br>By clicking an appointment already on the calendar, you can view the workout, if your trainer has added one, and cancel your attendance at the appointment.<br><br>Return to this page anytime by clicking Calendar in the navigation on the left.",
+                      path: "/"
+                    },
+                    {
+                      element: ".user-profile",
+                      placement: "top",
+                      backdrop: true,
+                      title: "Step 2 of 3",
+                      content: "Our second stop brings us to your profile.<br><br>Besides being able to edit your log-in information and cancel your account, here you can track your progess and see results from each of your workouts, if your trainer records them.<br><br>Return to this page anytime by clicking My Profile in the navigation on the left.",
+                      path: "/users/edit"
+                    },
+                    {
+                      element: "#pad-wrapper",
+                      placement: "top",
+                      backdrop: true,
+                      title: "Step 3 of 3",
+                      content: "Finally, we have arrived at the last and perhaps most important step of our tour, the payments page.<br><br>This is the page that allows you to automatically pay your trainer via Credit Card (forget the hassle of remembering to bring Cash to each appointment).  Once you add valid Credit Card information (all information is securely verified by a 3rd party to protect us and you against fraud and theft), you will be able to begin automatically making payments to your trainer.<br><br>Charges will be run at 6:05 PM ET for all of your appointments from the previous 24 hours, as long as you have added valid Credit Card information.<br><br>Remember to remove yourself from an appointment by 6:05 PM ET, if you have to cancel, to prevent any unnecessary charges!<br><br>Return to this page anytime by clicking Payments in the navigation on the left.<br><br>This concludes our tour.  We hope you enjoyed it!<br><br>If you ever have any questions or comments, feel free to contact us anytime at support@personaltrainerlabs.com",
+                      path: "/payments"
+                    },
+
+                  ]});
+
+
+                  // Initialize the tour
+                  tour.init();
+               
+                  // Start the tour
+                  tour.restart(true);
+
+                   $('body').off('click',"button[data-role='next']");
+                   $('body').on('click',"button[data-role='next']", function(){
+                      tour.next();
+                    });
+
+                   $('body').off('click',"button[data-role='prev']");
+                   $('body').on('click',"button[data-role='prev']", function(){
+                      tour.prev();
+                    });
+                   $('body').off('click',"button[data-role='end']");
+                   $('body').on('click',"button[data-role='end']", function(){
+                      tour.end();
+                    });
+
+                }; //if User type
+
+             }; //if toured
+
+        });
+      
+     
+ 
+
+
+</script>

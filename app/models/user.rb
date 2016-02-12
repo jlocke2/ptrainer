@@ -21,6 +21,25 @@ class User < ActiveRecord::Base
   has_many :exercises, dependent: :destroy
 
   after_create :add_default_exercises
+
+  validates :type, presence: true
+
+  ##########################################
+  ##
+  ## Methods for checking the User's Type
+  ##
+  ###########################################
+  def admin?
+    user.type == "Admin"
+  end
+
+  def trainer?
+    user.type == "Trainer"
+  end
+
+  def client?
+    user.type == "Client"
+  end
  
 
   # new function to set the password without knowing the current password used in our confirmation controller. 

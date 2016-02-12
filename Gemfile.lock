@@ -160,6 +160,8 @@ GEM
     polyamorous (1.3.0)
       activerecord (>= 3.0)
     puma (2.16.0)
+    pundit (1.1.0)
+      activesupport (>= 3.0.0)
     rack (1.6.4)
     rack-protection (1.5.3)
       rack
@@ -296,6 +298,7 @@ DEPENDENCIES
   omniauth-twitter
   pg
   puma
+  pundit
   rails (= 4.2.0)
   rails_12factor
   ranked-model

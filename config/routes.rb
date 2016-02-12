@@ -5,8 +5,6 @@ Ptrainer::Application.routes.draw do
   root :to => redirect('/users/sign_in')
 
   match '/help',    to: 'static_pages#help',    via: 'get'
-  match '/about',   to: 'static_pages#about',   via: 'get'
-  match '/contact', to: 'static_pages#contact', via: 'get'
 
 
   devise_for :users, :controllers => {:registrations => "registrations", :sessions => "sessions", :confirmations => "confirmations"}
@@ -14,25 +12,21 @@ Ptrainer::Application.routes.draw do
     get '/users/sign_out' => 'devise/sessions#destroy'
     match '/user/confirmation' => 'confirmations#update', :via => :patch, :as => :update_user_confirmation
   end
+
+  resources :users
   
-  match "appointments/:id/:clientid/removefromapt", to: "appointments#removefromapt", via: :post, as: "removefromapt_appointments"
-  match "appointments/toured", to: "appointments#toured", via: :post
-  resources :appointments do
+  resources :appointments, only: [:index] do
     member do
       post :move
       post :resize
-      post :join
-      get :workouts
       get :editordata
-      post :clientremove
     end
     collection do
       get :newdata
-      get :mastercalendar
     end
   end
   
-  resources :exercises do
+  resources :exercises, only: [:index, :create, :update, :destroy] do
     collection do
       post :search, to: 'exercises#index'
       get :search, to: 'exercises#index'

@@ -1,37 +1,16 @@
 class ExercisesController < ApplicationController
-	  before_action :set_exercise, only: [:show, :edit, :update, :destroy]
-    before_filter :authenticate_user!
-    before_filter :require_permission, only: [:show, :edit, :update, :destroy]
-
-
+  before_action :set_exercise, only: [:update, :destroy]
 
 
   def index
     @exercise = Exercise.new
-    @search = current_user.rolable.exercises.order_by_name.search(params[:q])
-    @exercises = @search.result.order_by_name
-  end
-
-  def show
-  end
-
-  def type
-    @exercise = Exercise.find(params[:id])
-    @measure = @exercise.measure
-
-    respond_to do |format|
-      format.json { render json: @measure.to_json }
-    end
-  end
-
-  def new
-  	@exercise = Exercise.new
+    search = current_user.exercises.order_by_name.search(params[:q])
+    @exercises = search.result
   end
 
   def create
   	@exercise = current_user.rolable.exercises.build(exercise_params)
     @exercises = current_user.rolable.exercises
-
     respond_to do |format|
       if @exercise.save
         format.html { redirect_to @exercise, notice: 'exercise was successfully created.' }
@@ -42,9 +21,6 @@ class ExercisesController < ApplicationController
         format.json { render json: @exercise.errors, status: :unprocessable_entity }
       end
     end
-  end
-
-  def edit
   end
 
   def update
@@ -64,10 +40,9 @@ class ExercisesController < ApplicationController
     Exercise.find(params[:id]).destroy
     flash[:success] = "Exercise removed."
     redirect_to exercises_path
-    
-   end
+  end
 
-private
+  private
     # Use callbacks to share common setup or constraints between actions.
     def set_exercise
       @exercise = Exercise.find(params[:id])
@@ -78,13 +53,4 @@ private
       params.require(:exercise).permit(:name, :description, :measure)
     end
 
-    def require_permission
-      if current_user.id != @exercise.trainer.user.id
-        redirect_to root_path
-        #Or do something else here
-      end
-    end
-
-
-  
 end

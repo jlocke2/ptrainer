@@ -1,98 +1,66 @@
-<% flash.each do |name, msg| %>
+<div id="pad-wrapper" class="users-list">
+  <div class="row header">
+  <h3 style="display:inline;margin-left:12px;">Exercises</h3>
+    <div class="col-md-10 col-sm-12 col-xs-12 pull-right" style="width:200px;">                    
+    <!-- custom popup filter -->
+    <!-- styles are located in css/elements.css -->
+    <!-- script that enables this dropdown is located in js/theme.js -->
+      <div style="display:none;">
+        <div class="ui-dropdown">
+          <div class="head" data-toggle="tooltip" title="Click me!">
+            Find an exercise
+            <i class="arrow-down"></i>
+          </div>  
+          <div class="dialog">
+            <div class="pointer">
+            <div class="arrow"></div>
+            <div class="arrow_border"></div>
+          </div>
+          <div class="body" id="search">
+            <%= search_form_for @search, html: { :class => "form-inline" }, url: search_exercises_path, method: :post do |f| %>
+            <div class="form-group">
+              <%= f.text_field :name_cont, :class => "form-control", :id => "searcher", :placeholder => "Exercise Name Contains"%>
+            </div>
+            <div class="form-group">
+              <div class="col-md-offset-2 col-md-8">
+                <%= f.submit "Search", class: "btn mybtn btn-large btn-primary", :id => "sizebtn", :style => "padding: 4px 12px;" %>
+              </div>
+            </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="ui-dropdown">
+        <div class="head" id="nopp">
+          <%= link_to "Show All Exercises", exercises_path %>
+        </div>
+      </div>
+    </div> <!-- end display none -->
+  <a href="#" class="btn-flat success pull-right dropdown-toggle" data-toggle="dropdown" id="spacer" style="margin:0px;">
+    <span>&#43;</span>
+    NEW EXERCISE
+  </a>
 
-                    <% if msg.class == Array %>
-                      <% msg.each do |message| %>
-                        <%= content_tag :div, message, class: "alert alert-#{name}" %>
-                      <% end %>
-                    <% else %>
-
-                      
-                      <%= content_tag :div, msg, :class => " alert alert-#{name}" %>
-
-                    <% end %>
-                  <% end %>
-
-  <div id="flashtest">
+  <div class="dropdown-menu" style = "padding: 15px; padding-bottom: 0px; width:318px;">
+    <div>
+      <%= render 'form' if signed_in? %>
+    </div>
+  </div>
 
 </div>
-
-<div id="pad-wrapper" class="users-list">
-            <div class="row header">
-                <h3 style="display:inline;margin-left:12px;">Exercises</h3>
-                <div class="col-md-10 col-sm-12 col-xs-12 pull-right" style="width:200px;">                    
-                    <!-- custom popup filter -->
-                    <!-- styles are located in css/elements.css -->
-                    <!-- script that enables this dropdown is located in js/theme.js -->
-                    <div style="display:none;">
-                    <div class="ui-dropdown">
-                        <div class="head" data-toggle="tooltip" title="Click me!">
-                            Find an exercise
-                            <i class="arrow-down"></i>
-                        </div>  
-                        <div class="dialog">
-                            <div class="pointer">
-                                <div class="arrow"></div>
-                                <div class="arrow_border"></div>
-                            </div>
-                            <div class="body" id="search">
-                                <%= search_form_for @search, html: { :class => "form-inline" }, url: search_exercises_path, method: :post do |f| %>
-                                     <div class="form-group">
-                                          <%= f.text_field :name_cont, :class => "form-control", :id => "searcher", :placeholder => "Exercise Name Contains"%>
-                                     </div>
-                                     <div class="form-group">
-                                        <div class="col-md-offset-2 col-md-8">
-                                          <%= f.submit "Search", class: "btn mybtn btn-large btn-primary", :id => "sizebtn", :style => "padding: 4px 12px;" %>
-                                        </div>
-                                    </div>
-                                    <% end %>
-                                </div>
-                            </div>
-                        </div>
-
-
-
-                        <div class="ui-dropdown">
-                        <div class="head" id="nopp">
-                            <%= link_to "Show All Exercises", exercises_path %>
-                            </div>
-                        </div>
-
-
-
-                      </div> <!-- end display none -->
-                    
-
-                    <a href="#" class="btn-flat success pull-right dropdown-toggle" data-toggle="dropdown" id="spacer" style="margin:0px;">
-                        <span>&#43;</span>
-                        NEW EXERCISE
-                    </a>
-                    <div class="dropdown-menu" style = "padding: 15px; padding-bottom: 0px; width:318px;">
-                     <div>
-                        <%= render 'form' if signed_in? %>
-                        </div>
-                      </div>
-                </div>
-            
-
-
-
 
 <div id="lister">
-
-<%= render "exercises/lister" %>
-
-
+<%= render "exercises/exercise_table" %>
 </div>
-</div>
-  <script>
- $(document).ready(function()
- {
+
+<script>
+ $(document).ready(function(){
    //Handles menu drop down`enter code here`
    $('.dropdown-menu').find('form').click(function (e) {
     e.stopPropagation();
     });
   });
-  </script>
+</script>
 
 
   

@@ -1,49 +1,43 @@
- <!-- sidebar -->
-    <div id="sidebar-nav">
-        <ul id="dashboard-menu">
-            <li>
-                
-                <a href="<%= root_url %>">
-                    <i class="icon-calendar-empty"></i>
-                    <span>Calendar</span>
-                </a>
-            </li> 
-            <% unless current_user.rolable_type == "Client" %>           
-            <li>
-                
-                <a href="<%= clients_url %>">
-                    <i class="icon-group"></i>
-                    <span>Clients</span>
-                </a>
-            </li> 
-            <% end %>
-            <li>
-                
-                <a href="<%= payments_url %>">
-                    <i class="icon-usd"></i>
-                    <span>Payments</span>
-                </a>
-            </li> 
-            <% unless current_user.rolable_type == "Client" %>
-            <li>
-                <a href="<%= exercises_url %>">
-                    <i class="icon-book"></i>
-                    <span>Exercises</span>
-                </a>
-            </li>
-            <% end %>
-            <li>
-                <a href="<%= edit_user_registration_path %>">
-                    <i class="icon-cog"></i>
-                    <span>My Profile</span>
-                </a>
-            </li>
-            <li>
-                <%= link_to('<i class="icon-share-alt"></i> <span>Sign Out</span>'.html_safe, destroy_user_session_path, :method => :delete)  %>
-                    
-                </a>
-                
-            </li>
-        </ul>
-    </div>
-    <!-- end sidebar -->
+<!-- sidebar -->
+<div id="sidebar-nav">
+  <ul id="dashboard-menu">
+    <li>
+      <a href="<%= root_url %>">
+        <i class="icon-calendar-empty"></i>
+        <span>Calendar</span>
+      </a>
+    </li> 
+    <% unless current_user.type == "Client" %>           
+      <li>
+        <a href="<%= clients_url %>">
+          <i class="icon-group"></i>
+          <span>Clients</span>
+        </a>
+      </li> 
+    <% end %>
+    <li>
+      <a href="<%= payments_url %>">
+        <i class="icon-usd"></i>
+        <span>Payments</span>
+      </a>
+    </li> 
+    <% unless current_user.type == "Client" %>
+      <li>
+        <a href="<%= exercises_url %>">
+          <i class="icon-book"></i>
+          <span>Exercises</span>
+        </a>
+      </li>
+    <% end %>
+    <li>
+      <a href="<%= edit_user_registration_path %>">
+        <i class="icon-cog"></i>
+        <span>My Profile</span>
+      </a>
+    </li>
+    <li>
+      <%= link_to('<i class="icon-share-alt"></i> <span>Sign Out</span>'.html_safe, destroy_user_session_path, :method => :delete)  %>
+    </li>
+  </ul>
+</div>
+<!-- end sidebar -->

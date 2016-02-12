@@ -11,4 +11,10 @@ class Exercise < ActiveRecord::Base
 
   scope :order_by_name, -> { order('LOWER(name)') }
 
+  private
+
+    def belongs_to?(user)
+      self.user == user
+    end
+
 end
