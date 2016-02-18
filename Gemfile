@@ -37,8 +37,7 @@ gem 'resque', '~> 1.22.0', :require => 'resque/server'
 gem 'redis'
 
 # User authentication
-gem 'devise'
-gem 'devise-async'
+gem 'devise', '4.0.0rc1'
 gem 'omniauth'
 gem 'omniauth-twitter'
 gem 'omniauth-facebook'

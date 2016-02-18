@@ -4,16 +4,17 @@ Ptrainer::Application.routes.draw do
   end
   root :to => redirect('/users/sign_in')
 
-  match '/help',    to: 'static_pages#help',    via: 'get'
+  match '/help', to: 'static_pages#help', via: 'get'
 
 
-  devise_for :users, :controllers => {:registrations => "registrations", :sessions => "sessions", :confirmations => "confirmations"}
-  devise_scope :user do
+  devise_for :users, :controllers => {:registrations => "registrations", :sessions => "sessions"}
+  devise_scope :users do
     get '/users/sign_out' => 'devise/sessions#destroy'
-    match '/user/confirmation' => 'confirmations#update', :via => :patch, :as => :update_user_confirmation
   end
 
-  resources :users
+  resources :users, only: [:create, :edit, :update, :destroy]
+
+  resources :clients, only: [:index, :show]
   
   resources :appointments, only: [:index] do
     member do
